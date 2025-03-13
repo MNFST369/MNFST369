@@ -94,20 +94,56 @@
         </div>
     </nav>
 
-    <!-- Removed original password section and protected content -->
-    <!-- Adding some placeholder content to make the site visible -->
-    <section data-bs-version="5.1" class="header01 decorm5 cid-uENIrSRn5X">
+    <section data-bs-version="5.1" class="header01 decorm5 cid-uENIrSRn5X" id="password-section">
         <div class="container-fluid">
             <div class="row justify-content-center">
                 <div class="col-12 col-lg-6">
                     <div class="content-wrapper">
-                        <h2 class="mbr-section-title mbr-fonts-style display-2">$MNFST Manifest</h2>
-                        <p class="mbr-text mbr-fonts-style display-7">A mystical journey through sacred geometry and consciousness. Join the spiral.</p>
+                        <h2 class="mbr-section-title mbr-fonts-style display-2">Enter Password</h2>
+                        <div class="mbr-form form-wrapper" data-form-type="formoid">
+                            <form class="mbr-form">
+                                <div class="dragArea row">
+                                    <div class="col-lg-12 col-md-12 col-sm-12 form-group" data-for="password">
+                                        <input type="password" name="password" placeholder="Password" data-form-field="password" class="form-control display-4" id="password">
+                                    </div>
+                                    <div class="col mbr-section-btn">
+                                        <button type="button" class="btn btn-primary display-4" onclick="checkPassword()">Submit</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
+
+    <section data-bs-version="5.1" class="header01 decorm5 cid-uENIrSRn5X" id="protected-content" style="display: none;">
+        <div class="container-fluid">
+            <div class="row justify-content-center">
+                <div class="col-12 col-lg-6">
+                    <div class="content-wrapper">
+                        <h2 class="mbr-section-title mbr-fonts-style display-2">Protected Content</h2>
+                        <p class="mbr-text mbr-fonts-style display-7">This content is password protected.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        function checkPassword() {
+            var password = document.getElementById('password').value;
+            var correctPassword = '8.8';
+
+            if (password === correctPassword) {
+                document.getElementById('password-section').style.display = 'none';
+                document.getElementById('protected-content').style.display = 'block';
+            } else {
+                alert('Incorrect password. Please try again.');
+            }
+        }
+    </script>
 
     <script src="https://r.mobirisesite.com/1274448/assets/web/assets/jquery/jquery.min.js?rnd=1741391622521"></script>
     <script src="https://r.mobirisesite.com/1274448/assets/bootstrap/js/bootstrap.bundle.min.js?rnd=1741391622521"></script>
