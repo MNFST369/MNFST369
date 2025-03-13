@@ -8,25 +8,42 @@
         body {
             margin: 0;
             padding: 0;
-            background: linear-gradient(180deg, #1a1a1a, #2a0a2a);
             color: #d4af37;
             font-family: Arial, sans-serif;
             text-align: center;
             overflow-x: hidden;
+            position: relative;
+        }
+        /* Video Background */
+        #video-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+            opacity: 0.7; /* Slight fade for text readability */
         }
         /* Animations */
         @keyframes pulse {
             0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
+            50% { transform: scale(1.1); }
             100% { transform: scale(1); }
         }
-        @keyframes fadeIn {
-            0% { opacity: 0; transform: translateY(20px); }
-            100% { opacity: 1; transform: translateY(0); }
+        @keyframes float {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0); }
+        }
+        @keyframes glow {
+            0% { text-shadow: 0 0 10px #d4af37, 0 0 20px #8a2be2; }
+            50% { text-shadow: 0 0 20px #d4af37, 0 0 30px #8a2be2; }
+            100% { text-shadow: 0 0 10px #d4af37, 0 0 20px #8a2be2; }
         }
         /* Navbar */
         .navbar {
-            background: #2a2a2a;
+            background: rgba(42, 42, 42, 0.8);
             padding: 15px 20px;
             display: flex;
             justify-content: space-between;
@@ -57,65 +74,72 @@
         }
         /* Sections */
         .section {
-            padding: 50px 20px;
-            animation: fadeIn 1s ease-in;
+            padding: 60px 20px;
+            position: relative;
+            z-index: 1;
         }
         .section h1 {
             font-size: 48px;
             margin-bottom: 20px;
-            text-shadow: 0 0 10px #d4af37, 0 0 20px #8a2be2;
+            animation: glow 3s infinite;
         }
         .section p {
             font-size: 20px;
             max-width: 600px;
             margin: 0 auto 20px;
+            animation: float 4s infinite;
         }
         .btn {
             background: #8a2be2;
             color: #fff;
-            padding: 10px 25px;
+            padding: 12px 30px;
             border-radius: 20px;
             text-decoration: none;
             font-size: 18px;
             display: inline-block;
-            transition: background 0.3s;
+            transition: transform 0.3s, background 0.3s;
         }
         .btn:hover {
             background: #a44cd3;
+            transform: scale(1.1);
         }
         /* Tokenomics */
         .tokenomics {
-            background: rgba(42, 10, 42, 0.8);
-            border: 1px solid #d4af37;
+            background: rgba(42, 10, 42, 0.9);
+            border: 2px dashed #d4af37;
             max-width: 600px;
             margin: 20px auto;
             padding: 20px;
+            animation: pulse 5s infinite;
         }
         /* Claim Block */
         .locked-block {
-            margin: 50px auto;
-            padding: 20px;
-            border: 1px solid #d4af37;
+            margin: 60px auto;
+            padding: 25px;
+            border: 2px solid #d4af37;
             max-width: 400px;
-            background: #2a2a2a;
+            background: rgba(42, 42, 42, 0.9);
             color: #d4af37;
+            box-shadow: 0 0 15px #8a2be2;
         }
         .locked-block h2 {
             font-size: 32px;
             margin-bottom: 15px;
-            text-shadow: 0 0 10px #d4af37;
+            animation: glow 2s infinite;
         }
         .locked-block input, .locked-block button {
             margin: 10px;
-            padding: 5px 15px;
+            padding: 8px 20px;
             background: #d4af37;
             color: #1a1a1a;
             border: none;
             font-size: 16px;
             border-radius: 20px;
+            transition: transform 0.3s;
         }
         .locked-block button:hover {
             background: #e6c14b;
+            transform: scale(1.05);
             cursor: pointer;
         }
         .hidden {
@@ -124,6 +148,11 @@
     </style>
 </head>
 <body>
+    <!-- Video Background -->
+    <video id="video-bg" autoplay muted loop>
+        <source src="https://www.youtube.com/watch?v=6XGzJQKbV40" type="video/mp4">
+    </video>
+
     <!-- Navbar -->
     <div class="navbar">
         <div class="nav-links">
@@ -195,6 +224,9 @@
                 alert('The echo denies. Seek the dual truth.');
             }
         }
+
+        // Fix YouTube video embed (since direct src won't work)
+        document.getElementById('video-bg').src = 'https://www.youtube.com/embed/6XGzJQKbV40?autoplay=1&mute=1&loop=1&playlist=6XGzJQKbV40';
     </script>
 </body>
 </html>
