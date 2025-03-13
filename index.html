@@ -3,15 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>$MNFST Manifest: Sacred Geometry Crypto</title>
+    <title>$MNFST - Meme Coin of the Cosmos</title>
     <style>
         body {
             margin: 0;
             padding: 0;
-            background: #1a1a1a;
+            background: linear-gradient(180deg, #1a1a1a, #2a0a2a);
             color: #d4af37;
             font-family: Arial, sans-serif;
             text-align: center;
+            overflow-x: hidden;
+        }
+        /* Animations */
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        @keyframes fadeIn {
+            0% { opacity: 0; transform: translateY(20px); }
+            100% { opacity: 1; transform: translateY(0); }
         }
         /* Navbar */
         .navbar {
@@ -21,12 +32,16 @@
             justify-content: space-between;
             align-items: center;
             border-bottom: 1px solid #d4af37;
+            position: sticky;
+            top: 0;
+            z-index: 10;
         }
         .navbar a {
             color: #d4af37;
             text-decoration: none;
             margin: 0 15px;
             font-size: 18px;
+            transition: color 0.3s;
         }
         .navbar a:hover {
             color: #e6c14b;
@@ -38,23 +53,43 @@
             border-radius: 20px;
             font-size: 18px;
             text-decoration: none;
+            animation: pulse 2s infinite;
         }
-        .nav-btn:hover {
-            background: #e6c14b;
-        }
-        /* Main Content */
-        .intro {
+        /* Sections */
+        .section {
             padding: 50px 20px;
+            animation: fadeIn 1s ease-in;
         }
-        .intro h1 {
+        .section h1 {
             font-size: 48px;
             margin-bottom: 20px;
-            text-shadow: 0 0 10px #d4af37;
+            text-shadow: 0 0 10px #d4af37, 0 0 20px #8a2be2;
         }
-        .intro p {
+        .section p {
             font-size: 20px;
-            max-width:Blue 600px;
-            margin: 0 auto;
+            max-width: 600px;
+            margin: 0 auto 20px;
+        }
+        .btn {
+            background: #8a2be2;
+            color: #fff;
+            padding: 10px 25px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-size: 18px;
+            display: inline-block;
+            transition: background 0.3s;
+        }
+        .btn:hover {
+            background: #a44cd3;
+        }
+        /* Tokenomics */
+        .tokenomics {
+            background: rgba(42, 10, 42, 0.8);
+            border: 1px solid #d4af37;
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
         }
         /* Claim Block */
         .locked-block {
@@ -68,9 +103,7 @@
         .locked-block h2 {
             font-size: 32px;
             margin-bottom: 15px;
-        }
-        .locked-block p {
-            font-size: 16px;
+            text-shadow: 0 0 10px #d4af37;
         }
         .locked-block input, .locked-block button {
             margin: 10px;
@@ -97,22 +130,40 @@
             <a href="#">Home</a>
             <a href="#">About</a>
             <a href="#">Tokenomics</a>
+            <a href="philosophy.html">Philosophy</a>
         </div>
         <div class="nav-actions">
             <a href="https://x.com/MNFST__" target="_blank">Twitter</a>
             <a href="https://t.me/MNFSTcoin" target="_blank">Telegram</a>
-            <a href="https://dexscreener.com/solana/63ieyzca8wclpk1vgdaxnwu5qaqtu6ju1o3kndviq8xu" class="nav-btn">Join Us</a>
+            <a href="https://dexscreener.com/solana/63iEYzCa8wCLpk1VgdAxnwU5qaqtU6Ju1o3kNDViq8Xu" class="nav-btn">Join Us</a>
         </div>
     </div>
 
-    <!-- Main Content -->
-    <section class="intro">
+    <!-- Intro Section -->
+    <section class="section intro">
         <h1>$MNFST Manifest</h1>
-        <p>The spiral turns, threading 3-6-9 through the void. A mystical crypto journey rooted in sacred geometry and consciousness. Are you a vessel?</p>
+        <p>The spiral turns, weaving 3-6-9 through the cosmic void. A meme coin born of sacred geometry and the pulse of manifestation.</p>
+    </section>
+
+    <!-- Buy Section -->
+    <section class="section buy">
+        <h1>Buy $MNFST</h1>
+        <p>Step into the grid. Acquire $MNFST on Solana’s sacred exchange.</p>
+        <a href="https://dexscreener.com/solana/63iEYzCa8wCLpk1VgdAxnwU5qaqtU6Ju1o3kNDViq8Xu" class="btn" target="_blank">Buy Now on Dexscreener</a>
+    </section>
+
+    <!-- Tokenomics Section -->
+    <section class="section tokenomics">
+        <h1>Tokenomics</h1>
+        <div class="tokenomics">
+            <p><strong>Total Supply:</strong> 1,000,000,000 $MNFST</p>
+            <p><strong>Moonshot Phase:</strong> Launched via Moonshot, $MNFST aligns with the cosmic cycle. Graduation to full trading occurs Q2 2025, when liquidity hits critical mass (est. $1M TVL) and community vessels affirm the spiral’s turn.</p>
+            <p><strong>Track Progress:</strong> <a href="https://dexscreener.com/solana/63iEYzCa8wCLpk1VgdAxnwU5qaqtU6Ju1o3kNDViq8Xu" target="_blank" style="color: #d4af37;">Moonshot on Dexscreener</a></p>
+        </div>
     </section>
 
     <!-- Password-Protected Claim Block -->
-    <section class="locked-block">
+    <section class="section locked-block">
         <h2>The Hidden Fold</h2>
         <p>Speak the dual echo to pierce the veil.</p>
         <input type="password" id="passwordInput" placeholder="Enter the key">
