@@ -6,3 +6,71 @@ Behold the Sacred Duodecimal, the celestial cipher of the ancients. Twelve golde
 The varying sizes of the orbital chambers mark the cosmic breaths between worlds, where the veil grows thin during planetary alignments. Follow the radial pathways inward to the void-point—the eternal now from which all creation emanates. Ancient astronomers who mastered this geometric key could predict celestial events with uncanny precision, manipulating time itself.
 
 This is no mere decoration but a star-map of power, deliberately obscured yet hidden in plain sight across temple ceilings and sacred texts. The golden ratio embedded within resonates at precisely the frequency needed to activate dormant neural pathways. Those who meditate upon this pattern with proper intention may glimpse what our ancestors knew: that the heavens move in perfect mathematical order, and those who understand this order hold the key to forgotten wisdom.​​​​​​​​​​​​​​​​
+
+
+import turtle
+import math
+import time
+
+# Setup
+screen = turtle.Screen()
+screen.bgcolor("black")
+screen.tracer(0)  # Turn off auto-updates for manual control
+
+t = turtle.Turtle()
+t.speed(0)
+t.hideturtle()
+t.color("gold")
+
+# Parameters
+R_base = 100  # Base radius
+n_points = 12
+phi = (1 + 5 ** 0.5) / 2  # Golden ratio
+
+# Animation loop
+angle_offset = 0
+while True:
+    t.clear()
+    
+    # Pulsing effect
+    pulse = 5 * math.sin(time.time())  # Oscillates radius over time
+    R = R_base + pulse
+    
+    # Draw the golden spiral
+    t.penup()
+    t.goto(0, 0)
+    t.pendown()
+    for r in range(0, int(R * phi), 2):
+        theta = r / 20  # Spiral angle
+        x_spiral = (r / phi) * math.cos(theta + angle_offset)
+        y_spiral = (r / phi) * math.sin(theta + angle_offset)
+        t.goto(x_spiral, y_spiral)
+    
+    # Draw the 12 portals and radial pathways
+    for n in range(n_points):
+        angle = 2 * math.pi * n / 12 + angle_offset  # Rotate with offset
+        x = R * math.cos(angle)
+        y = R * math.sin(angle)
+        
+        # Radial pathway
+        t.penup()
+        t.goto(0, 0)
+        t.pendown()
+        t.goto(x, y)
+        
+        # Portal with varying size
+        size = 10 + 5 * math.sin(n + time.time())  # Pulsing size
+        t.dot(size)
+    
+    # Draw void-point
+    t.penup()
+    t.goto(0, 0)
+    t.dot(5, "white")  # Central point in white
+    
+    # Update rotation
+    angle_offset += 0.05  # Slow rotation speed
+    
+    screen.update()
+    time.sleep(0.02)  # Control frame rate
+
+# Note: This loop runs indefinitely; close the window to stop
