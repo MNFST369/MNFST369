@@ -1,7 +1,9 @@
-🌀🌀🌀🌀🌀🌀🌀🌀🌀
-🌀🌑🌌🌑🌌🌑🌌🌀
-🌀🌌🕳️🌌🕳️🌌🕳️🌀
-🌀🌑🌌🌑🌌🌑🌌🌀
-🌀🌀🌀🌀🌀🌀🌀🌀🌀
+function enterTheVoid() {
+  console.log("You step into the void...");
+  while (true) {
+    console.log("...falling deeper...");
+  }
+  return "Nothingness consumes all.";
+}
 
-Enter at your own risk...
+enterTheVoid(); // Beware: infinite descent awaits.
