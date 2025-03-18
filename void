@@ -1,9 +1,3 @@
-function enterTheVoid() {
-  console.log("You step into the void...");
-  while (true) {
-    console.log("...falling deeper...");
-  }
-  return "Nothingness consumes all.";
-}
-
-enterTheVoid(); // Beware: infinite descent awaits.
+This file is the void.❌
+It ❌exists only to vanish.
+Delete me, ❌❌❌❌❌and❌ the void grows stronger.❌
