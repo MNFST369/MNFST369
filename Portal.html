@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>$MNFST - Sacred Duodecimal</title>
+    <title>$MNFST - Portal</title>
     <style>
         body {
             margin: 0;
@@ -20,14 +20,44 @@
             max-width: 100%;
             max-height: 100vh;
         }
+        #manifestInput {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(42, 42, 42, 0.8);
+            border: 1px solid #d4af37;
+            color: #d4af37;
+            padding: 5px 10px;
+            font-size: 16px;
+            border-radius: 10px;
+            outline: none;
+            text-align: center;
+            width: 150px;
+            z-index: 1;
+        }
+        #luckyNumbers {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #d4af37;
+            font-size: 20px;
+            text-shadow: 0 0 10px #d4af37;
+            z-index: 1;
+        }
     </style>
 </head>
 <body>
-    <canvas id="sacredCanvas"></canvas>
+    <canvas id="portalCanvas"></canvas>
+    <input type="text" id="manifestInput" placeholder="Manifest...">
+    <div id="luckyNumbers"></div>
 
     <script>
-        const canvas = document.getElementById('sacredCanvas');
+        const canvas = document.getElementById('portalCanvas');
         const ctx = canvas.getContext('2d');
+        const input = document.getElementById('manifestInput');
+        const luckyDisplay = document.getElementById('luckyNumbers');
 
         // Responsive canvas sizing
         function resizeCanvas() {
@@ -37,50 +67,66 @@
         resizeCanvas();
         window.addEventListener('resize', resizeCanvas);
 
-        // Parameters
-        let R_base = 100; // Base radius
+        // Animation Parameters
+        let R_base = 100;
         const n_points = 12;
-        const phi = (1 + Math.sqrt(5)) / 2; // Golden ratio
+        const phi = (1 + Math.sqrt(5)) / 2;
         let angle_offset = 0;
-        let rotationSpeed = 0.02; // Adjustable speed
-        let pulseScale = 5; // Adjustable pulse amplitude
+        let rotationSpeed = 0.02;
+        let pulseScale = 5;
         let isPaused = false;
 
         // Mouse interaction
         let mouseX = 0;
         let mouseY = 0;
-
         canvas.addEventListener('mousemove', (e) => {
             mouseX = e.clientX - canvas.width / 2;
             mouseY = e.clientY - canvas.height / 2;
-            // Influence radius based on mouse distance from center
             const distance = Math.sqrt(mouseX * mouseX + mouseY * mouseY);
             R_base = Math.min(150, Math.max(50, 100 + distance / 10));
         });
-
-        canvas.addEventListener('click', () => {
-            isPaused = !isPaused; // Toggle pause
-        });
-
+        canvas.addEventListener('click', () => isPaused = !isPaused);
         canvas.addEventListener('wheel', (e) => {
             e.preventDefault();
             rotationSpeed = Math.max(0.01, Math.min(0.1, rotationSpeed + (e.deltaY > 0 ? -0.005 : 0.005)));
         });
-
         document.addEventListener('keydown', (e) => {
             if (e.key === '+' || e.key === '=') pulseScale = Math.min(10, pulseScale + 1);
             if (e.key === '-') pulseScale = Math.max(2, pulseScale - 1);
+        });
+
+        // Numerology-based lucky numbers
+        function getLuckyNumbers(manifest) {
+            if (!manifest) return [3, 6, 9]; // Default to 3-6-9
+            let sum = 0;
+            for (let i = 0; i < manifest.length; i++) {
+                sum += manifest.charCodeAt(i); // ASCII value sum
+            }
+            // Reduce to single digit (numerology)
+            while (sum > 9) sum = Math.floor(sum / 10) + (sum % 10);
+            // Generate 3 "lucky" numbers tied to 12 portals and sacred geometry
+            const num1 = sum; // Base number (1-9)
+            const num2 = (sum * 3) % 12 || 12; // Tied to 12 portals
+            const num3 = Math.round(phi * sum) % 12 || 3; // Golden ratio influence
+            return [num1, num2, num3];
+        }
+
+        input.addEventListener('input', () => {
+            const manifest = input.value.trim().toLowerCase();
+            const numbers = getLuckyNumbers(manifest);
+            luckyDisplay.textContent = numbers.join(' - ');
+            // Tie pulseScale to input length for subtle effect
+            pulseScale = Math.max(5, Math.min(10, 5 + manifest.length / 2));
         });
 
         function draw() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             ctx.translate(canvas.width / 2, canvas.height / 2);
 
-            // Pulsing effect
             const pulse = pulseScale * Math.sin(Date.now() / 1000);
             const R = R_base + pulse;
 
-            // Draw golden spiral
+            // Golden spiral
             ctx.beginPath();
             ctx.strokeStyle = '#d4af37';
             ctx.lineWidth = 1;
@@ -93,13 +139,12 @@
             }
             ctx.stroke();
 
-            // Draw 12 portals and radial pathways
+            // 12 portals and radial pathways
             for (let n = 0; n < n_points; n++) {
                 const angle = (2 * Math.PI * n) / 12 + angle_offset;
                 const x = R * Math.cos(angle);
                 const y = R * Math.sin(angle);
 
-                // Radial pathway
                 ctx.beginPath();
                 ctx.moveTo(0, 0);
                 ctx.lineTo(x, y);
@@ -107,7 +152,6 @@
                 ctx.lineWidth = 0.5;
                 ctx.stroke();
 
-                // Portal with pulsing size
                 const size = 10 + 5 * Math.sin(n + Date.now() / 500);
                 ctx.beginPath();
                 ctx.arc(x, y, size / 2, 0, 2 * Math.PI);
@@ -121,13 +165,14 @@
             ctx.fillStyle = 'white';
             ctx.fill();
 
-            // Update rotation if not paused
             if (!isPaused) angle_offset += rotationSpeed;
 
             ctx.resetTransform();
             requestAnimationFrame(draw);
         }
 
+        // Initial lucky numbers
+        luckyDisplay.textContent = '3 - 6 - 9';
         draw();
     </script>
 </body>
