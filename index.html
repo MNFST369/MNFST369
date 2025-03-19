@@ -14,16 +14,40 @@
             overflow-x: hidden;
             position: relative;
         }
-        /* Video Background */
-        #video-bg {
+        /* Animated Temple Gradient Background */
+        body::before {
+            content: '';
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            object-fit: cover;
+            background: linear-gradient(135deg, #0F0F0F, #1a1a1a, #2b2b2b, #d4af37);
+            background-size: 300% 300%;
+            animation: templeGlow 12s ease infinite;
             z-index: -1;
-            opacity: 0.7;
+            opacity: 0.85;
+        }
+        @keyframes templeGlow {
+            0% { background-position: 0% 0%; }
+            50% { background-position: 100% 100%; }
+            100% { background-position: 0% 0%; }
+        }
+        /* Mosque-Inspired Geometric Glyphs */
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M50 10 L70 30 L50 50 L30 30 Z M30 50 L50 70 L70 50 L50 30 Z" fill="none" stroke="#d4af37" stroke-width="0.5" opacity="0.3"/></svg>') repeat;
+            animation: glyphFade 10s infinite;
+            z-index: -1;
+        }
+        @keyframes glyphFade {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.5; }
         }
         /* Animations */
         @keyframes pulse {
@@ -37,9 +61,9 @@
             100% { transform: translateY(0); }
         }
         @keyframes glow {
-            0% { text-shadow: 0 0 10px #d4af37, 0 0 20px #8a2be2; }
-            50% { text-shadow: 0 0 20px #d4af37, 0 0 30px #8a2be2; }
-            100% { text-shadow: 0 0 10px #d4af37, 0 0 20px #8a2be2; }
+            0% { text-shadow: 0 0 10px #d4af37, 0 0 20px #d4af37; }
+            50% { text-shadow: 0 0 20px #d4af37, 0 0 30px #d4af37; }
+            100% { text-shadow: 0 0 10px #d4af37, 0 0 20px #d4af37; }
         }
         /* Navbar */
         .navbar {
@@ -56,7 +80,7 @@
         .navbar a {
             color: #d4af37;
             text-decoration: none;
-            margin: 0 15px;
+            margin: 0 20px; /* Increased from 15px for more spacing */
             font-size: 18px;
             transition: color 0.3s;
         }
@@ -71,6 +95,29 @@
             font-size: 18px;
             text-decoration: none;
             animation: pulse 2s infinite;
+        }
+        /* Mobile Adjustments */
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                padding: 10px;
+            }
+            .nav-links, .nav-actions {
+                width: 100%;
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+                margin: 10px 0;
+            }
+            .navbar a {
+                margin: 10px 15px; /* More vertical and horizontal spacing on mobile */
+                font-size: 16px;
+            }
+            .nav-btn {
+                margin: 10px 0;
+                padding: 8px 16px;
+                font-size: 16px;
+            }
         }
         /* Sections */
         .section {
@@ -90,8 +137,8 @@
             animation: float 4s infinite;
         }
         .btn {
-            background: #8a2be2;
-            color: #fff;
+            background: #d4af37;
+            color: #1a1a1a;
             padding: 12px 30px;
             border-radius: 20px;
             text-decoration: none;
@@ -100,7 +147,7 @@
             transition: transform 0.3s, background 0.3s;
         }
         .btn:hover {
-            background: #a44cd3;
+            background: #e6c14b;
             transform: scale(1.1);
         }
         /* Tokenomics/About Blocks */
@@ -120,7 +167,7 @@
             max-width: 400px;
             background: rgba(42, 42, 42, 0.9);
             color: #d4af37;
-            box-shadow: 0 0 15px #8a2be2;
+            box-shadow: 0 0 15px #d4af37;
         }
         .locked-block h2 {
             font-size: 32px;
@@ -148,11 +195,6 @@
     </style>
 </head>
 <body>
-    <!-- Video Background -->
-    <video id="video-bg" autoplay muted loop>
-        <source src="https://www.youtube.com/watch?v=6XGzJQKbV40" type="video/mp4">
-    </video>
-
     <!-- Navbar -->
     <div class="navbar">
         <div class="nav-links">
@@ -235,9 +277,6 @@
                 alert('The echo denies. Seek the dual truth.');
             }
         }
-
-        // Fix YouTube video embed
-        document.getElementById('video-bg').src = 'https://www.youtube.com/embed/6XGzJQKbV40?autoplay=1&mute=1&loop=1&playlist=6XGzJQKbV40';
 
         // Smooth scroll for navbar links
         document.querySelectorAll('.navbar a[href^="#"]').forEach(anchor => {
