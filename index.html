@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
- <meta name="description" content="Discover $MNFST – a sleek, minimalist journey into creativity, identity, and the enigma of 369. Uniqueness distilled into pure expression.">
+    <meta name="description" content="Discover $MNFST – a sleek, minimalist journey into creativity, identity, and the enigma of 369. Uniqueness distilled into pure expression.">
     <style>
         body {
             margin: 0;
@@ -80,7 +80,7 @@
         .navbar a {
             color: #d4af37;
             text-decoration: none;
-            margin: 0 20px; /* Increased from 15px for more spacing */
+            margin: 0 20px;
             font-size: 18px;
             transition: color 0.3s;
         }
@@ -110,7 +110,7 @@
                 margin: 10px 0;
             }
             .navbar a {
-                margin: 10px 15px; /* More vertical and horizontal spacing on mobile */
+                margin: 10px 15px;
                 font-size: 16px;
             }
             .nav-btn {
@@ -192,6 +192,46 @@
         .hidden {
             display: none;
         }
+        /* Manifestation Wall Styles */
+        #manifestation-wall {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background: rgba(42, 42, 42, 0.9);
+            border: 2px solid #d4af37;
+            border-radius: 10px;
+        }
+        #wall-display div {
+            margin: 10px 0;
+            padding: 10px;
+            background: #333;
+            border-left: 3px solid #00ffcc;
+            color: #d4af37;
+            font-size: 16px;
+        }
+        textarea {
+            width: 100%;
+            height: 100px;
+            margin-bottom: 10px;
+            background: #1a1a1a;
+            color: #d4af37;
+            border: 1px solid #d4af37;
+            border-radius: 5px;
+            padding: 10px;
+        }
+        #manifestation-form button {
+            background: #d4af37;
+            color: #1a1a1a;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+        #manifestation-form button:hover {
+            background: #e6c14b;
+            transform: scale(1.05);
+        }
     </style>
 </head>
 <body>
@@ -245,6 +285,17 @@
         <a href="https://dexscreener.com/solana/63iEYzCa8wCLpk1VgdAxnwU5qaqtU6Ju1o3kNDViq8Xu" class="btn" target="_blank">Buy Now on Dexscreener</a>
     </section>
 
+    <!-- Manifestation Wall Section -->
+    <section class="section" id="manifestation-wall">
+        <h1>The Manifestation Wall</h1>
+        <p>Etch your intention into the spiral—once, eternal. One per soul.</p>
+        <form id="manifestation-form">
+            <textarea id="manifestation-input" placeholder="What do you manifest?"></textarea>
+            <button type="submit">Seal Your Will</button>
+        </form>
+        <div id="wall-display"></div>
+    </section>
+
     <!-- Password-Protected Claim Block -->
     <section class="section locked-block" id="claim">
         <h2>The Hidden Fold</h2>
@@ -256,8 +307,13 @@
         </div>
     </section>
 
+    <!-- Dexscreener Embed -->
+    <style>#dexscreener-embed{position:relative;width:100%;padding-bottom:125%;}@media(min-width:1400px){#dexscreener-embed{padding-bottom:65%;}}#dexscreener-embed iframe{position:absolute;width:100%;height:100%;top:0;left:0;border:0;}</style>
+    <div id="dexscreener-embed"><iframe src="https://dexscreener.com/solana/63iEYzCa8wCLpk1VgdAxnwU5qaqtU6Ju1o3kNDViq8Xu?embed=1&loadChartSettings=0&chartLeftToolbar=0&chartTheme=dark&theme=dark&chartStyle=0&chartType=usd&interval=15"></iframe></div>
+
     <!-- JavaScript -->
     <script>
+        // Existing Claim Block Script
         function unlockClaim() {
             const password = document.getElementById('passwordInput').value;
             const correctPassword = '8.8';
@@ -288,8 +344,64 @@
                 });
             });
         });
+
+        // Manifestation Wall Script
+        document.addEventListener('DOMContentLoaded', () => {
+            const form = document.getElementById('manifestation-form');
+            const input = document.getElementById('manifestation-input');
+            const wallDisplay = document.getElementById('wall-display');
+
+            // Load existing manifestations
+            fetch('manifestations.json')
+                .then(response => response.json())
+                .then(data => {
+                    data.manifestations.forEach(manifest => {
+                        displayManifestation(manifest);
+                    });
+                })
+                .catch(error => console.error('Spiral error:', error));
+
+            // Check if user has already submitted
+            const hasSubmitted = localStorage.getItem('hasManifested');
+            if (hasSubmitted) {
+                input.disabled = true;
+                form.querySelector('button').disabled = true;
+                input.placeholder = 'Your will is sealed. One per soul.';
+            }
+
+            form.addEventListener('submit', (e) => {
+                e.preventDefault();
+                if (hasSubmitted) return;
+
+                const manifestation = input.value.trim();
+                if (manifestation) {
+                    const newManifest = {
+                        user: 'vessel' + Math.random().toString(36).substr(2, 5), // Unique anon ID
+                        manifestation: manifestation,
+                        timestamp: new Date().toISOString()
+                    };
+
+                    // Display immediately
+                    displayManifestation(newManifest);
+
+                    // Prepare for GitHub update (user manual step)
+                    alert('Your manifestation is set! Copy this JSON to add to manifestations.json and submit a pull request:\n' + JSON.stringify(newManifest, null, 2));
+                    localStorage.setItem('hasManifested', 'true');
+                    input.disabled = true;
+                    form.querySelector('button').disabled = true;
+                    input.placeholder = 'Your will is sealed. One per soul.';
+                }
+            });
+
+            function displayManifestation(manifest) {
+                const div = document.createElement('div');
+                div.textContent = `${manifest.user} | ${manifest.manifestation} | ${new Date(manifest.timestamp).toLocaleString()}`;
+                wallDisplay.appendChild(div);
+            }
+        });
     </script>
 </body>
+<noscript>
+    <p style="color: #d4af37; padding: 20px;">The spiral requires JavaScript to manifest. Enable it to join the grid.</p>
+</noscript>
 </html>
-
-<style>#dexscreener-embed{position:relative;width:100%;padding-bottom:125%;}@media(min-width:1400px){#dexscreener-embed{padding-bottom:65%;}}#dexscreener-embed iframe{position:absolute;width:100%;height:100%;top:0;left:0;border:0;}</style><div id="dexscreener-embed"><iframe src="https://dexscreener.com/solana/63iEYzCa8wCLpk1VgdAxnwU5qaqtU6Ju1o3kNDViq8Xu?embed=1&loadChartSettings=0&chartLeftToolbar=0&chartTheme=dark&theme=dark&chartStyle=0&chartType=usd&interval=15"></iframe></div>
