@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Discover $MNFST – a sleek, minimalist journey into creativity, identity, and the enigma of 369. Uniqueness distilled into pure expression.">
     <style>
-        /* All your existing CSS stays intact */
+        /* Existing CSS */
         body { margin: 0; padding: 0; color: #d4af37; font-family: Arial, sans-serif; text-align: center; overflow-x: hidden; position: relative; }
         body::before { content: ''; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, #0F0F0F, #1a1a1a, #2b2b2b, #d4af37); background-size: 300% 300%; animation: templeGlow 12s ease infinite; z-index: -1; opacity: 0.85; }
         @keyframes templeGlow { 0% { background-position: 0% 0%; } 50% { background-position: 100% 100%; } 100% { background-position: 0% 0%; } }
@@ -35,9 +35,14 @@
         textarea { width: 100%; height: 100px; margin-bottom: 10px; background: #1a1a1a; color: #d4af37; border: 1px solid #d4af37; border-radius: 5px; padding: 10px; }
         #manifestation-form button { background: #d4af37; color: #1a1a1a; padding: 10px 20px; border: none; border-radius: 20px; cursor: pointer; transition: transform 0.3s; }
         #manifestation-form button:hover { background: #e6c14b; transform: scale(1.05); }
+        /* New Canvas Styles */
+        #cosmicCanvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
     </style>
 </head>
 <body>
+    <!-- Add Canvas for Effects -->
+    <canvas id="cosmicCanvas"></canvas>
+
     <div class="navbar">
         <div class="nav-links">
             <a href="#home">Home</a>
@@ -106,12 +111,11 @@
     <style>#dexscreener-embed{position:relative;width:100%;padding-bottom:125%;}@media(min-width:1400px){#dexscreener-embed{padding-bottom:65%;}}#dexscreener-embed iframe{position:absolute;width:100%;height:100%;top:0;left:0;border:0;}</style>
     <div id="dexscreener-embed"><iframe src="https://dexscreener.com/solana/63iEYzCa8wCLpk1VgdAxnwU5qaqtU6Ju1o3kNDViq8Xu?embed=1&loadChartSettings=0&chartLeftToolbar=0&chartTheme=dark&theme=dark&chartStyle=0&chartType=usd&interval=15"></iframe></div>
 
-    <!-- Firebase SDK with ES Modules -->
+    <!-- Firebase SDK -->
     <script type="module">
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js';
         import { getDatabase, ref, onValue, push, serverTimestamp } from 'https://www.gstatic.com/firebasejs/11.6.0/firebase-database.js';
 
-        // Your Firebase config
         const firebaseConfig = {
             apiKey: "AIzaSyAAzwB9DImZ2OaJ3o7b4YCKDk-xblBci8I",
             authDomain: "mnfst369.firebaseapp.com",
@@ -119,15 +123,13 @@
             storageBucket: "mnfst369.firebasestorage.app",
             messagingSenderId: "548497202287",
             appId: "1:548497202287:web:b26c0ad42ece9d6a0fc19a",
-            databaseURL: "https://mnfst369-default-rtdb.firebaseio.com/" // Added this explicitly
+            databaseURL: "https://mnfst369-default-rtdb.firebaseio.com/"
         };
 
-        // Initialize Firebase
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
         const manifestsRef = ref(db, 'manifestations');
 
-        // Existing Claim Block Script
         function unlockClaim() {
             const password = document.getElementById('passwordInput').value;
             const correctPassword = '8.8';
@@ -148,7 +150,6 @@
             }
         }
 
-        // Smooth scroll for navbar links
         document.querySelectorAll('.navbar a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function(e) {
                 e.preventDefault();
@@ -156,13 +157,11 @@
             });
         });
 
-        // Manifestation Wall Script
         document.addEventListener('DOMContentLoaded', () => {
             const form = document.getElementById('manifestation-form');
             const input = document.getElementById('manifestation-input');
             const wallDisplay = document.getElementById('wall-display');
 
-            // Check if user has manifested
             const hasSubmitted = localStorage.getItem('hasManifested');
             if (hasSubmitted) {
                 input.disabled = true;
@@ -170,9 +169,8 @@
                 input.placeholder = 'Your will is sealed. One per soul.';
             }
 
-            // Load manifestations from Firebase
             onValue(manifestsRef, (snapshot) => {
-                wallDisplay.innerHTML = ''; // Clear display
+                wallDisplay.innerHTML = '';
                 const data = snapshot.val();
                 if (data) {
                     Object.values(data).forEach(manifest => {
@@ -183,7 +181,6 @@
                 }
             });
 
-            // Submit new manifestation
             form.addEventListener('submit', (e) => {
                 e.preventDefault();
                 if (hasSubmitted) return;
@@ -195,7 +192,6 @@
                         manifestation: manifestation,
                         timestamp: serverTimestamp()
                     };
-
                     push(manifestsRef, newManifest)
                         .then(() => {
                             localStorage.setItem('hasManifested', 'true');
@@ -211,6 +207,93 @@
                 }
             });
         });
+    </script>
+
+    <!-- Cosmic Effects Script -->
+    <script>
+        const canvas = document.getElementById('cosmicCanvas');
+        const ctx = canvas.getContext('2d');
+
+        // Resize canvas to full screen
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        // Cursor trail
+        let trail = [];
+        document.addEventListener('mousemove', (e) => {
+            trail.push({ x: e.clientX, y: e.clientY, life: 1 });
+            if (trail.length > 20) trail.shift(); // Limit trail length
+        });
+
+        // Random numbers and geometry
+        let particles = [];
+        function spawnParticle() {
+            const x = Math.random() * canvas.width;
+            const y = Math.random() * canvas.height;
+            const type = Math.random() < 0.5 ? 'number' : 'shape';
+            const value = type === 'number' ? [3, 6, 9][Math.floor(Math.random() * 3)] : null;
+            const life = 1;
+            particles.push({ x, y, type, value, life, angle: Math.random() * Math.PI * 2 });
+        }
+
+        // Animation loop
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Cursor trail
+            trail.forEach((point, i) => {
+                point.life -= 0.05;
+                if (point.life > 0) {
+                    ctx.beginPath();
+                    ctx.arc(point.x, point.y, 10 * point.life, 0, Math.PI * 2);
+                    ctx.fillStyle = `rgba(212, 175, 55, ${point.life})`; // #d4af37
+                    ctx.fill();
+                } else {
+                    trail.splice(i, 1);
+                }
+            });
+
+            // Particles
+            if (Math.random() < 0.1) spawnParticle(); // Spawn chance
+            particles.forEach((p, i) => {
+                p.life -= 0.02;
+                p.y += Math.sin(p.angle) * 2; // Gentle drift
+                p.x += Math.cos(p.angle) * 2;
+
+                if (p.life > 0) {
+                    ctx.globalAlpha = p.life;
+                    if (p.type === 'number') {
+                        ctx.font = `${20 * p.life}px Arial`;
+                        ctx.fillStyle = '#d4af37';
+                        ctx.fillText(p.value, p.x, p.y);
+                    } else {
+                        ctx.beginPath();
+                        const size = 20 * p.life;
+                        // Hexagon shape
+                        for (let j = 0; j < 6; j++) {
+                            const angle = (Math.PI / 3) * j + p.angle;
+                            const px = p.x + Math.cos(angle) * size;
+                            const py = p.y + Math.sin(angle) * size;
+                            j === 0 ? ctx.moveTo(px, py) : ctx.lineTo(px, py);
+                        }
+                        ctx.closePath();
+                        ctx.strokeStyle = '#d4af37';
+                        ctx.lineWidth = 1;
+                        ctx.stroke();
+                    }
+                    ctx.globalAlpha = 1;
+                } else {
+                    particles.splice(i, 1);
+                }
+            });
+
+            requestAnimationFrame(animate);
+        }
+        animate();
     </script>
 </body>
 <noscript>
