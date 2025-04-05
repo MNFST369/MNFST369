@@ -5,244 +5,46 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Discover $MNFST – a sleek, minimalist journey into creativity, identity, and the enigma of 369. Uniqueness distilled into pure expression.">
     <style>
-        body {
-            margin: 0;
-            padding: 0;
-            color: #d4af37;
-            font-family: Arial, sans-serif;
-            text-align: center;
-            overflow-x: hidden;
-            position: relative;
-        }
-        /* Animated Temple Gradient Background */
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, #0F0F0F, #1a1a1a, #2b2b2b, #d4af37);
-            background-size: 300% 300%;
-            animation: templeGlow 12s ease infinite;
-            z-index: -1;
-            opacity: 0.85;
-        }
-        @keyframes templeGlow {
-            0% { background-position: 0% 0%; }
-            50% { background-position: 100% 100%; }
-            100% { background-position: 0% 0%; }
-        }
-        /* Mosque-Inspired Geometric Glyphs */
-        body::after {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M50 10 L70 30 L50 50 L30 30 Z M30 50 L50 70 L70 50 L50 30 Z" fill="none" stroke="#d4af37" stroke-width="0.5" opacity="0.3"/></svg>') repeat;
-            animation: glyphFade 10s infinite;
-            z-index: -1;
-        }
-        @keyframes glyphFade {
-            0%, 100% { opacity: 0.3; }
-            50% { opacity: 0.5; }
-        }
-        /* Animations */
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-            100% { transform: scale(1); }
-        }
-        @keyframes float {
-            0% { transform: translateY(0); }
-            50% { transform: translateY(-20px); }
-            100% { transform: translateY(0); }
-        }
-        @keyframes glow {
-            0% { text-shadow: 0 0 10px #d4af37, 0 0 20px #d4af37; }
-            50% { text-shadow: 0 0 20px #d4af37, 0 0 30px #d4af37; }
-            100% { text-shadow: 0 0 10px #d4af37, 0 0 20px #d4af37; }
-        }
-        /* Navbar */
-        .navbar {
-            background: rgba(42, 42, 42, 0.8);
-            padding: 15px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid #d4af37;
-            position: sticky;
-            top: 0;
-            z-index: 10;
-        }
-        .navbar a {
-            color: #d4af37;
-            text-decoration: none;
-            margin: 0 20px;
-            font-size: 18px;
-            transition: color 0.3s;
-        }
-        .navbar a:hover {
-            color: #e6c14b;
-        }
-        .nav-btn {
-            background: #d4af37;
-            color: #1a1a1a;
-            padding: 10px 20px;
-            border-radius: 20px;
-            font-size: 18px;
-            text-decoration: none;
-            animation: pulse 2s infinite;
-        }
-        /* Mobile Adjustments */
-        @media (max-width: 768px) {
-            .navbar {
-                flex-direction: column;
-                padding: 10px;
-            }
-            .nav-links, .nav-actions {
-                width: 100%;
-                display: flex;
-                flex-wrap: wrap;
-                justify-content: center;
-                margin: 10px 0;
-            }
-            .navbar a {
-                margin: 10px 15px;
-                font-size: 16px;
-            }
-            .nav-btn {
-                margin: 10px 0;
-                padding: 8px 16px;
-                font-size: 16px;
-            }
-        }
-        /* Sections */
-        .section {
-            padding: 60px 20px;
-            position: relative;
-            z-index: 1;
-        }
-        .section h1 {
-            font-size: 48px;
-            margin-bottom: 20px;
-            animation: glow 3s infinite;
-        }
-        .section p {
-            font-size: 20px;
-            max-width: 600px;
-            margin: 0 auto 20px;
-            animation: float 4s infinite;
-        }
-        .btn {
-            background: #d4af37;
-            color: #1a1a1a;
-            padding: 12px 30px;
-            border-radius: 20px;
-            text-decoration: none;
-            font-size: 18px;
-            display: inline-block;
-            transition: transform 0.3s, background 0.3s;
-        }
-        .btn:hover {
-            background: #e6c14b;
-            transform: scale(1.1);
-        }
-        /* Tokenomics/About Blocks */
-        .info-block {
-            background: rgba(42, 10, 42, 0.9);
-            border: 2px dashed #d4af37;
-            max-width: 600px;
-            margin: 20px auto;
-            padding: 20px;
-            animation: pulse 5s infinite;
-        }
-        /* Claim Block */
-        .locked-block {
-            margin: 60px auto;
-            padding: 25px;
-            border: 2px solid #d4af37;
-            max-width: 400px;
-            background: rgba(42, 42, 42, 0.9);
-            color: #d4af37;
-            box-shadow: 0 0 15px #d4af37;
-        }
-        .locked-block h2 {
-            font-size: 32px;
-            margin-bottom: 15px;
-            animation: glow 2s infinite;
-        }
-        .locked-block input, .locked-block button {
-            margin: 10px;
-            padding: 8px 20px;
-            background: #d4af37;
-            color: #1a1a1a;
-            border: none;
-            font-size: 16px;
-            border-radius: 20px;
-            transition: transform 0.3s;
-        }
-        .locked-block button:hover {
-            background: #e6c14b;
-            transform: scale(1.05);
-            cursor: pointer;
-        }
-        .hidden {
-            display: none;
-        }
-        /* Manifestation Wall Styles */
-        #manifestation-wall {
-            max-width: 800px;
-            margin: 20px auto;
-            padding: 20px;
-            background: rgba(42, 42, 42, 0.9);
-            border: 2px solid #d4af37;
-            border-radius: 10px;
-        }
-        #wall-display div {
-            margin: 10px 0;
-            padding: 10px;
-            background: #333;
-            border-left: 3px solid #00ffcc;
-            color: #d4af37;
-            font-size: 16px;
-        }
-        textarea {
-            width: 100%;
-            height: 100px;
-            margin-bottom: 10px;
-            background: #1a1a1a;
-            color: #d4af37;
-            border: 1px solid #d4af37;
-            border-radius: 5px;
-            padding: 10px;
-        }
-        #manifestation-form button {
-            background: #d4af37;
-            color: #1a1a1a;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 20px;
-            cursor: pointer;
-            transition: transform 0.3s;
-        }
-        #manifestation-form button:hover {
-            background: #e6c14b;
-            transform: scale(1.05);
-        }
+        /* All your existing CSS stays intact */
+        body { margin: 0; padding: 0; color: #d4af37; font-family: Arial, sans-serif; text-align: center; overflow-x: hidden; position: relative; }
+        body::before { content: ''; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, #0F0F0F, #1a1a1a, #2b2b2b, #d4af37); background-size: 300% 300%; animation: templeGlow 12s ease infinite; z-index: -1; opacity: 0.85; }
+        @keyframes templeGlow { 0% { background-position: 0% 0%; } 50% { background-position: 100% 100%; } 100% { background-position: 0% 0%; } }
+        body::after { content: ''; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M50 10 L70 30 L50 50 L30 30 Z M30 50 L50 70 L70 50 L50 30 Z" fill="none" stroke="#d4af37" stroke-width="0.5" opacity="0.3"/></svg>') repeat; animation: glyphFade 10s infinite; z-index: -1; }
+        @keyframes glyphFade { 0%, 100% { opacity: 0.3; } 50% { opacity: 0.5; } }
+        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.1); } 100% { transform: scale(1); } }
+        @keyframes float { 0% { transform: translateY(0); } 50% { transform: translateY(-20px); } 100% { transform: translateY(0); } }
+        @keyframes glow { 0% { text-shadow: 0 0 10px #d4af37, 0 0 20px #d4af37; } 50% { text-shadow: 0 0 20px #d4af37, 0 0 30px #d4af37; } 100% { text-shadow: 0 0 10px #d4af37, 0 0 20px #d4af37; } }
+        .navbar { background: rgba(42, 42, 42, 0.8); padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #d4af37; position: sticky; top: 0; z-index: 10; }
+        .navbar a { color: #d4af37; text-decoration: none; margin: 0 20px; font-size: 18px; transition: color 0.3s; }
+        .navbar a:hover { color: #e6c14b; }
+        .nav-btn { background: #d4af37; color: #1a1a1a; padding: 10px 20px; border-radius: 20px; font-size: 18px; text-decoration: none; animation: pulse 2s infinite; }
+        @media (max-width: 768px) { .navbar { flex-direction: column; padding: 10px; } .nav-links, .nav-actions { width: 100%; display: flex; flex-wrap: wrap; justify-content: center; margin: 10px 0; } .navbar a { margin: 10px 15px; font-size: 16px; } .nav-btn { margin: 10px 0; padding: 8px 16px; font-size: 16px; } }
+        .section { padding: 60px 20px; position: relative; z-index: 1; }
+        .section h1 { font-size: 48px; margin-bottom: 20px; animation: glow 3s infinite; }
+        .section p { font-size: 20px; max-width: 600px; margin: 0 auto 20px; animation: float 4s infinite; }
+        .btn { background: #d4af37; color: #1a1a1a; padding: 12px 30px; border-radius: 20px; text-decoration: none; font-size: 18px; display: inline-block; transition: transform 0.3s, background 0.3s; }
+        .btn:hover { background: #e6c14b; transform: scale(1.1); }
+        .info-block { background: rgba(42, 10, 42, 0.9); border: 2px dashed #d4af37; max-width: 600px; margin: 20px auto; padding: 20px; animation: pulse 5s infinite; }
+        .locked-block { margin: 60px auto; padding: 25px; border: 2px solid #d4af37; max-width: 400px; background: rgba(42, 42, 42, 0.9); color: #d4af37; box-shadow: 0 0 15px #d4af37; }
+        .locked-block h2 { font-size: 32px; margin-bottom: 15px; animation: glow 2s infinite; }
+        .locked-block input, .locked-block button { margin: 10px; padding: 8px 20px; background: #d4af37; color: #1a1a1a; border: none; font-size: 16px; border-radius: 20px; transition: transform 0.3s; }
+        .locked-block button:hover { background: #e6c14b; transform: scale(1.05); cursor: pointer; }
+        .hidden { display: none; }
+        #manifestation-wall { max-width: 800px; margin: 20px auto; padding: 20px; background: rgba(42, 42, 42, 0.9); border: 2px solid #d4af37; border-radius: 10px; }
+        #wall-display div { margin: 10px 0; padding: 10px; background: #333; border-left: 3px solid #00ffcc; color: #d4af37; font-size: 16px; }
+        textarea { width: 100%; height: 100px; margin-bottom: 10px; background: #1a1a1a; color: #d4af37; border: 1px solid #d4af37; border-radius: 5px; padding: 10px; }
+        #manifestation-form button { background: #d4af37; color: #1a1a1a; padding: 10px 20px; border: none; border-radius: 20px; cursor: pointer; transition: transform 0.3s; }
+        #manifestation-form button:hover { background: #e6c14b; transform: scale(1.05); }
     </style>
 </head>
 <body>
-    <!-- Navbar -->
     <div class="navbar">
         <div class="nav-links">
             <a href="#home">Home</a>
             <a href="#about">About</a>
             <a href="#tokenomics">Tokenomics</a>
             <a href="philosophy.html">Philosophy</a>
-            <a href="Portal.html">Portal</a>
+            <a href="portal.html">Portal</a>
         </div>
         <div class="nav-actions">
             <a href="https://x.com/MNFST__" target="_blank">Twitter</a>
@@ -251,13 +53,11 @@
         </div>
     </div>
 
-    <!-- Home Section -->
     <section class="section intro" id="home">
         <h1>MANIFEST REALITY PROJECT</h1>
         <p>The spiral turns, weaving 3-6-9 through the cosmic void. A crypto project born of sacred geometry and the pulse of manifestation.</p>
     </section>
 
-    <!-- About Section -->
     <section class="section about" id="about">
         <h1>About $MNFST</h1>
         <div class="info-block">
@@ -267,7 +67,6 @@
         </div>
     </section>
 
-    <!-- Tokenomics Section -->
     <section class="section tokenomics" id="tokenomics">
         <h1>Tokenomics</h1>
         <div class="info-block">
@@ -278,14 +77,12 @@
         </div>
     </section>
 
-    <!-- Buy Section -->
     <section class="section buy">
         <h1>Buy $MNFST</h1>
         <p>Step into the grid. Acquire $MNFST on Solana’s sacred exchange.</p>
         <a href="https://dexscreener.com/solana/63iEYzCa8wCLpk1VgdAxnwU5qaqtU6Ju1o3kNDViq8Xu" class="btn" target="_blank">Buy Now on Dexscreener</a>
     </section>
 
-    <!-- Manifestation Wall Section -->
     <section class="section" id="manifestation-wall">
         <h1>The Manifestation Wall</h1>
         <p>Etch your intention into the spiral—once, eternal. One per soul.</p>
@@ -296,7 +93,6 @@
         <div id="wall-display"></div>
     </section>
 
-    <!-- Password-Protected Claim Block -->
     <section class="section locked-block" id="claim">
         <h2>The Hidden Fold</h2>
         <p>Speak the dual echo to pierce the veil.</p>
@@ -307,19 +103,36 @@
         </div>
     </section>
 
-    <!-- Dexscreener Embed -->
     <style>#dexscreener-embed{position:relative;width:100%;padding-bottom:125%;}@media(min-width:1400px){#dexscreener-embed{padding-bottom:65%;}}#dexscreener-embed iframe{position:absolute;width:100%;height:100%;top:0;left:0;border:0;}</style>
     <div id="dexscreener-embed"><iframe src="https://dexscreener.com/solana/63iEYzCa8wCLpk1VgdAxnwU5qaqtU6Ju1o3kNDViq8Xu?embed=1&loadChartSettings=0&chartLeftToolbar=0&chartTheme=dark&theme=dark&chartStyle=0&chartType=usd&interval=15"></iframe></div>
 
-    <!-- JavaScript -->
-    <script>
+    <!-- Firebase SDK with ES Modules -->
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js';
+        import { getDatabase, ref, onValue, push, serverTimestamp } from 'https://www.gstatic.com/firebasejs/11.6.0/firebase-database.js';
+
+        // Your Firebase config
+        const firebaseConfig = {
+            apiKey: "AIzaSyAAzwB9DImZ2OaJ3o7b4YCKDk-xblBci8I",
+            authDomain: "mnfst369.firebaseapp.com",
+            projectId: "mnfst369",
+            storageBucket: "mnfst369.firebasestorage.app",
+            messagingSenderId: "548497202287",
+            appId: "1:548497202287:web:b26c0ad42ece9d6a0fc19a",
+            databaseURL: "https://mnfst369-default-rtdb.firebaseio.com/" // Added this explicitly
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+        const manifestsRef = ref(db, 'manifestations');
+
         // Existing Claim Block Script
         function unlockClaim() {
             const password = document.getElementById('passwordInput').value;
             const correctPassword = '8.8';
             const claimContent = document.getElementById('claimContent');
             const crypticMessage = document.getElementById('crypticMessage');
-
             if (password === correctPassword) {
                 claimContent.classList.remove('hidden');
                 const messages = [
@@ -339,9 +152,7 @@
         document.querySelectorAll('.navbar a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function(e) {
                 e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
-                });
+                document.querySelector(this.getAttribute('href')).scrollIntoView({ behavior: 'smooth' });
             });
         });
 
@@ -351,17 +162,7 @@
             const input = document.getElementById('manifestation-input');
             const wallDisplay = document.getElementById('wall-display');
 
-            // Load existing manifestations
-            fetch('manifestations.json')
-                .then(response => response.json())
-                .then(data => {
-                    data.manifestations.forEach(manifest => {
-                        displayManifestation(manifest);
-                    });
-                })
-                .catch(error => console.error('Spiral error:', error));
-
-            // Check if user has already submitted
+            // Check if user has manifested
             const hasSubmitted = localStorage.getItem('hasManifested');
             if (hasSubmitted) {
                 input.disabled = true;
@@ -369,6 +170,20 @@
                 input.placeholder = 'Your will is sealed. One per soul.';
             }
 
+            // Load manifestations from Firebase
+            onValue(manifestsRef, (snapshot) => {
+                wallDisplay.innerHTML = ''; // Clear display
+                const data = snapshot.val();
+                if (data) {
+                    Object.values(data).forEach(manifest => {
+                        const div = document.createElement('div');
+                        div.textContent = `${manifest.user} | ${manifest.manifestation} | ${new Date(manifest.timestamp).toLocaleString()}`;
+                        wallDisplay.appendChild(div);
+                    });
+                }
+            });
+
+            // Submit new manifestation
             form.addEventListener('submit', (e) => {
                 e.preventDefault();
                 if (hasSubmitted) return;
@@ -376,28 +191,25 @@
                 const manifestation = input.value.trim();
                 if (manifestation) {
                     const newManifest = {
-                        user: 'vessel' + Math.random().toString(36).substr(2, 5), // Unique anon ID
+                        user: 'vessel' + Math.random().toString(36).substr(2, 5),
                         manifestation: manifestation,
-                        timestamp: new Date().toISOString()
+                        timestamp: serverTimestamp()
                     };
 
-                    // Display immediately
-                    displayManifestation(newManifest);
-
-                    // Prepare for GitHub update (user manual step)
-                    alert('Your manifestation is set! Copy this JSON to add to manifestations.json and submit a pull request:\n' + JSON.stringify(newManifest, null, 2));
-                    localStorage.setItem('hasManifested', 'true');
-                    input.disabled = true;
-                    form.querySelector('button').disabled = true;
-                    input.placeholder = 'Your will is sealed. One per soul.';
+                    push(manifestsRef, newManifest)
+                        .then(() => {
+                            localStorage.setItem('hasManifested', 'true');
+                            input.disabled = true;
+                            form.querySelector('button').disabled = true;
+                            input.placeholder = 'Your will is sealed. One per soul.';
+                            input.value = '';
+                        })
+                        .catch((error) => {
+                            console.error('Error:', error);
+                            alert('The spiral faltered. Try again.');
+                        });
                 }
             });
-
-            function displayManifestation(manifest) {
-                const div = document.createElement('div');
-                div.textContent = `${manifest.user} | ${manifest.manifestation} | ${new Date(manifest.timestamp).toLocaleString()}`;
-                wallDisplay.appendChild(div);
-            }
         });
     </script>
 </body>
