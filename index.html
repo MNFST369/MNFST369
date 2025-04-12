@@ -12,7 +12,7 @@
         body::after { content: ''; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M50 10 L70 30 L50 50 L30 30 Z M30 50 L50 70 L70 50 L50 30 Z" fill="none" stroke="#d4af37" stroke-width="0.5" opacity="0.3"/></svg>') repeat; animation: glyphFade 10s infinite; z-index: -1; }
         @keyframes glyphFade { 0%, 100% { opacity: 0.3; } 50% { opacity: 0.5; } }
         @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.1); } 100% { transform: scale(1); } }
-        @keyframes float { 0% { transform: translateY(0); } 50% { transform: translateY(-20px); } 100% { transform: translateY(0); } }
+        @keyframes float { 0% { transform: translateY(0); } 50% { transform: translateY(-20px); } 100% { translateY(0); } }
         @keyframes glow { 0% { text-shadow: 0 0 10px #d4af37, 0 0 20px #d4af37; } 50% { text-shadow: 0 0 20px #d4af37, 0 0 30px #d4af37; } 100% { text-shadow: 0 0 10px #d4af37, 0 0 20px #d4af37; } }
         .navbar { background: rgba(42, 42, 42, 0.8); padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #d4af37; position: sticky; top: 0; z-index: 10; }
         .navbar a { color: #d4af37; text-decoration: none; margin: 0 20px; font-size: 18px; transition: color 0.3s; }
@@ -72,7 +72,7 @@
         <div class="info-block">
             <p><strong>Total Supply:</strong> 1,000,000,000 $MNFST</p>
             <p><strong>Distribution:</strong> 100% Moonshot launch, 35% community airdrops, 5% marketing.</p>
-            <p><strong>Moonshot Phase:</strong> Launched Q1 2025 on Solana’s Moonshot platform. Graduates to full trading when liquidity hits $65k TVL and 1000 holders affirm the shift—tracked on <a href="https://dexscreener.com/solana/63iEYzCa8wCLpk1VgdAxnwU5qaqtU6Ju1o3kNDViq8Xu" target="_blank" style="color: #d4af37;">Dexscreener</a>.</p>
+            <p><strong>Moonshot Phase:</strong> Launched 03/06/2025 on Moonshot. Graduates to full trading when liquidity hits $65k TVL and 1000 holders affirm the shift—tracked on <a href="https://dexscreener.com/solana/63iEYzCa8wCLpk1VgdAxnwU5qaqtU6Ju1o3kNDViq8Xu" target="_blank" style="color: #d4af37;">Dexscreener</a>.</p>
             <p><strong>Utility:</strong> Beyond memes—$MNFST powers manifestation rituals and exclusive cosmic NFTs in works.</p>
         </div>
     </section>
@@ -234,7 +234,7 @@
                 }
             });
             if (Math.random() < 0.1) spawnParticle();
-            particles.forEach((p, i) => {
+            chapters.forEach((p, i) => {
                 p.life -= 0.02;
                 p.y += Math.sin(p.angle) * 2;
                 p.x += Math.cos(p.angle) * 2;
