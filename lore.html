@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="$MNFST Lore – A cosmic tale woven through the spiral of 3-6-9. Read, bookmark, manifest.">
+    <title>$MNFST Lore</title>
+    <style>
+        body { margin: 0; padding: 0; color: #d4af37; font-family: 'Georgia', serif; text-align: center; overflow-x: hidden; position: relative; background: #0F0F0F; }
+        body::before { content: ''; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, #0F0F0F, #1a1a1a, #2b2b2b, #d4af37); background-size: 300% 300%; animation: templeGlow 12s ease infinite; z-index: -1; opacity: 0.85; }
+        @keyframes templeGlow { 0% { background-position: 0% 0%; } 50% { background-position: 100% 100%; } 100% { background-position: 0% 0%; } }
+        @keyframes glow { 0% { text-shadow: 0 0 10px #d4af37; } 50% { text-shadow: 0 0 20px #d4af37; } 100% { text-shadow: 0 0 10px #d4af37; } }
+        .navbar { background: rgba(42, 42, 42, 0.8); padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #d4af37; position: sticky; top: 0; z-index: 10; }
+        .navbar a { color: #d4af37; text-decoration: none; margin: 0 20px; font-size: 18px; transition: color 0.3s; }
+        .navbar a:hover { color: #e6c14b; }
+        .nav-btn { background: #d4af37; color: #1a1a1a; padding: 10px 20px; border-radius: 20px; font-size: 18px; text-decoration: none; }
+        @media (max-width: 768px) { .navbar { flex-direction: column; } .nav-links, .nav-actions { width: 100%; display: flex; flex-wrap: wrap; justify-content: center; margin: 10px 0; } }
+        .book { max-width: 800px; margin: 40px auto; perspective: 1000px; }
+        .page { background: rgba(42, 42, 42, 0.9); color: #d4af37; padding: 20px; border: 2px solid #d4af37; box-shadow: 0 0 15px #d4af37; min-height: 400px; transition: transform 1s; transform-origin: left; }
+        .page h2 { font-size: 28px; animation: glow 3s infinite; }
+        .page p { font-size: 16px; line-height: 1.6; }
+        .page.flipped { transform: rotateY(-180deg); }
+        .controls { margin: 20px auto; max-width: 800px; }
+        .controls button { background: #d4af37; color: #1a1a1a; padding: 10px 20px; border: none; border-radius: 20px; margin: 0 10px; cursor: pointer; transition: transform 0.3s; }
+        .controls button:hover { background: #e6c14b; transform: scale(1.05); }
+        .controls select { background: #1a1a1a; color: #d4af37; border: 1px solid #d4af37; padding: 10px; border-radius: 10px; }
+        #cosmicCanvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
+    </style>
+</head>
+<body>
+    <canvas id="cosmicCanvas"></canvas>
+    <div class="navbar">
+        <div class="nav-links">
+            <a href="index.html#home">Home</a>
+            <a href="index.html#about">About</a>
+            <a href="index.html#tokenomics">Tokenomics</a>
+            <a href="philosophy.html">Philosophy</a>
+            <a href="portal.html">Portal</a>
+            <a href="lore.html">Lore</a>
+        </div>
+        <div class="nav-actions">
+            <a href="https://x.com/MNFST__" target="_blank">Twitter</a>
+            <a href="https://t.me/MNFSTcoin" target="_blank">Telegram</a>
+            <a href="https://dexscreener.com/solana/63iEYzCa8wCLpk1VgdAxnwU5qaqtU6Ju1o3kNDViq8Xu" class="nav-btn">Join Us</a>
+        </div>
+    </div>
+    <div class="book" id="book">
+        <div class="page" id="currentPage"><h2>Loading...</h2><p>The spiral weaves your tale...</p></div>
+    </div>
+    <div class="controls">
+        <button onclick="prevPage()">Previous</button>
+        <button onclick="nextPage()">Next</button>
+        <button onclick="bookmarkPage()">Bookmark</button>
+        <select id="chapterSelect" onchange="jumpToChapter()"></select>
+    </div>
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js';
+        import { getDatabase, ref, set, get } from 'https://www.gstatic.com/firebasejs/11.6.0/firebase-database.js';
+        import { getAuth, signInAnonymously } from 'https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js';
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyAAzwB9DImZ2OaJ3o7b4YCKDk-xblBci8I",
+            authDomain: "mnfst369.firebaseapp.com",
+            projectId: "mnfst369",
+            storageBucket: "mnfst369.firebasestorage.app",
+            messagingSenderId: "548497202287",
+            appId: "1:548497202287:web:b26c0ad42ece9d6a0fc19a",
+            databaseURL: "https://mnfst369-default-rtdb.firebaseio.com/"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+        const auth = getAuth(app);
+        let userId = null;
+        let currentPage = 0;
+        let chapters = [];
+
+        signInAnonymously(auth).then(() => {
+            userId = auth.currentUser.uid;
+            loadBookmark();
+        });
+
+        async function loadChapters() {
+            const response = await fetch('chapters.json');
+            chapters = await response.json();
+            const select = document.getElementById('chapterSelect');
+            chapters.forEach((chapter, i) => {
+                const option = document.createElement('option');
+                option.value = i;
+                option.textContent = chapter.title;
+                select.appendChild(option);
+            });
+            showPage(currentPage);
+        }
+
+        function showPage(pageNum) {
+            currentPage = Math.max(0, Math.min(pageNum, chapters.length - 1));
+            const page = document.getElementById('currentPage');
+            page.innerHTML = `<h2>${chapters[currentPage].title}</h2><p>${chapters[currentPage].content}</p>`;
+            page.classList.remove('flipped');
+            setTimeout(() => page.classList.add('flipped'), 50);
+            document.getElementById('chapterSelect').value = currentPage;
+        }
+
+        function nextPage() {
+            if (currentPage < chapters.length - 1) showPage(currentPage + 1);
+        }
+
+        function prevPage() {
+            if (currentPage > 0) showPage(currentPage - 1);
+        }
+
+        function jumpToChapter() {
+            showPage(parseInt(document.getElementById('chapterSelect').value));
+        }
+
+        function bookmarkPage() {
+            if (userId) {
+                set(ref(db, 'bookmarks/' + userId), { page: currentPage })
+                    .then(() => alert('Bookmark saved in the spiral.'));
+            }
+        }
+
+        function loadBookmark() {
+            if (userId) {
+                get(ref(db, 'bookmarks/' + userId)).then((snapshot) => {
+                    if (snapshot.exists()) {
+                        currentPage = snapshot.val().page;
+                        showPage(currentPage);
+                    }
+                });
+            }
+        }
+
+        loadChapters();
+    </script>
+    <script>
+        const canvas = document.getElementById('cosmicCanvas');
+        const ctx = canvas.getContext('2d');
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+        let trail = [];
+        document.addEventListener('mousemove', (e) => {
+            trail.push({ x: e.clientX, y: e.clientY, life: 1 });
+            if (trail.length > 20) trail.shift();
+        });
+        let particles = [];
+        function spawnParticle() {
+            const x = Math.random() * canvas.width;
+            const y = Math.random() * canvas.height;
+            const type = Math.random() < 0.5 ? 'number' : 'shape';
+            const value = type === 'number' ? [3, 6, 9][Math.floor(Math.random() * 3)] : null;
+            const life = 1;
+            particles.push({ x, y, type, value, life, angle: Math.random() * Math.PI * 2 });
+        }
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            trail.forEach((point, i) => {
+                point.life -= 0.05;
+                if (point.life > 0) {
+                    ctx.beginPath();
+                    ctx.arc(point.x, point.y, 10 * point.life, 0, Math.PI * 2);
+                    ctx.fillStyle = `rgba(212, 175, 55, ${point.life})`;
+                    ctx.fill();
+                } else {
+                    trail.splice(i, 1);
+                }
+            });
+            if (Math.random() < 0.1) spawnParticle();
+            particles.forEach((p, i) => {
+                p.life -= 0.02;
+                p.y += Math.sin(p.angle) * 2;
+                p.x += Math.cos(p.angle) * 2;
+                if (p.life > 0) {
+                    ctx.globalAlpha = p.life;
+                    if (p.type === 'number') {
+                        ctx.font = `${20 * p.life}px Arial`;
+                        ctx.fillStyle = '#d4af37';
+                        ctx.fillText(p.value, p.x, p.y);
+                    } else {
+                        ctx.beginPath();
+                        const size = 20 * p.life;
+                        for (let j = 0; j < 6; j++) {
+                            const angle = (Math.PI / 3) * j + p.angle;
+                            const px = p.x + Math.cos(angle) * size;
+                            const py = p.y + Math.sin(angle) * size;
+                            j === 0 ? ctx.moveTo(px, py) : ctx.lineTo(px, py);
+                        }
+                        ctx.closePath();
+                        ctx.strokeStyle = '#d4af37';
+                        ctx.lineWidth = 1;
+                        ctx.stroke();
+                    }
+                    ctx.globalAlpha = 1;
+                } else {
+                    particles.splice(i, 1);
+                }
+            });
+            requestAnimationFrame(animate);
+        }
+        animate();
+    </script>
+</body>
+<noscript>
+    <p style="color: #d4af37; padding: 20px;">The spiral requires JavaScript to manifest. Enable it to join the grid.</p>
+</noscript>
+</html>
