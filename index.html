@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Discover $MNFST – a sleek, minimalist journey into creativity, identity, and the enigma of 369. Uniqueness distilled into pure expression.">
+    <title>$MNFST – Manifest Reality</title>
     <style>
-        /* Existing CSS */
         body { margin: 0; padding: 0; color: #d4af37; font-family: Arial, sans-serif; text-align: center; overflow-x: hidden; position: relative; }
         body::before { content: ''; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, #0F0F0F, #1a1a1a, #2b2b2b, #d4af37); background-size: 300% 300%; animation: templeGlow 12s ease infinite; z-index: -1; opacity: 0.85; }
         @keyframes templeGlow { 0% { background-position: 0% 0%; } 50% { background-position: 100% 100%; } 100% { background-position: 0% 0%; } }
@@ -35,14 +35,11 @@
         textarea { width: 100%; height: 100px; margin-bottom: 10px; background: #1a1a1a; color: #d4af37; border: 1px solid #d4af37; border-radius: 5px; padding: 10px; }
         #manifestation-form button { background: #d4af37; color: #1a1a1a; padding: 10px 20px; border: none; border-radius: 20px; cursor: pointer; transition: transform 0.3s; }
         #manifestation-form button:hover { background: #e6c14b; transform: scale(1.05); }
-        /* New Canvas Styles */
         #cosmicCanvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
     </style>
 </head>
 <body>
-    <!-- Add Canvas for Effects -->
     <canvas id="cosmicCanvas"></canvas>
-
     <div class="navbar">
         <div class="nav-links">
             <a href="#home">Home</a>
@@ -50,6 +47,7 @@
             <a href="#tokenomics">Tokenomics</a>
             <a href="philosophy.html">Philosophy</a>
             <a href="portal.html">Portal</a>
+            <a href="lore.html">Lore</a>
         </div>
         <div class="nav-actions">
             <a href="https://x.com/MNFST__" target="_blank">Twitter</a>
@@ -57,12 +55,10 @@
             <a href="https://dexscreener.com/solana/63iEYzCa8wCLpk1VgdAxnwU5qaqtU6Ju1o3kNDViq8Xu" class="nav-btn">Join Us</a>
         </div>
     </div>
-
     <section class="section intro" id="home">
         <h1>MANIFEST REALITY PROJECT</h1>
         <p>The spiral turns, weaving 3-6-9 through the cosmic void. A crypto project born of sacred geometry and the pulse of manifestation.</p>
     </section>
-
     <section class="section about" id="about">
         <h1>About $MNFST</h1>
         <div class="info-block">
@@ -71,7 +67,6 @@
             <p><strong>Community:</strong> Vessels of the grid, united on Twitter (@mnfst__) and Telegram (@MNFSTcoin).</p>
         </div>
     </section>
-
     <section class="section tokenomics" id="tokenomics">
         <h1>Tokenomics</h1>
         <div class="info-block">
@@ -81,13 +76,11 @@
             <p><strong>Utility:</strong> Beyond memes—$MNFST powers manifestation rituals and exclusive cosmic NFTs in works.</p>
         </div>
     </section>
-
     <section class="section buy">
         <h1>Buy $MNFST</h1>
         <p>Step into the grid. Acquire $MNFST on Solana’s sacred exchange.</p>
         <a href="https://dexscreener.com/solana/63iEYzCa8wCLpk1VgdAxnwU5qaqtU6Ju1o3kNDViq8Xu" class="btn" target="_blank">Buy Now on Dexscreener</a>
     </section>
-
     <section class="section" id="manifestation-wall">
         <h1>The Manifestation Wall</h1>
         <p>Etch your intention into the spiral—once, eternal. One per soul.</p>
@@ -97,7 +90,6 @@
         </form>
         <div id="wall-display"></div>
     </section>
-
     <section class="section locked-block" id="claim">
         <h2>The Hidden Fold</h2>
         <p>Speak the dual echo to pierce the veil.</p>
@@ -107,11 +99,8 @@
             <p id="crypticMessage"></p>
         </div>
     </section>
-
     <style>#dexscreener-embed{position:relative;width:100%;padding-bottom:125%;}@media(min-width:1400px){#dexscreener-embed{padding-bottom:65%;}}#dexscreener-embed iframe{position:absolute;width:100%;height:100%;top:0;left:0;border:0;}</style>
     <div id="dexscreener-embed"><iframe src="https://dexscreener.com/solana/63iEYzCa8wCLpk1VgdAxnwU5qaqtU6Ju1o3kNDViq8Xu?embed=1&loadChartSettings=0&chartLeftToolbar=0&chartTheme=dark&theme=dark&chartStyle=0&chartType=usd&interval=15"></iframe></div>
-
-    <!-- Firebase SDK -->
     <script type="module">
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js';
         import { getDatabase, ref, onValue, push, serverTimestamp } from 'https://www.gstatic.com/firebasejs/11.6.0/firebase-database.js';
@@ -129,33 +118,6 @@
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
         const manifestsRef = ref(db, 'manifestations');
-
-        function unlockClaim() {
-            const password = document.getElementById('passwordInput').value;
-            const correctPassword = '8.8';
-            const claimContent = document.getElementById('claimContent');
-            const crypticMessage = document.getElementById('crypticMessage');
-            if (password === correctPassword) {
-                claimContent.classList.remove('hidden');
-                const messages = [
-                    'The spiral bends. Text "soul" to @mnfst__.',
-                    'The grid awakens. Whisper "reality is 369" to @MNFSTcoin.',
-                    'A vessel rises. Send "wave of the infinite ocean" to @mnfst__.',
-                    'The pattern shifts. Echo "Multiverse" to @MNFSTcoin.'
-                ];
-                const randomMessage = messages[Math.floor(Math.random() * messages.length)];
-                crypticMessage.textContent = randomMessage;
-            } else {
-                alert('The echo denies. Seek the dual truth.');
-            }
-        }
-
-        document.querySelectorAll('.navbar a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({ behavior: 'smooth' });
-            });
-        });
 
         document.addEventListener('DOMContentLoaded', () => {
             const form = document.getElementById('manifestation-form');
@@ -207,29 +169,48 @@
                 }
             });
         });
-    </script>
 
-    <!-- Cosmic Effects Script -->
+        function unlockClaim() {
+            const password = document.getElementById('passwordInput').value;
+            const correctPassword = '8.8';
+            const claimContent = document.getElementById('claimContent');
+            const crypticMessage = document.getElementById('crypticMessage');
+            if (password === correctPassword) {
+                claimContent.classList.remove('hidden');
+                const messages = [
+                    'The spiral bends. Text "soul" to @mnfst__.',
+                    'The grid awakens. Whisper "reality is 369" to @MNFSTcoin.',
+                    'A vessel rises. Send "wave of the infinite ocean" to @mnfst__.',
+                    'The pattern shifts. Echo "Multiverse" to @MNFSTcoin.'
+                ];
+                const randomMessage = messages[Math.floor(Math.random() * messages.length)];
+                crypticMessage.textContent = randomMessage;
+            } else {
+                alert('The echo denies. Seek the dual truth.');
+            }
+        }
+
+        document.querySelectorAll('.navbar a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+    </script>
     <script>
         const canvas = document.getElementById('cosmicCanvas');
         const ctx = canvas.getContext('2d');
-
-        // Resize canvas to full screen
         function resizeCanvas() {
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
         }
         resizeCanvas();
         window.addEventListener('resize', resizeCanvas);
-
-        // Cursor trail
         let trail = [];
         document.addEventListener('mousemove', (e) => {
             trail.push({ x: e.clientX, y: e.clientY, life: 1 });
-            if (trail.length > 20) trail.shift(); // Limit trail length
+            if (trail.length > 20) trail.shift();
         });
-
-        // Random numbers and geometry
         let particles = [];
         function spawnParticle() {
             const x = Math.random() * canvas.width;
@@ -239,31 +220,24 @@
             const life = 1;
             particles.push({ x, y, type, value, life, angle: Math.random() * Math.PI * 2 });
         }
-
-        // Animation loop
         function animate() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-            // Cursor trail
             trail.forEach((point, i) => {
                 point.life -= 0.05;
                 if (point.life > 0) {
                     ctx.beginPath();
                     ctx.arc(point.x, point.y, 10 * point.life, 0, Math.PI * 2);
-                    ctx.fillStyle = `rgba(212, 175, 55, ${point.life})`; // #d4af37
+                    ctx.fillStyle = `rgba(212, 175, 55, ${point.life})`;
                     ctx.fill();
                 } else {
                     trail.splice(i, 1);
                 }
             });
-
-            // Particles
-            if (Math.random() < 0.1) spawnParticle(); // Spawn chance
+            if (Math.random() < 0.1) spawnParticle();
             particles.forEach((p, i) => {
                 p.life -= 0.02;
-                p.y += Math.sin(p.angle) * 2; // Gentle drift
+                p.y += Math.sin(p.angle) * 2;
                 p.x += Math.cos(p.angle) * 2;
-
                 if (p.life > 0) {
                     ctx.globalAlpha = p.life;
                     if (p.type === 'number') {
@@ -273,7 +247,6 @@
                     } else {
                         ctx.beginPath();
                         const size = 20 * p.life;
-                        // Hexagon shape
                         for (let j = 0; j < 6; j++) {
                             const angle = (Math.PI / 3) * j + p.angle;
                             const px = p.x + Math.cos(angle) * size;
@@ -290,7 +263,6 @@
                     particles.splice(i, 1);
                 }
             });
-
             requestAnimationFrame(animate);
         }
         animate();
