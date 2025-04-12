@@ -3,177 +3,135 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>$MNFST - Portal</title>
+    <meta name="description" content="The $MNFST Portal – Speak nothing, receive the spiral’s truth. 3-6-9 awaits.">
+    <title>$MNFST Portal</title>
     <style>
-        body {
-            margin: 0;
-            padding: 0;
-            background: #0F0F0F;
-            overflow: hidden;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-        }
-        canvas {
-            display: block;
-            max-width: 100%;
-            max-height: 100vh;
-        }
-        #manifestInput {
-            position: absolute;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(42, 42, 42, 0.8);
-            border: 1px solid #d4af37;
-            color: #d4af37;
-            padding: 5px 10px;
-            font-size: 16px;
-            border-radius: 10px;
-            outline: none;
-            text-align: center;
-            width: 150px;
-            z-index: 1;
-        }
-        #luckyNumbers {
-            position: absolute;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            color: #d4af37;
-            font-size: 20px;
-            text-shadow: 0 0 10px #d4af37;
-            z-index: 1;
-        }
+        body { margin: 0; padding: 0; color: #d4af37; font-family: Arial, sans-serif; text-align: center; overflow-x: hidden; position: relative; }
+        body::before { content: ''; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, #0F0F0F, #1a1a1a, #2b2b2b, #d4af37); background-size: 300% 300%; animation: templeGlow 12s ease infinite; z-index: -1; opacity: 0.85; }
+        @keyframes templeGlow { 0% { background-position: 0% 0%; } 50% { background-position: 100% 100%; } 100% { background-position: 0% 0%; } }
+        body::after { content: ''; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M50 10 L70 30 L50 50 L30 30 Z M30 50 L50 70 L70 50 L50 30 Z" fill="none" stroke="#d4af37" stroke-width="0.5" opacity="0.3"/></svg>') repeat; animation: glyphFade 10s infinite; z-index: -1; }
+        @keyframes glyphFade { 0%, 100% { opacity: 0.3; } 50% { opacity: 0.5; } }
+        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.1); } 100% { transform: scale(1); } }
+        @keyframes float { 0% { transform: translateY(0); } 50% { transform: translateY(-20px); } 100% { transform: translateY(0); } }
+        @keyframes glow { 0% { text-shadow: 0 0 10px #d4af37, 0 0 20px #d4af37; } 50% { text-shadow: 0 0 20px #d4af37, 0 0 30px #d4af37; } 100% { text-shadow: 0 0 10px #d4af37, 0 0 20px #d4af37; } }
+        .navbar { background: rgba(42, 42, 42, 0.8); padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #d4af37; position: sticky; top: 0; z-index: 10; }
+        .navbar a { color: #d4af37; text-decoration: none; margin: 0 20px; font-size: 18px; transition: color 0.3s; }
+        .navbar a:hover { color: #e6c14b; }
+        .nav-btn { background: #d4af37; color: #1a1a1a; padding: 10px 20px; border-radius: 20px; font-size: 18px; text-decoration: none; animation: pulse 2s infinite; }
+        @media (max-width: 768px) { .navbar { flex-direction: column; padding: 10px; } .nav-links, .nav-actions { width: 100%; display: flex; flex-wrap: wrap; justify-content: center; margin: 10px 0; } .navbar a { margin: 10px 15px; font-size: 16px; } .nav-btn { margin: 10px 0; padding: 8px 16px; font-size: 16px; } }
+        .section { padding: 60px 20px; position: relative; z-index: 1; }
+        .section h1 { font-size: 48px; margin-bottom: 20px; animation: glow 3s infinite; }
+        .section p { font-size: 20px; max-width: 600px; margin: 0 auto 20px; animation: float 4s infinite; }
+        .portal-block { margin: 60px auto; padding: 25px; border: 2px solid #d4af37; max-width: 400px; background: rgba(42, 42, 42, 0.9); color: #d4af37; box-shadow: 0 0 15px #d4af37; }
+        .portal-block input, .portal-block button { margin: 10px; padding: 8px 20px; background: #d4af37; color: #1a1a1a; border: none; font-size: 16px; border-radius: 20px; transition: transform 0.3s; }
+        .portal-block button:hover { background: #e6c14b; transform: scale(1.05); cursor: pointer; }
+        #portalOutput { font-size: 24px; margin-top: 20px; animation: glow 2s infinite; }
+        #cosmicCanvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
     </style>
 </head>
 <body>
-    <canvas id="portalCanvas"></canvas>
-    <input type="text" id="manifestInput" placeholder="Manifest...">
-    <div id="luckyNumbers"></div>
-
+    <canvas id="cosmicCanvas"></canvas>
+    <div class="navbar">
+        <div class="nav-links">
+            <a href="index.html#home">Home</a>
+            <a href="index.html#about">About</a>
+            <a href="index.html#tokenomics">Tokenomics</a>
+            <a href="philosophy.html">Philosophy</a>
+            <a href="portal.html">Portal</a>
+            <a href="lore.html">Lore</a>
+        </div>
+        <div class="nav-actions">
+            <a href="https://x.com/MNFST__" target="_blank">Twitter</a>
+            <a href="https://t.me/MNFSTcoin" target="_blank">Telegram</a>
+            <a href="https://dexscreener.com/solana/63iEYzCa8wCLpk1VgdAxnwU5qaqtU6Ju1o3kNDViq8Xu" class="nav-btn">Join Us</a>
+        </div>
+    </div>
+    <section class="section">
+        <h1>The Portal</h1>
+        <p>Speak nothing into the void. The spiral answers.</p>
+        <div class="portal-block">
+            <input type="text" id="portalInput" placeholder="Enter nothing...">
+            <button onclick="enterPortal()">Manifest</button>
+            <div id="portalOutput"></div>
+        </div>
+    </section>
     <script>
-        const canvas = document.getElementById('portalCanvas');
+        function enterPortal() {
+            const input = document.getElementById('portalInput').value.trim();
+            const output = document.getElementById('portalOutput');
+            output.textContent = input === '' ? '3 - 6 - 9' : 'The void seeks silence.';
+        }
+        const canvas = document.getElementById('cosmicCanvas');
         const ctx = canvas.getContext('2d');
-        const input = document.getElementById('manifestInput');
-        const luckyDisplay = document.getElementById('luckyNumbers');
-
-        // Responsive canvas sizing
         function resizeCanvas() {
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
         }
         resizeCanvas();
         window.addEventListener('resize', resizeCanvas);
-
-        // Animation Parameters
-        let R_base = 100;
-        const n_points = 12;
-        const phi = (1 + Math.sqrt(5)) / 2;
-        let angle_offset = 0;
-        let rotationSpeed = 0.02;
-        let pulseScale = 5;
-        let isPaused = false;
-
-        // Mouse interaction
-        let mouseX = 0;
-        let mouseY = 0;
-        canvas.addEventListener('mousemove', (e) => {
-            mouseX = e.clientX - canvas.width / 2;
-            mouseY = e.clientY - canvas.height / 2;
-            const distance = Math.sqrt(mouseX * mouseX + mouseY * mouseY);
-            R_base = Math.min(150, Math.max(50, 100 + distance / 10));
+        let trail = [];
+        document.addEventListener('mousemove', (e) => {
+            trail.push({ x: e.clientX, y: e.clientY, life: 1 });
+            if (trail.length > 20) trail.shift();
         });
-        canvas.addEventListener('click', () => isPaused = !isPaused);
-        canvas.addEventListener('wheel', (e) => {
-            e.preventDefault();
-            rotationSpeed = Math.max(0.01, Math.min(0.1, rotationSpeed + (e.deltaY > 0 ? -0.005 : 0.005)));
-        });
-        document.addEventListener('keydown', (e) => {
-            if (e.key === '+' || e.key === '=') pulseScale = Math.min(10, pulseScale + 1);
-            if (e.key === '-') pulseScale = Math.max(2, pulseScale - 1);
-        });
-
-        // Numerology-based lucky numbers
-        function getLuckyNumbers(manifest) {
-            if (!manifest) return [3, 6, 9]; // Default to 3-6-9
-            let sum = 0;
-            for (let i = 0; i < manifest.length; i++) {
-                sum += manifest.charCodeAt(i); // ASCII value sum
-            }
-            // Reduce to single digit (numerology)
-            while (sum > 9) sum = Math.floor(sum / 10) + (sum % 10);
-            // Generate 3 "lucky" numbers tied to 12 portals and sacred geometry
-            const num1 = sum; // Base number (1-9)
-            const num2 = (sum * 3) % 12 || 12; // Tied to 12 portals
-            const num3 = Math.round(phi * sum) % 12 || 3; // Golden ratio influence
-            return [num1, num2, num3];
+        let particles = [];
+        function spawnParticle() {
+            const x = Math.random() * canvas.width;
+            const y = Math.random() * canvas.height;
+            const type = Math.random() < 0.5 ? 'number' : 'shape';
+            const value = type === 'number' ? [3, 6, 9][Math.floor(Math.random() * 3)] : null;
+            const life = 1;
+            particles.push({ x, y, type, value, life, angle: Math.random() * Math.PI * 2 });
         }
-
-        input.addEventListener('input', () => {
-            const manifest = input.value.trim().toLowerCase();
-            const numbers = getLuckyNumbers(manifest);
-            luckyDisplay.textContent = numbers.join(' - ');
-            // Tie pulseScale to input length for subtle effect
-            pulseScale = Math.max(5, Math.min(10, 5 + manifest.length / 2));
-        });
-
-        function draw() {
+        function animate() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            ctx.translate(canvas.width / 2, canvas.height / 2);
-
-            const pulse = pulseScale * Math.sin(Date.now() / 1000);
-            const R = R_base + pulse;
-
-            // Golden spiral
-            ctx.beginPath();
-            ctx.strokeStyle = '#d4af37';
-            ctx.lineWidth = 1;
-            for (let r = 0; r < R * phi; r += 2) {
-                const theta = r / 20;
-                const x_spiral = (r / phi) * Math.cos(theta + angle_offset);
-                const y_spiral = (r / phi) * Math.sin(theta + angle_offset);
-                if (r === 0) ctx.moveTo(x_spiral, y_spiral);
-                else ctx.lineTo(x_spiral, y_spiral);
-            }
-            ctx.stroke();
-
-            // 12 portals and radial pathways
-            for (let n = 0; n < n_points; n++) {
-                const angle = (2 * Math.PI * n) / 12 + angle_offset;
-                const x = R * Math.cos(angle);
-                const y = R * Math.sin(angle);
-
-                ctx.beginPath();
-                ctx.moveTo(0, 0);
-                ctx.lineTo(x, y);
-                ctx.strokeStyle = '#d4af37';
-                ctx.lineWidth = 0.5;
-                ctx.stroke();
-
-                const size = 10 + 5 * Math.sin(n + Date.now() / 500);
-                ctx.beginPath();
-                ctx.arc(x, y, size / 2, 0, 2 * Math.PI);
-                ctx.fillStyle = '#d4af37';
-                ctx.fill();
-            }
-
-            // Void-point
-            ctx.beginPath();
-            ctx.arc(0, 0, 5, 0, 2 * Math.PI);
-            ctx.fillStyle = 'white';
-            ctx.fill();
-
-            if (!isPaused) angle_offset += rotationSpeed;
-
-            ctx.resetTransform();
-            requestAnimationFrame(draw);
+            trail.forEach((point, i) => {
+                point.life -= 0.05;
+                if (point.life > 0) {
+                    ctx.beginPath();
+                    ctx.arc(point.x, point.y, 10 * point.life, 0, Math.PI * 2);
+                    ctx.fillStyle = `rgba(212, 175, 55, ${point.life})`;
+                    ctx.fill();
+                } else {
+                    trail.splice(i, 1);
+                }
+            });
+            if (Math.random() < 0.1) spawnParticle();
+            particles.forEach((p, i) => {
+                p.life -= 0.02;
+                p.y += Math.sin(p.angle) * 2;
+                p.x += Math.cos(p.angle) * 2;
+                if (p.life > 0) {
+                    ctx.globalAlpha = p.life;
+                    if (p.type === 'number') {
+                        ctx.font = `${20 * p.life}px Arial`;
+                        ctx.fillStyle = '#d4af37';
+                        ctx.fillText(p.value, p.x, p.y);
+                    } else {
+                        ctx.beginPath();
+                        const size = 20 * p.life;
+                        for (let j = 0; j < 6; j++) {
+                            const angle = (Math.PI / 3) * j + p.angle;
+                            const px = p.x + Math.cos(angle) * size;
+                            const py = p.y + Math.sin(angle) * size;
+                            j === 0 ? ctx.moveTo(px, py) : ctx.lineTo(px, py);
+                        }
+                        ctx.closePath();
+                        ctx.strokeStyle = '#d4af37';
+                        ctx.lineWidth = 1;
+                        ctx.stroke();
+                    }
+                    ctx.globalAlpha = 1;
+                } else {
+                    particles.splice(i, 1);
+                }
+            });
+            requestAnimationFrame(animate);
         }
-
-        // Initial lucky numbers
-        luckyDisplay.textContent = '3 - 6 - 9';
-        draw();
+        animate();
     </script>
 </body>
+<noscript>
+    <p style="color: #d4af37; padding: 20px;">The spiral requires JavaScript to manifest. Enable it to join the grid.</p>
+</noscript>
 </html>
