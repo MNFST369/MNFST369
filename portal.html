@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="The $MNFST Portal – Speak nothing, receive the spiral’s truth. 3-6-9 awaits.">
+    <meta name="description" content="The $MNFST Portal – Enter any number to receive the spiral's truth. 3-6-9 awaits.">
     <title>$MNFST Portal</title>
     <style>
         body { margin: 0; padding: 0; color: #d4af37; font-family: Arial, sans-serif; text-align: center; overflow-x: hidden; position: relative; }
@@ -22,10 +22,14 @@
         .section { padding: 60px 20px; position: relative; z-index: 1; }
         .section h1 { font-size: 48px; margin-bottom: 20px; animation: glow 3s infinite; }
         .section p { font-size: 20px; max-width: 600px; margin: 0 auto 20px; animation: float 4s infinite; }
-        .portal-block { margin: 60px auto; padding: 25px; border: 2px solid #d4af37; max-width: 400px; background: rgba(42, 42, 42, 0.9); color: #d4af37; box-shadow: 0 0 15px #d4af37; }
+        .portal-block { margin: 60px auto; padding: 25px; border: 2px solid #d4af37; max-width: 500px; background: rgba(42, 42, 42, 0.9); color: #d4af37; box-shadow: 0 0 15px #d4af37; }
         .portal-block input, .portal-block button { margin: 10px; padding: 8px 20px; background: #d4af37; color: #1a1a1a; border: none; font-size: 16px; border-radius: 20px; transition: transform 0.3s; }
         .portal-block button:hover { background: #e6c14b; transform: scale(1.05); cursor: pointer; }
         #portalOutput { font-size: 24px; margin-top: 20px; animation: glow 2s infinite; }
+        .numbers-display { margin-top: 20px; display: flex; justify-content: space-around; flex-wrap: wrap; }
+        .number-set { margin: 10px; padding: 15px; border: 1px solid #d4af37; border-radius: 10px; background: rgba(26, 26, 26, 0.7); min-width: 120px; }
+        .number-set h3 { margin-top: 0; font-size: 18px; }
+        .number-set p { font-size: 20px; margin: 10px 0; animation: none; }
         #cosmicCanvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
     </style>
 </head>
@@ -48,43 +52,213 @@
     </div>
     <section class="section">
         <h1>The Portal</h1>
-        <p>Speak nothing into the void. The spiral answers.</p>
+        <p>Enter any number or text to unlock the sacred geometrical patterns of the universe.</p>
         <div class="portal-block">
-            <input type="text" id="portalInput" placeholder="Enter nothing...">
+            <input type="text" id="portalInput" placeholder="Enter a number or text...">
             <button onclick="enterPortal()">Manifest</button>
             <div id="portalOutput"></div>
+            <div class="numbers-display" id="numbersDisplay">
+                <div class="number-set">
+                    <h3>Sacred Geometry</h3>
+                    <p id="sacredOutput">3 - 6 - 9</p>
+                </div>
+                <div class="number-set">
+                    <h3>Golden Ratio</h3>
+                    <p id="goldenOutput">1.618</p>
+                </div>
+                <div class="number-set">
+                    <h3>Cosmic Sequence</h3>
+                    <p id="cosmicOutput">1 - 1 - 2 - 3 - 5</p>
+                </div>
+            </div>
         </div>
     </section>
     <script>
         function enterPortal() {
             const input = document.getElementById('portalInput').value.trim();
             const output = document.getElementById('portalOutput');
-            output.textContent = input === '' ? '3 - 6 - 9' : 'The void seeks silence.';
+            const sacredOutput = document.getElementById('sacredOutput');
+            const goldenOutput = document.getElementById('goldenOutput');
+            const cosmicOutput = document.getElementById('cosmicOutput');
+            
+            // Handle empty input
+            if (input === '') {
+                output.textContent = 'The primordial sequence awaits';
+                sacredOutput.textContent = '3 - 6 - 9';
+                goldenOutput.textContent = '1.618';
+                cosmicOutput.textContent = '1 - 1 - 2 - 3 - 5';
+                return;
+            }
+            
+            // Variable to store the base number for calculations
+            let inputNumber;
+            let inputText = input;
+            
+            // Check if input is a valid number or text
+            const isNumber = !isNaN(parseFloat(input)) && isFinite(input);
+            
+            if (isNumber) {
+                // It's a number
+                inputNumber = parseFloat(input);
+                output.textContent = `The spiral reveals your numeric truth: ${inputNumber}`;
+            } else {
+                // It's text - calculate numerological value
+                // Basic numerology: A=1, B=2, ..., Z=26, then sum all letters
+                const numerologyValue = calculateNumerology(input);
+                inputNumber = numerologyValue;
+                output.textContent = `The spiral reveals your text's numerological value: ${numerologyValue}`;
+            }
+            
+            // Calculate and display the sacred geometry numbers (based on Tesla's 3-6-9)
+            
+            // 1. Sacred Geometry set (Tesla's 3-6-9 principle - multiplication)
+            const sacred3 = (inputNumber * 3).toFixed(2);
+            const sacred6 = (inputNumber * 6).toFixed(2);
+            const sacred9 = (inputNumber * 9).toFixed(2);
+            sacredOutput.textContent = `${sacred3} - ${sacred6} - ${sacred9}`;
+            
+            // 2. Golden Ratio set
+            const goldenRatio = 1.618033988749895;
+            const goldenValue = (inputNumber * goldenRatio).toFixed(4);
+            const goldenInverse = (inputNumber / goldenRatio).toFixed(4);
+            const goldenSquare = (inputNumber * goldenRatio * goldenRatio).toFixed(4);
+            goldenOutput.textContent = `${goldenValue} - ${goldenInverse} - ${goldenSquare}`;
+            
+            // 3. Cosmic Sequence (Fibonacci-like starting with the input number)
+            let a = inputNumber;
+            let b = inputNumber;
+            let fibSequence = [a, b];
+            for (let i = 0; i < 3; i++) {
+                const next = a + b;
+                fibSequence.push(next);
+                a = b;
+                b = next;
+            }
+            
+            cosmicOutput.textContent = fibSequence.map(n => n.toFixed(2)).join(' - ');
+            
+            // Generate more particles with the entered number
+            for (let i = 0; i < 10; i++) {
+                spawnParticle(inputNumber);
+            }
         }
+        
         const canvas = document.getElementById('cosmicCanvas');
         const ctx = canvas.getContext('2d');
+        
         function resizeCanvas() {
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
         }
+        
         resizeCanvas();
         window.addEventListener('resize', resizeCanvas);
+        
         let trail = [];
         document.addEventListener('mousemove', (e) => {
             trail.push({ x: e.clientX, y: e.clientY, life: 1 });
             if (trail.length > 20) trail.shift();
         });
+        
         let particles = [];
-        function spawnParticle() {
+        
+        // Function to calculate numerology value of text
+function calculateNumerology(text) {
+    // Remove spaces and non-alphabetic characters
+    const cleanText = text.toLowerCase().replace(/[^a-z]/g, '');
+    
+    // Calculate value (A=1, B=2, etc.)
+    let value = 0;
+    for (let i = 0; i < cleanText.length; i++) {
+        const charCode = cleanText.charCodeAt(i) - 96; // 'a' is 97 in ASCII
+        if (charCode > 0 && charCode <= 26) {
+            value += charCode;
+        }
+    }
+    
+    // Reduce to a single digit (optional)
+    while (value > 9 && value !== 11 && value !== 22 && value !== 33) {
+        value = value.toString().split('').reduce((sum, digit) => sum + parseInt(digit), 0);
+    }
+    
+    return value;
+}
+
+function spawnParticle(userNumber = null) {
             const x = Math.random() * canvas.width;
             const y = Math.random() * canvas.height;
-            const type = Math.random() < 0.5 ? 'number' : 'shape';
-            const value = type === 'number' ? [3, 6, 9][Math.floor(Math.random() * 3)] : null;
-            const life = 1;
-            particles.push({ x, y, type, value, life, angle: Math.random() * Math.PI * 2 });
+            
+            // Define types of particles with more variety
+            const types = ['number', 'shape', 'spiral', 'phi'];
+            const type = types[Math.floor(Math.random() * types.length)];
+            
+            // Value can be based on user input or defaults
+            let value;
+            if (userNumber !== null) {
+                // Use user number or its derivatives
+                const options = [
+                    userNumber,
+                    userNumber * 3,
+                    userNumber * 6,
+                    userNumber * 9,
+                    userNumber * 1.618,
+                    // Add numerology-specific options
+                    parseInt(userNumber.toString().length), // Word length as value
+                    userNumber % 9 || 9 // Numerology cycle (1-9)
+                ];
+                value = options[Math.floor(Math.random() * options.length)];
+            } else {
+                // Default sacred numbers
+                const options = [3, 6, 9, 1.618, 2.718, 3.14159, 7, 11, 22, 33];
+                value = options[Math.floor(Math.random() * options.length)];
+            }
+            
+            particles.push({
+                x, 
+                y, 
+                type,
+                value,
+                life: 1,
+                angle: Math.random() * Math.PI * 2,
+                speed: 0.5 + Math.random() * 1.5,
+                size: 15 + Math.random() * 10
+            });
         }
+        
+        function drawSpiral(x, y, size, life) {
+            ctx.beginPath();
+            const segments = 6;
+            const growth = 0.3;
+            
+            for (let i = 0; i < segments * 3; i++) {
+                const angle = i * Math.PI / 6;
+                const radius = (i * growth) * size * life;
+                const px = x + Math.cos(angle) * radius;
+                const py = y + Math.sin(angle) * radius;
+                
+                if (i === 0) {
+                    ctx.moveTo(px, py);
+                } else {
+                    ctx.lineTo(px, py);
+                }
+            }
+            
+            ctx.strokeStyle = `rgba(212, 175, 55, ${life})`;
+            ctx.lineWidth = 2 * life;
+            ctx.stroke();
+        }
+        
+        function drawPhi(x, y, size, life) {
+            // Draw the Greek letter Phi (Φ) for Golden Ratio
+            ctx.font = `${size * life}px Arial`;
+            ctx.fillStyle = `rgba(212, 175, 55, ${life})`;
+            ctx.fillText('Φ', x, y);
+        }
+        
         function animate() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            // Draw mouse trail
             trail.forEach((point, i) => {
                 point.life -= 0.05;
                 if (point.life > 0) {
@@ -96,20 +270,27 @@
                     trail.splice(i, 1);
                 }
             });
+            
+            // Spawn particles occasionally
             if (Math.random() < 0.1) spawnParticle();
+            
+            // Update and draw particles
             particles.forEach((p, i) => {
-                p.life -= 0.02;
-                p.y += Math.sin(p.angle) * 2;
-                p.x += Math.cos(p.angle) * 2;
+                p.life -= 0.01;
+                p.y += Math.sin(p.angle) * p.speed;
+                p.x += Math.cos(p.angle) * p.speed;
+                
                 if (p.life > 0) {
                     ctx.globalAlpha = p.life;
+                    
                     if (p.type === 'number') {
-                        ctx.font = `${20 * p.life}px Arial`;
-                        ctx.fillStyle = '#d4af37';
-                        ctx.fillText(p.value, p.x, p.y);
-                    } else {
+                        ctx.font = `${p.size * p.life}px Arial`;
+                        ctx.fillStyle = `rgba(212, 175, 55, ${p.life})`;
+                        ctx.fillText(typeof p.value === 'number' ? p.value.toFixed(1) : p.value, p.x, p.y);
+                    } 
+                    else if (p.type === 'shape') {
                         ctx.beginPath();
-                        const size = 20 * p.life;
+                        const size = p.size * p.life;
                         for (let j = 0; j < 6; j++) {
                             const angle = (Math.PI / 3) * j + p.angle;
                             const px = p.x + Math.cos(angle) * size;
@@ -117,17 +298,26 @@
                             j === 0 ? ctx.moveTo(px, py) : ctx.lineTo(px, py);
                         }
                         ctx.closePath();
-                        ctx.strokeStyle = '#d4af37';
+                        ctx.strokeStyle = `rgba(212, 175, 55, ${p.life})`;
                         ctx.lineWidth = 1;
                         ctx.stroke();
                     }
+                    else if (p.type === 'spiral') {
+                        drawSpiral(p.x, p.y, p.size/3, p.life);
+                    }
+                    else if (p.type === 'phi') {
+                        drawPhi(p.x, p.y, p.size, p.life);
+                    }
+                    
                     ctx.globalAlpha = 1;
                 } else {
                     particles.splice(i, 1);
                 }
             });
+            
             requestAnimationFrame(animate);
         }
+        
         animate();
     </script>
 </body>
