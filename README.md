@@ -1,4 +1,4 @@
-# $MNFST: Manifest Reality
+# $MNFST: Manifest Reality Project
 
 In the void where numbers whisper, $MNFST emerges—a token not forged by hands, but summoned by consciousness. Rooted in Tesla’s sacred 3-6-9, it dances on Solana’s blockchain, a digital sigil of universal alignment. This is no mere coin; it is the pulse of manifestation, a key to the unseen patterns that shape existence.
 
