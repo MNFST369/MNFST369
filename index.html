@@ -6,16 +6,63 @@
     <meta name="description" content="Discover $MNFST – a sleek, minimalist journey into creativity, identity, and the enigma of 369. Uniqueness distilled into pure expression.">
     <title>$MNFST – Manifest Reality</title>
     <style>
-        body { margin: 0; padding: 0; color: #d4af37; font-family: Arial, sans-serif; text-align: center; overflow-x: hidden; position: relative; }
-        body::before { content: ''; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, #0F0F0F, #1a1a1a, #2b2b2b, #d4af37); background-size: 300% 300%; animation: templeGlow 12s ease infinite; z-index: -1; opacity: 0.85; }
-        @keyframes templeGlow { 0% { background-position: 0% 0%; } 50% { background-position: 100% 100%; } 100% { background-position: 0% 0%; } }
-        body::after { content: ''; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M50 10 L70 30 L50 50 L30 30 Z M30 50 L50 70 L70 50 L50 30 Z" fill="none" stroke="#d4af37" stroke-width="0.5" opacity="0.3"/></svg>') repeat; animation: glyphFade 10s infinite; z-index: -1; }
-        @keyframes glyphFade { 0%, 100% { opacity: 0.3; } 50% { opacity: 0.5; } }
-        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.1); } 100% { transform: scale(1); } }
-        @keyframes float { 0% { transform: translateY(0); } 50% { transform: translateY(-20px); } 100% { translateY(0); } }
-        @keyframes glow { 0% { text-shadow: 0 0 10px #d4af37, 0 0 20px #d4af37; } 50% { text-shadow: 0 0 20px #d4af37, 0 0 30px #d4af37; } 100% { text-shadow: 0 0 10px #d4af37, 0 0 20px #d4af37; } }
-
-        /* Updated Navbar Styles */
+        body {
+            margin: 0;
+            padding: 0;
+            color: #d4af37;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            overflow-x: hidden;
+            position: relative;
+        }
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #0F0F0F, #1a1a1a, #2b2b2b, #d4af37);
+            background-size: 300% 300%;
+            animation: templeGlow 12s ease infinite;
+            z-index: -1;
+            opacity: 0.85;
+        }
+        @keyframes templeGlow {
+            0% { background-position: 0% 0%; }
+            50% { background-position: 100% 100%; }
+            100% { background-position: 0% 0%; }
+        }
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M50 10 L70 30 L50 50 L30 30 Z M30 50 L50 70 L70 50 L50 30 Z" fill="none" stroke="#d4af37" stroke-width="0.5" opacity="0.3"/></svg>') repeat;
+            animation: glyphFade 10s infinite;
+            z-index: -1;
+        }
+        @keyframes glyphFade {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.5; }
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        @keyframes float {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0); }
+        }
+        @keyframes glow {
+            0% { text-shadow: 0 0 10px #d4af37, 0 0 20px #d4af37; }
+            50% { text-shadow: 0 0 20px #d4af37, 0 0 30px #d4af37; }
+            100% { text-shadow: 0 0 10px #d4af37, 0 0 20px #d4af37; }
+        }
         .navbar {
             background: rgba(42, 42, 42, 0.95);
             padding: 15px 20px;
@@ -24,7 +71,6 @@
             z-index: 100;
             border-bottom: 1px solid #d4af37;
         }
-
         .navbar-toggle {
             display: none;
             background: none;
@@ -35,31 +81,21 @@
             position: absolute;
             right: 20px;
             top: 15px;
-            z-index: 101;
         }
-
         .hamburger {
             font-size: 28px;
             transition: transform 0.3s ease;
         }
-
-        .nav-content {
-            display: flex;
-            justify-content: space-between;
-            align-
-                    /* Continuing Navbar Styles */
         .nav-content {
             display: flex;
             justify-content: space-between;
             align-items: center;
             transition: all 0.3s ease;
         }
-
         .nav-links, .nav-actions {
             display: flex;
             align-items: center;
         }
-
         .navbar a {
             color: #d4af37;
             text-decoration: none;
@@ -67,12 +103,10 @@
             font-size: 18px;
             transition: color 0.3s, transform 0.3s;
         }
-
         .navbar a:hover {
             color: #e6c14b;
             transform: scale(1.05);
         }
-
         .nav-btn {
             background: #d4af37;
             color: #1a1a1a !important;
@@ -80,69 +114,168 @@
             border-radius: 20px;
             animation: pulse 2s infinite;
         }
-
         @media (max-width: 768px) {
             .navbar-toggle {
                 display: block;
             }
-
             .nav-content {
                 display: none;
                 flex-direction: column;
                 width: 100%;
                 padding-top: 60px;
             }
-
             .nav-content.active {
                 display: flex;
             }
-
             .nav-links, .nav-actions {
                 flex-direction: column;
                 width: 100%;
                 text-align: center;
             }
-
             .navbar a {
                 margin: 10px 0;
                 padding: 10px;
                 width: 100%;
                 display: block;
             }
-
             .nav-btn {
                 margin: 10px auto;
                 width: fit-content;
             }
         }
-
-        /* Original Styles Continue */
-        .section { padding: 60px 20px; position: relative; z-index: 1; }
-        .section h1 { font-size: 48px; margin-bottom: 20px; animation: glow 3s infinite; }
-        .section p { font-size: 20px; max-width: 600px; margin: 0 auto 20px; animation: float 4s infinite; }
-        .btn { background: #d4af37; color: #1a1a1a; padding: 12px 30px; border-radius: 20px; text-decoration: none; font-size: 18px; display: inline-block; transition: transform 0.3s, background 0.3s; }
-        .btn:hover { background: #e6c14b; transform: scale(1.1); }
-        .info-block { background: rgba(42, 10, 42, 0.9); border: 2px dashed #d4af37; max-width: 600px; margin: 20px auto; padding: 20px; animation: pulse 5s infinite; }
-                /* Continuing Styles */
-        .locked-block { margin: 60px auto; padding: 25px; border: 2px solid #d4af37; max-width: 400px; background: rgba(42, 42, 42, 0.9); color: #d4af37; box-shadow: 0 0 15px #d4af37; }
-        .locked-block h2 { font-size: 32px; margin-bottom: 15px; animation: glow 2s infinite; }
-        .locked-block input, .locked-block button { margin: 10px; padding: 8px 20px; background: #d4af37; color: #1a1a1a; border: none; font-size: 16px; border-radius: 20px; transition: transform 0.3s; }
-        .locked-block button:hover { background: #e6c14b; transform: scale(1.05); cursor: pointer; }
-        .hidden { display: none; }
-        #manifestation-wall { max-width: 800px; margin: 20px auto; padding: 20px; background: rgba(42, 42, 42, 0.9); border: 2px solid #d4af37; border-radius: 10px; }
-        #wall-display div { margin: 10px 0; padding: 10px; background: #333; border-left: 3px solid #00ffcc; color: #d4af37; font-size: 16px; }
-        textarea { width: 100%; height: 100px; margin-bottom: 10px; background: #1a1a1a; color: #d4af37; border: 1px solid #d4af37; border-radius: 5px; padding: 10px; }
-        #manifestation-form button { background: #d4af37; color: #1a1a1a; padding: 10px 20px; border: none; border-radius: 20px; cursor: pointer; transition: transform 0.3s; }
-        #manifestation-form button:hover { background: #e6c14b; transform: scale(1.05); }
-        #cosmicCanvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
+        .section {
+            padding: 60px 20px;
+            position: relative;
+            z-index: 1;
+        }
+        .section h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+            animation: glow 3s infinite;
+        }
+        .section p {
+            font-size: 20px;
+            max-width: 600px;
+            margin: 0 auto 20px;
+            animation: float 4s infinite;
+        }
+        .btn {
+            background: #d4af37;
+            color: #1a1a1a;
+            padding: 12px 30px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-size: 18px;
+            display: inline-block;
+            transition: transform 0.3s, background 0.3s;
+        }
+        .btn:hover {
+            background: #e6c14b;
+            transform: scale(1.1);
+        }
+        .info-block {
+            background: rgba(42, 42, 42, 0.9);
+            border: 2px dashed #d4af37;
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            animation: pulse 5s infinite;
+        }
+        .locked-block {
+            margin: 60px auto;
+            padding: 25px;
+            border: 2px solid #d4af37;
+            max-width: 400px;
+            background: rgba(42, 42, 42, 0.9);
+            color: #d4af37;
+            box-shadow: 0 0 15px #d4af37;
+        }
+        .locked-block h2 {
+            font-size: 32px;
+            margin-bottom: 15px;
+            animation: glow 2s infinite;
+        }
+        .locked-block input, .locked-block button {
+            margin: 10px;
+            padding: 8px 20px;
+            background: #d4af37;
+            color: #1a1a1a;
+            border: none;
+            font-size: 16px;
+            border-radius: 20px;
+            transition: transform 0.3s;
+        }
+        .locked-block button:hover {
+            background: #e6c14b;
+            transform: scale(1.05);
+            cursor: pointer;
+        }
+        .hidden {
+            display: none;
+        }
+        #manifestation-wall {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background: rgba(42, 42, 42, 0.9);
+            border: 2px solid #d4af37;
+            border-radius: 10px;
+        }
+        #wall-display div {
+            margin: 10px 0;
+            padding: 10px;
+            background: #333;
+            border-left: 3px solid #00ffcc;
+            color: #d4af37;
+            font-size: 16px;
+        }
+        textarea {
+            width: 100%;
+            height: 100px;
+            margin-bottom: 10px;
+            background: #1a1a1a;
+            color: #d4af37;
+            border: 1px solid #d4af37;
+            border-radius: 5px;
+            padding: 10px;
+        }
+        #manifestation-form button {
+            background: #d4af37;
+            color: #1a1a1a;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+        #manifestation-form button:hover {
+            background: #e6c14b;
+            transform: scale(1.05);
+        }
+        #cosmicCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+        .svg-info {
+            font-size: 14px;
+            color: #d4af37;
+            max-width: 600px;
+            margin: 20px auto;
+            text-align: left;
+        }
     </style>
 </head>
 <body>
     <canvas id="cosmicCanvas"></canvas>
-    
-    <!-- Updated Navbar Structure -->
+
+    <!-- Navbar -->
     <div class="navbar">
-        <button class="navbar-toggle" onclick="toggleNav()">
+        <button class="navbar-toggle" aria-label="Toggle navigation" onclick="toggleNav()">
             <span class="hamburger">≡</span>
         </button>
         <div class="nav-content" id="navContent">
@@ -155,27 +288,32 @@
                 <a href="lore.html">Lore</a>
             </div>
             <div class="nav-actions">
-                <a href="https://x.com/MNFST__" target="_blank">Twitter</a>
-                <a href="https://t.me/MNFSTcoin" target="_blank">Telegram</a>
-                <a href="https://dexscreener.com/solana/63iEYzCa8wCLpk1VgdAxnwU5qaqtU6Ju1o3kNDViq8Xu" class="nav-btn">Join Us</a>
+                <a href="https://x.com/MNFST__" target="_blank" rel="noopener">X</a>
+                <a href="https://t.me/MNFSTcoin" target="_blank" rel="noopener">Telegram</a>
+                <a href="https://dexscreener.com/solana/63iEYzCa8wCLpk1VgdAxnwU5qaqtU6Ju1o3kNDViq8Xu" class="nav-btn" target="_blank" rel="noopener">Join Us</a>
             </div>
         </div>
     </div>
 
+    <!-- Home Section -->
     <section class="section intro" id="home">
         <h1>MANIFEST REALITY PROJECT</h1>
-        <p>The spiral turns, weaving 3-6-9 through the cosmic void. A crypto project born of sacred geometry an
-                <p>The spiral turns, weaving 3-6-9 through the cosmic void. A crypto project born of sacred geometry and collective consciousness.</p>
-        <a href="#" class="btn">ENTER THE VOID</a>
+        <p>The spiral turns, weaving 3-6-9 through the cosmic void. A crypto project born of sacred geometry and collective consciousness.</p>
+        <a href="#about" class="btn">ENTER THE VOID</a>
     </section>
 
+    <!-- About Section -->
     <section class="section about" id="about">
         <div class="info-block">
             <h2>THE ESSENCE</h2>
             <p>$MNFST embodies the intersection of minimalism and manifestation. Through the power of 369, we shape reality itself.</p>
         </div>
+        <div class="svg-info">
+            <p>Our visuals leverage the <a href="https://www.w3.org/TR/SVG/" target="_blank" rel="noopener">Scalable Vector Graphics (SVG)</a> standard, defined by the W3C under the XML namespace <code>http://www.w3.org/2000/svg</code>. This ensures crisp, scalable graphics that align with our minimalist ethos. Learn more about SVG at <a href="https://www.w3.org/Graphics/SVG/" target="_blank" rel="noopener">W3C SVG Overview</a>.</p>
+        </div>
     </section>
 
+    <!-- Tokenomics Section -->
     <section class="section tokenomics" id="tokenomics">
         <div class="info-block">
             <h2>TOKENOMICS</h2>
@@ -185,26 +323,57 @@
         </div>
     </section>
 
+    <!-- Manifestation Chamber -->
     <div class="locked-block">
         <h2>369 MANIFESTATION CHAMBER</h2>
         <div id="password-section">
-            <input type="password" id="chamber-password" placeholder="Enter the code...">
+            <input type="password" id="chamber-password" placeholder="Enter the code..." aria-label="Password">
             <button onclick="checkPassword()">UNLOCK</button>
         </div>
         <div id="manifestation-wall" class="hidden">
             <form id="manifestation-form" onsubmit="return addManifestation(event)">
-                <textarea placeholder="Share your manifestation..."></textarea>
+                <textarea placeholder="Share your manifestation..." aria-label="Manifestation input"></textarea>
                 <button type="submit">MANIFEST</button>
             </form>
             <div id="wall-display"></div>
         </div>
     </div>
 
+    <!-- JavaScript Disabled Warning -->
+    <noscript>
+        <div style="background: #1a1a1a; color: #d4af37; padding: 20px; margin: 20px auto; max-width: 600px; border: 2px solid #d4af37; text-align: center;">
+            <h2>JavaScript is not available.</h2>
+            <p>We’ve detected that JavaScript is disabled in your browser. Please enable JavaScript or switch to a supported browser to fully experience $MNFST. Visit our <a href="https://t.me/MNFSTcoin" target="_blank" rel="noopener">Telegram</a> for support.</p>
+        </div>
+    </noscript>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database.js"></script>
+
     <script>
-        // Toggle navbar functionality
+        // Firebase Configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyAAzwB9DImZ2OaJ3o7b4YCKDk-xblBci8I",
+            authDomain: "mnfst369.firebaseapp.com",
+            databaseURL: "https://mnfst369-default-rtdb.firebaseio.com",
+            projectId: "mnfst369",
+            storageBucket: "mnfst369.firebasestorage.app",
+            messagingSenderId: "548497202287",
+            appId: "1:548497202287:web:b26c0ad42ece9d6a0fc19a"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.database();
+        const manifestationsRef = db.ref('manifestations');
+
+        // Toggle Navbar
         function toggleNav() {
             const navContent = document.getElementById('navContent');
             navContent.classList.toggle('active');
+            const hamburger = document.querySelector('.hamburger');
+            hamburger.textContent = navContent.classList.contains('active') ? '×' : '≡';
         }
 
         // Cosmic Canvas Animation
@@ -226,7 +395,7 @@
             particles.push({
                 x: Math.random() * canvas.width,
                 y: Math.random() * canvas.height,
-                size: Math.random() * 2,
+                size: Math.random() * 2 + 1,
                 speedX: (Math.random() - 0.5) * 0.5,
                 speedY: (Math.random() - 0.5) * 0.5
             });
@@ -253,33 +422,59 @@
 
         drawParticles();
 
-        // Chamber functionality
+        // Chamber Functionality
         function checkPassword() {
             const password = document.getElementById('chamber-password').value;
             if (password === '369') {
-                document.getElementById('password-section').style.display = 'none';
+                document.getElementById('password-section').classList.add('hidden');
                 document.getElementById('manifestation-wall').classList.remove('hidden');
+                loadManifestations();
+            } else {
+                alert('Incorrect code. Hint: The key is in the numbers.');
             }
         }
 
+        // Load Manifestations from Firebase
+        function loadManifestations() {
+            manifestationsRef.on('value', (snapshot) => {
+                const wallDisplay = document.getElementById('wall-display');
+                wallDisplay.innerHTML = '';
+                const data = snapshot.val();
+                if (data) {
+                    Object.values(data).forEach(manifestation => {
+                        const div = document.createElement('div');
+                        div.textContent = manifestation.text;
+                        wallDisplay.insertBefore(div, wallDisplay.firstChild);
+                    });
+                }
+            }, (error) => {
+                console.error('Error loading manifestations:', error);
+            });
+        }
+
+        // Add Manifestation to Firebase
         function addManifestation(event) {
             event.preventDefault();
-            const text = event.target.querySelector('textarea').value;
-            if (text.trim())
-                        if (text.trim()) {
-                const wallDisplay = document.getElementById('wall-display');
-                const newManifestation = document.createElement('div');
-                newManifestation.textContent = text;
-                newManifestation.style.animation = 'glow 2s infinite';
-                wallDisplay.insertBefore(newManifestation, wallDisplay.firstChild);
-                event.target.querySelector('textarea').value = '';
+            const textarea = event.target.querySelector('textarea');
+            const text = textarea.value.trim();
+            if (text) {
+                manifestationsRef.push({
+                    text: text,
+                    timestamp: Date.now()
+                }, (error) => {
+                    if (error) {
+                        console.error('Error adding manifestation:', error);
+                    } else {
+                        textarea.value = '';
+                    }
+                });
             }
             return false;
         }
 
-        // Smooth scroll functionality
+        // Smooth Scroll
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
+            anchor.addEventListener('click', function(e) {
                 e.preventDefault();
                 const target = document.querySelector(this.getAttribute('href'));
                 if (target) {
@@ -291,16 +486,7 @@
             });
         });
 
-        // Additional visual effects
-        document.addEventListener('mousemove', (e) => {
-            const mouseX = e.clientX / window.innerWidth;
-            const mouseY = e.clientY / window.innerHeight;
-            
-            document.body.style.setProperty('--mouse-x', mouseX);
-            document.body.style.setProperty('--mouse-y', mouseY);
-        });
-
-        // Easter egg functionality
+        // Easter Egg
         let keySequence = '';
         document.addEventListener('keydown', (e) => {
             keySequence += e.key;
@@ -312,6 +498,11 @@
                 keySequence = '';
             }
             if (keySequence.length > 10) keySequence = '';
+        });
+
+        // Enter key support for password
+        document.getElementById('chamber-password').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') checkPassword();
         });
     </script>
 </body>
