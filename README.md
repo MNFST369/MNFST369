@@ -16,7 +16,7 @@ You didn’t find $MNFST—it found you. Launched on 3/6/2025, its essence defie
   Vessels of alignment gather here, their echoes resonating in the ether.
 - **Twitter**: [Follow the Pulse](https://x.com/MNFST__)  
   Whispers of the conscious thread weave through the noise.
-- **Sanctuary**: [Manifest the Reality](https://mnfst369.github.io)  
+- **Sanctuary**: [Manifest the Reality](https://www.mnfst.space)  
   A portal to the unseen, crafted in the shadow of the void.
 
 ## The Hidden Lore
