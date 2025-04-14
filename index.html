@@ -6,6 +6,9 @@
     <meta name="description" content="Discover $MNFST – a sleek, minimalist journey into creativity, identity, and the enigma of 369. Uniqueness distilled into pure expression.">
     <title>$MNFST – Manifest Reality</title>
     <style>
+        * {
+            transition: all 0.3s ease;
+        }
         body {
             margin: 0;
             padding: 0;
@@ -14,39 +17,32 @@
             text-align: center;
             overflow-x: hidden;
             position: relative;
+            background: linear-gradient(225deg, #0F0F0F, #1a1a1a, #2b2b2b);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
         }
-        body::before {
-            content: '';
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        .overlay {
             position: fixed;
             top: 0;
             left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, #0F0F0F, #1a1a1a, #2b2b2b, #d4af37);
-            background-size: 300% 300%;
-            animation: templeGlow 12s ease infinite;
-            z-index: -1;
-            opacity: 0.85;
-        }
-        @keyframes templeGlow {
-            0% { background-position: 0% 0%; }
-            50% { background-position: 100% 100%; }
-            100% { background-position: 0% 0%; }
-        }
-        body::after {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M50 10 L90 50 L50 90 L10 50 Z" fill="none" stroke="#d4af37" stroke-width="0.5" opacity="0.3"/></svg>') repeat;
-            animation: glyphFade 10s infinite;
-            z-index: -1;
-        }
-        @keyframes glyphFade {
-            0%, 100% { opacity: 0.3; }
-            50% { opacity: 0.5; }
+            right: 0;
+            bottom: 0;
+            background: 
+                linear-gradient(45deg, rgba(212, 175, 55, 0.05) 0%, transparent 100%),
+                repeating-linear-gradient(
+                    45deg,
+                    rgba(212, 175, 55, 0.05) 0px,
+                    rgba(212, 175, 55, 0.05) 1px,
+                    transparent 1px,
+                    transparent 10px
+                );
+            pointer-events: none;
+            z-index: 1;
         }
         @keyframes pulse {
             0% { transform: scale(1); }
@@ -65,11 +61,14 @@
         }
         .navbar {
             background: rgba(42, 42, 42, 0.95);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(212, 175, 55, 0.18);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
             padding: 15px 20px;
             position: sticky;
             top: 0;
             z-index: 100;
-            border-bottom: 1px solid #d4af37;
         }
         .navbar-toggle {
             display: none;
@@ -84,13 +83,11 @@
         }
         .hamburger {
             font-size: 28px;
-            transition: transform 0.3s ease;
         }
         .nav-content {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            transition: all 0.3s ease;
         }
         .nav-links, .nav-actions {
             display: flex;
@@ -101,18 +98,24 @@
             text-decoration: none;
             margin: 0 20px;
             font-size: 18px;
-            transition: color 0.3s, transform 0.3s;
         }
         .navbar a:hover {
             color: #e6c14b;
             transform: scale(1.05);
         }
         .nav-btn {
-            background: #d4af37;
-            color: #1a1a1a !important;
-            padding: 10px 20px;
-            border-radius: 20px;
+            background: linear-gradient(45deg, #d4af37, #e6c14b);
+            border-radius: 30px;
+            border: none;
+            padding: 12px 35px;
+            color: #1a1a1a;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
             animation: pulse 2s infinite;
+        }
+        .nav-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4);
         }
         @media (max-width: 768px) {
             .navbar-toggle {
@@ -160,54 +163,50 @@
             animation: float 4s infinite;
         }
         .btn {
-            background: #d4af37;
+            background: linear-gradient(45deg, #d4af37, #e6c14b);
+            border-radius: 30px;
+            border: none;
+            padding: 12px 35px;
             color: #1a1a1a;
-            padding: 12px 30px;
-            border-radius: 20px;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
             text-decoration: none;
-            font-size: 18px;
             display: inline-block;
-            transition: transform 0.3s, background 0.3s;
         }
         .btn:hover {
-            background: #e6c14b;
-            transform: scale(1.1);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4);
+        }
+        .container, .info-block, .locked-block {
+            border-radius: 25px;
+            padding: 2rem;
+            margin: 1rem auto;
+            background: rgba(42, 42, 42, 0.85);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(212, 175, 55, 0.18);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
         }
         .info-block {
-            background: rgba(42, 42, 42, 0.9);
-            border: 2px dashed #d4af37;
             max-width: 600px;
-            margin: 20px auto;
-            padding: 20px;
             animation: pulse 5s infinite;
         }
         .locked-block {
-            margin: 60px auto;
-            padding: 25px;
-            border: 2px solid #d4af37;
             max-width: 400px;
-            background: rgba(42, 42, 42, 0.9);
             color: #d4af37;
-            box-shadow: 0 0 15px #d4af37;
         }
         .locked-block h2 {
             font-size: 32px;
             margin-bottom: 15px;
             animation: glow 2s infinite;
         }
-        .locked-block input, .locked-block button {
+        .locked-block button {
             margin: 10px;
-            padding: 8px 20px;
-            background: #d4af37;
-            color: #1a1a1a;
-            border: none;
-            font-size: 16px;
-            border-radius: 20px;
-            transition: transform 0.3s;
+            padding: 12px 35px;
         }
         .locked-block button:hover {
-            background: #e6c14b;
-            transform: scale(1.05);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4);
             cursor: pointer;
         }
         .hidden {
@@ -217,9 +216,12 @@
             max-width: 800px;
             margin: 20px auto;
             padding: 20px;
-            background: rgba(42, 42, 42, 0.9);
-            border: 2px solid #d4af37;
-            border-radius: 10px;
+            background: rgba(42, 42, 42, 0.85);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(212, 175, 55, 0.18);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            border-radius: 25px;
         }
         #wall-display div {
             margin: 10px 0;
@@ -230,27 +232,33 @@
             font-size: 16px;
         }
         textarea {
+            background: rgba(26, 26, 26, 0.8);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            border-radius: 15px;
+            padding: 15px;
+            color: #d4af37;
             width: 100%;
             height: 100px;
             margin-bottom: 10px;
-            background: #1a1a1a;
-            color: #d4af37;
-            border: 1px solid #d4af37;
-            border-radius: 5px;
-            padding: 10px;
+        }
+        textarea:focus {
+            border-color: #d4af37;
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.2);
+            outline: none;
         }
         #manifestation-form button {
-            background: #d4af37;
-            color: #1a1a1a;
-            padding: 10px 20px;
+            background: linear-gradient(45deg, #d4af37, #e6c14b);
+            border-radius: 30px;
             border: none;
-            border-radius: 20px;
+            padding: 12px 35px;
+            color: #1a1a1a;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
             cursor: pointer;
-            transition: transform 0.3s;
         }
         #manifestation-form button:hover {
-            background: #e6c14b;
-            transform: scale(1.05);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4);
         }
         #cosmicCanvas {
             position: fixed;
@@ -261,10 +269,23 @@
             z-index: 0;
             pointer-events: none;
         }
+        input {
+            background: rgba(26, 26, 26, 0.8);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            border-radius: 15px;
+            padding: 15px;
+            color: #d4af37;
+        }
+        input:focus {
+            border-color: #d4af37;
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.2);
+            outline: none;
+        }
     </style>
 </head>
 <body>
     <canvas id="cosmicCanvas"></canvas>
+    <div class="overlay"></div>
 
     <!-- Navbar -->
     <div class="navbar">
@@ -481,9 +502,9 @@
         document.addEventListener('keydown', (e) => {
             keySequence += e.key;
             if (keySequence.includes('369')) {
-                document.body.style.animation = 'templeGlow 3s linear';
+                document.body.style.animation = 'gradientBG 3s linear';
                 setTimeout(() => {
-                    document.body.style.animation = '';
+                    document.body.style.animation = 'gradientBG 15s ease infinite';
                 }, 3000);
                 keySequence = '';
             }
