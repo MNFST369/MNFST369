@@ -3,28 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Discover $MNFST – a sleek, minimalist journey into creativity, identity, and the enigma of 369. Uniqueness distilled into pure expression.">
-    <title>$MNFST – Manifest Reality</title>
+    <meta name="description" content="$MNFST – A cryptic Solana meme coin that manifests its own holders. Unravel the enigma of 369.">
+    <title>$MNFST – The Tome of Manifestation</title>
     <style>
         * {
-            transition: transform 0.3s ease, opacity 0.3s ease, background 0.3s ease, color 0.3s ease;
-        }
-        body {
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+        body {
+            font-family: 'Special Elite', 'Varela', Courier, monospace;
             color: #d4af37;
-            font-family: Arial, sans-serif;
+            background: 
+                linear-gradient(90deg, #222 0%, #333 50%, #222 100%) 0 / 100% 100%,
+                radial-gradient(circle at 100% 50%, transparent 20%, rgba(0,0,0,.3) 21%, rgba(0,0,0,.3) 34%, transparent 35%, transparent) 0 / 10px 10px,
+                radial-gradient(circle at 0% 50%, transparent 20%, rgba(0,0,0,.3) 21%, rgba(0,0,0,.3) 34%, transparent 35%, transparent) 0 / 10px 10px;
+            background-color: #111;
             text-align: center;
             overflow-x: hidden;
             position: relative;
-            background: linear-gradient(225deg, #0F0F0F, #1a1a1a, #2b2b2b);
-            background-size: 400% 400%;
-            animation: gradientBG 15s ease infinite;
-        }
-        @keyframes gradientBG {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
         }
         .overlay {
             position: fixed;
@@ -32,43 +30,100 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: 
-                linear-gradient(45deg, rgba(212, 175, 55, 0.05) 0%, transparent 100%),
-                repeating-linear-gradient(
-                    45deg,
-                    rgba(212, 175, 55, 0.05) 0px,
-                    rgba(212, 175, 55, 0.05) 1px,
-                    transparent 1px,
-                    transparent 10px
-                );
+            background: linear-gradient(45deg, rgba(0, 255, 204, 0.05) 0%, transparent 100%);
             pointer-events: none;
             z-index: 1;
         }
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-            100% { transform: scale(1); }
+        /* Glitch Effect */
+        .glitch {
+            position: relative;
+            display: inline-block;
         }
-        @keyframes float {
-            0% { transform: translateY(0); }
-            50% { transform: translateY(-20px); }
-            100% { transform: translateY(0); }
+        .glitch::before,
+        .glitch::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
         }
-        @keyframes glow {
-            0% { text-shadow: 0 0 10px #d4af37, 0 0 20px #d4af37; }
-            50% { text-shadow: 0 0 20px #d4af37, 0 0 30px #d4af37; }
-            100% { text-shadow: 0 0 10px #d4af37, 0 0 20px #d4af37; }
+        .glitch::before {
+            color: #00FFCC;
+            animation: glitch-top 1s linear infinite;
+            clip-path: polygon(0 0, 100% 0, 100% 33%, 0 33%);
+        }
+        .glitch::after {
+            color: #FF00FF;
+            animation: glitch-bottom 1.5s linear infinite;
+            clip-path: polygon(0 67%, 100% 67%, 100% 100%, 0 100%);
+        }
+        @keyframes glitch-top {
+            2% { transform: translate(2px, -2px); }
+            4% { transform: translate(-2px, 2px); }
+            6% { transform: translate(0, 0); }
+        }
+        @keyframes glitch-bottom {
+            2% { transform: translate(-2px, 2px); }
+            4% { transform: translate(2px, -2px); }
+            6% { transform: translate(0, 0); }
+        }
+        /* Particle Background */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 1s ease;
+        }
+        .particles.visible {
+            opacity: 1;
+        }
+        .master {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            margin: auto;
+        }
+        .master:nth-child(1) {
+            transform: scale(-1, -1) translate(-150px);
+        }
+        .master:nth-child(2) {
+            transform: scale(1, -1) translate(-150px);
+        }
+        .master:nth-child(3) {
+            transform: scale(-1, 1) translate(-150px);
+        }
+        .master:nth-child(4) {
+            transform: scale(1, 1) translate(-150px);
+        }
+        .magic {
+            width: 150px;
+            height: 20px;
+            border-left: 10px solid orangered;
+            border-right: 1px solid darkorange;
+            animation: ENERGY 3s ease-in-out infinite;
+        }
+        /* Particle styles (example for first few; generate all 50 in practice) */
+        .magic:nth-child(1) { animation-delay: 0s; transform: rotate(0deg) translate(200px) scale(-1); }
+        .magic:nth-child(2) { animation-delay: -0.04s; transform: rotate(7.2deg) translate(200px) scale(-1.04); }
+        .magic:nth-child(3) { animation-delay: -0.08s; transform: rotate(14.4deg) translate(200px) scale(-1.08); }
+        /* ... continue up to .magic:nth-child(50) ... */
+        @keyframes ENERGY {
+            50% { transform: rotateY(360deg) translate(-200px); }
         }
         .navbar {
-            background: rgba(42, 42, 42, 0.95);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border: 1px solid rgba(212, 175, 55, 0.18);
-            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            background: rgba(44, 44, 44, 0.9);
             padding: 15px 20px;
             position: sticky;
             top: 0;
             z-index: 100;
+            border-bottom: 2px solid #2C2C2C;
         }
         .navbar-toggle {
             display: none;
@@ -81,9 +136,6 @@
             right: 20px;
             top: 15px;
         }
-        .hamburger {
-            font-size: 28px;
-        }
         .nav-content {
             display: flex;
             justify-content: space-between;
@@ -93,29 +145,27 @@
             display: flex;
             align-items: center;
         }
-        .navbar a {
+        .nav-links a, .nav-actions a {
             color: #d4af37;
             text-decoration: none;
             margin: 0 20px;
             font-size: 18px;
+            position: relative;
         }
-        .navbar a:hover {
-            color: #e6c14b;
-            transform: scale(1.05);
+        .nav-links a::before {
+            content: attr(data-rune);
+            position: absolute;
+            top: 0;
+            left: 0;
+            opacity: 1;
+            transition: opacity 0.3s ease;
         }
-        .nav-btn {
-            background: linear-gradient(45deg, #d4af37, #e6c14b);
-            border-radius: 30px;
-            border: none;
-            padding: 12px 35px;
-            color: #1a1a1a;
-            font-weight: bold;
-            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
-            animation: pulse 2s infinite;
+        .nav-links a:hover::before {
+            opacity: 0;
         }
-        .nav-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4);
+        .nav-links a:hover, .nav-actions a:hover {
+            color: #00FFCC;
+            animation: glitch 0.3s infinite;
         }
         @media (max-width: 768px) {
             .navbar-toggle {
@@ -135,15 +185,11 @@
                 width: 100%;
                 text-align: center;
             }
-            .navbar a {
+            .nav-links a, .nav-actions a {
                 margin: 10px 0;
                 padding: 10px;
                 width: 100%;
                 display: block;
-            }
-            .nav-btn {
-                margin: 10px auto;
-                width: fit-content;
             }
         }
         .section {
@@ -152,140 +198,81 @@
             z-index: 1;
         }
         .section h1 {
-            font-size: 48px;
+            font-size: 36px;
             margin-bottom: 20px;
-            animation: glow 3s infinite;
+            text-shadow: 0 0 5px #00FFCC;
         }
         .section p {
-            font-size: 20px;
+            font-size: 18px;
             max-width: 600px;
             margin: 0 auto 20px;
-            animation: float 4s infinite;
+            line-height: 1.6;
         }
         .btn {
-            background: linear-gradient(45deg, #d4af37, #e6c14b);
-            border-radius: 30px;
-            border: none;
+            background: #2C2C2C;
+            color: #d4af37;
+            border: 2px solid #2C2C2C;
+            border-radius: 10px;
             padding: 12px 35px;
-            color: #1a1a1a;
             font-weight: bold;
-            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
             text-decoration: none;
             display: inline-block;
         }
         .btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4);
+            background: #00FFCC;
+            color: #2C2C2C;
+            animation: glitch 0.3s infinite;
         }
-        .container, .info-block, .locked-block {
-            border-radius: 25px;
-            padding: 2rem;
-            margin: 1rem auto;
-            background: rgba(42, 42, 42, 0.85);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border: 1px solid rgba(212, 175, 55, 0.18);
-            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-        }
-        .info-block {
+        .tome {
             max-width: 600px;
-            animation: pulse 5s infinite;
-        }
-        .locked-block {
-            max-width: 400px;
-            color: #d4af37;
-        }
-        .locked-block h2 {
-            font-size: 32px;
-            margin-bottom: 15px;
-            animation: glow 2s infinite;
-        }
-        .locked-block button {
-            margin: 10px;
-            padding: 12px 35px;
-        }
-        .locked-block button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4);
-            cursor: pointer;
-        }
-        .hidden {
-            display: none;
-        }
-        #manifestation-wall {
-            max-width: 800px;
             margin: 20px auto;
             padding: 20px;
-            background: rgba(42, 42, 42, 0.85);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border: 1px solid rgba(212, 175, 55, 0.18);
-            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-            border-radius: 25px;
+            background: rgba(44, 44, 44, 0.9);
+            border: 2px solid #2C2C2C;
+            border-radius: 10px;
+        }
+        textarea, input {
+            background: #333;
+            border: 2px solid #2C2C2C;
+            border-radius: 10px;
+            padding: 15px;
+            color: #d4af37;
+            width: 100%;
+            margin-bottom: 10px;
+            font-family: 'Special Elite', 'Varela', Courier, monospace;
+        }
+        textarea:focus, input:focus {
+            border-color: #00FFCC;
+            animation: glitch 0.3s infinite;
         }
         #wall-display div {
             margin: 10px 0;
             padding: 10px;
             background: #333;
-            border-left: 3px solid #00ffcc;
+            border-left: 3px solid #00FFCC;
             color: #d4af37;
             font-size: 16px;
         }
-        textarea {
-            background: rgba(26, 26, 26, 0.8);
-            border: 1px solid rgba(212, 175, 55, 0.3);
-            border-radius: 15px;
-            padding: 15px;
-            color: #d4af37;
-            width: 100%;
-            height: 100px;
-            margin-bottom: 10px;
+        .hidden {
+            display: none;
         }
-        textarea:focus {
-            border-color: #d4af37;
-            box-shadow: 0 0 15px rgba(212, 175, 55, 0.2);
-            outline: none;
-        }
-        #manifestation-form button {
-            background: linear-gradient(45deg, #d4af37, #e6c14b);
-            border-radius: 30px;
-            border: none;
-            padding: 12px 35px;
-            color: #1a1a1a;
-            font-weight: bold;
-            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+        .easter-egg {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            opacity: 0.3;
             cursor: pointer;
         }
-        #manifestation-form button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4);
-        }
-        #cosmicCanvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 0;
-            pointer-events: none;
-        }
-        input {
-            background: rgba(26, 26, 26, 0.8);
-            border: 1px solid rgba(212, 175, 55, 0.3);
-            border-radius: 15px;
-            padding: 15px;
-            color: #d4af37;
-        }
-        input:focus {
-            border-color: #d4af37;
-            box-shadow: 0 0 15px rgba(212, 175, 55, 0.2);
-            outline: none;
+        .easter-egg:hover {
+            opacity: 1;
+            animation: glitch 0.3s infinite;
         }
     </style>
+    <link href="[invalid url, do not cite] rel="stylesheet">
 </head>
 <body>
-    <canvas id="cosmicCanvas"></canvas>
     <div class="overlay"></div>
+    <div class="particles"></div>
 
     <!-- Navbar -->
     <div class="navbar">
@@ -294,93 +281,114 @@
         </button>
         <div class="nav-content" id="navContent">
             <div class="nav-links">
-                <a href="#home">Home</a>
-                <a href="#about">About</a>
-                <a href="#tokenomics">Tokenomics</a>
-                <a href="philosophy.html">Philosophy</a>
-                <a href="portal.html">Portal</a>
-                <a href="lore.html">Lore</a>
+                <a href="#home" data-rune="⚸">Home</a>
+                <a href="#about" data-rune="⚶">About</a>
+                <a href="#tome" data-rune="⚷">Tome</a>
+                <a href="philosophy.html" data-rune="⚴">Philosophy</a>
+                <a href="portal.html" data-rune="⚵">Portal</a>
+                <a href="lore.html" data-rune="⚹">Lore</a>
             </div>
             <div class="nav-actions">
-                <a href="https://x.com/MNFST__" target="_blank" rel="noopener">X</a>
-                <a href="https://t.me/MNFSTcoin" target="_blank" rel="noopener">Telegram</a>
-                <a href="https://dexscreener.com/solana/63iEYzCa8wCLpk1VgdAxnwU5qaqtU6Ju1o3kNDViq8Xu" class="nav-btn" target="_blank" rel="noopener">Join Us</a>
+                <a href="[invalid url, do not cite] target="_blank" rel="noopener">X</a>
+                <a href="[invalid url, do not cite] target="_blank" rel="noopener">Telegram</a>
             </div>
         </div>
     </div>
 
     <!-- Home Section -->
-    <section class="section intro" id="home">
-        <h1>MANIFEST REALITY PROJECT</h1>
-        <p>The spiral turns, weaving 3-6-9 through the cosmic void. A crypto project born of sacred geometry and collective consciousness.</p>
-        <a href="#about" class="btn">ENTER THE VOID</a>
+    <section class="section" id="home">
+        <h1 class="glitch" data-text="$MNFST">$MNFST</h1>
+        <p>A Solana meme coin that manifests its own holders. The spiral of 369 weaves destinies in the cosmic tome.</p>
+        <p>103 Souls Manifested</p>
+        <a href="[invalid url, do not cite] class="btn glitch" data-text="Am I Chosen?">Am I Chosen?</a>
     </section>
 
     <!-- About Section -->
-    <section class="section about" id="about">
-        <div class="info-block">
-            <h2>THE ESSENCE</h2>
-            <p>$MNFST embodies the intersection of minimalism and manifestation. Through the power of 369, we shape reality itself.</p>
-            <p>The void speaks: 333</p>
+    <section class="section" id="about">
+        <div class="tome">
+            <h2 class="glitch" data-text="The Enigma">The Enigma</h2>
+            <p>$MNFST is not for all. It seeks those who resonate with the pulse of 369, where creation and void intertwine.</p>
         </div>
     </section>
 
-    <!-- Tokenomics Section -->
-    <section class="section tokenomics" id="tokenomics">
-        <div class="info-block">
-            <h2>TOKENOMICS</h2>
-            <p>Total Supply: 1,000,000,000</p>
-            <p>LP Locked</p>
-        </div>
-    </section>
-
-    <!-- Manifestation Chamber -->
-    <div class="locked-block">
-        <h2>369 MANIFESTATION CHAMBER</h2>
-        <div id="password-section">
-            <input type="password" id="chamber-password" placeholder="Enter the code..." aria-label="Password for manifestation chamber">
-            <button onclick="checkPassword()">UNLOCK</button>
-        </div>
-        <div id="manifestation-wall" class="hidden">
-            <form id="manifestation-form" onsubmit="return addManifestation(event)">
-                <textarea placeholder="Share your manifestation..." aria-label="Share your manifestation"></textarea>
-                <button type="submit">MANIFEST</button>
-            </form>
-            <div id="wall-display"></div>
-            <div id="error-message" class="hidden" style="color: #d4af37; margin-top: 10px;">
-                <p>Failed to load manifestations. <button onclick="loadManifestations()">Retry</button></p>
+    <!-- Tome of Manifestation -->
+    <section class="section" id="tome">
+        <div class="tome">
+            <h2 class="glitch" data-text="Tome of Manifestation">Tome of Manifestation</h2>
+            <div id="password-section">
+                <input type="password" id="chamber-password" placeholder="Decipher the code..." aria-label="Password for tome">
+                <button class="btn glitch" data-text="UNVEIL" onclick="checkPassword()">UNVEIL</button>
+            </div>
+            <div id="manifestation-wall" class="hidden">
+                <form id="manifestation-form" onsubmit="return addManifestation(event)">
+                    <textarea placeholder="Inscribe your truth..." aria-label="Inscribe your manifestation"></textarea>
+                    <button class="btn glitch" data-text="MANIFEST" type="submit">MANIFEST</button>
+                </form>
+                <div id="wall-display"></div>
+                <div id="error-message" class="hidden">
+                    <p>The tome resists. <button onclick="loadManifestations()">Retry</button></p>
+                </div>
             </div>
         </div>
-    </div>
+    </section>
+
+    <!-- Future Visions -->
+    <section class="section">
+        <div class="tome">
+            <h2 class="glitch" data-text="Future Visions">Future Visions</h2>
+            <p>A cosmic journey awaits where $MNFST shapes destinies. The game of manifestation unfolds...</p>
+        </div>
+    </section>
+
+    <!-- Easter Egg -->
+    <div class="easter-egg glitch" data-text="369" onclick="revealSecret()">369</div>
 
     <!-- JavaScript Disabled Warning -->
     <noscript>
-        <div style="background: #1a1a1a; color: #d4af37; padding: 20px; margin: 20px auto; max-width: 600px; border: 2px solid #d4af37; text-align: center;">
-            <h2>JavaScript is not available.</h2>
-            <p>We’ve detected that JavaScript is disabled in your browser. Please enable JavaScript or switch to a supported browser to fully experience $MNFST. Visit our <a href="https://t.me/MNFSTcoin" target="_blank" rel="noopener">Telegram</a> for support.</p>
+        <div class="tome">
+            <h2>The Tome is Sealed</h2>
+            <p>Enable JavaScript to unravel the mysteries of $MNFST. Seek guidance at <a href="[invalid url, do not cite] target="_blank" rel="noopener">Telegram</a>.</p>
         </div>
     </noscript>
 
     <!-- Firebase SDK -->
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database.js"></script>
+    <script src="[invalid url, do not cite]
+    <script src="[invalid url, do not cite]
+    <!-- Solana Web3.js -->
+    <script src="[invalid url, do not cite]
 
     <script>
-        // Firebase Configuration
-        const firebaseConfig = {
-            apiKey: "AIzaSyAAzwB9DImZ2OaJ3o7b4YCKDk-xblBci8I",
-            authDomain: "mnfst369.firebaseapp.com",
-            databaseURL: "https://mnfst369-default-rtdb.firebaseio.com",
-            projectId: "mnfst369",
-            storageBucket: "mnfst369.firebasestorage.app",
-            messagingSenderId: "548497202287",
-            appId: "1:548497202287:web:b26c0ad42ece9d6a0fc19a"
-        };
+        // Generate Particle HTML
+        document.addEventListener('DOMContentLoaded', () => {
+            const particlesDiv = document.querySelector('.particles');
+            for (let m = 0; m < 4; m++) {
+                const masterDiv = document.createElement('div');
+                masterDiv.className = 'master';
+                for (let i = 1; i <= 50; i++) {
+                    const magicDiv = document.createElement('div');
+                    magicDiv.className = 'magic';
+                    masterDiv.appendChild(magicDiv);
+                }
+                particlesDiv.appendChild(masterDiv);
+            }
 
-        // Initialize Firebase
-        firebase.initializeApp(firebaseConfig);
-        const db = firebase.database();
-        const manifestationsRef = db.ref('manifestations');
+            // Inactivity Timer
+            let inactivityTimer = setTimeout(() => {
+                particlesDiv.classList.add('visible');
+            }, 780000); // 13 minutes
+
+            function resetTimer() {
+                clearTimeout(inactivityTimer);
+                inactivityTimer = setTimeout(() => {
+                    particlesDiv.classList.add('visible');
+                }, 780000);
+            }
+
+            document.addEventListener('mousemove', resetTimer);
+            document.addEventListener('keydown', resetTimer);
+            document.addEventListener('touchstart', resetTimer);
+            document.addEventListener('scroll', resetTimer);
+        });
 
         // Toggle Navbar
         function toggleNav() {
@@ -404,63 +412,7 @@
             }
         });
 
-        // Cosmic Canvas Animation
-        const canvas = document.getElementById('cosmicCanvas');
-        const ctx = canvas.getContext('2d');
-        let animationFrameId;
-
-        function resizeCanvas() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        }
-
-        window.addEventListener('resize', resizeCanvas);
-        resizeCanvas();
-
-        const particles = [];
-        const particleCount = 50; // Reduced for performance
-
-        for (let i = 0; i < particleCount; i++) {
-            particles.push({
-                x: Math.random() * canvas.width,
-                y: Math.random() * canvas.height,
-                size: Math.random() * 2 + 1,
-                speedX: (Math.random() - 0.5) * 0.5,
-                speedY: (Math.random() - 0.5) * 0.5
-            });
-        }
-
-        function drawParticles() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            ctx.fillStyle = '#d4af37';
-
-            particles.forEach(particle => {
-                ctx.beginPath();
-                ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
-                ctx.fill();
-
-                particle.x += particle.speedX;
-                particle.y += particle.speedY;
-
-                if (particle.x < 0 || particle.x > canvas.width) particle.speedX *= -1;
-                if (particle.y <  costes://github.com/xai-org/grok/blob/main/CONTRIBUTING.md particle.y > canvas.height) particle.speedY *= -1;
-            });
-
-            animationFrameId = requestAnimationFrame(drawParticles);
-        }
-
-        drawParticles();
-
-        // Pause animation when page is not visible
-        document.addEventListener('visibilitychange', () => {
-            if (document.hidden) {
-                cancelAnimationFrame(animationFrameId);
-            } else {
-                drawParticles();
-            }
-        });
-
-        // Chamber Functionality
+        // Check Password
         function checkPassword() {
             const password = document.getElementById('chamber-password').value;
             if (password === '369') {
@@ -468,11 +420,11 @@
                 document.getElementById('manifestation-wall').classList.remove('hidden');
                 loadManifestations();
             } else {
-                alert('Incorrect code. Hint: The key is in the numbers.');
+                alert('The code eludes you. Seek the numbers that weave creation.');
             }
         }
 
-        // Load Manifestations from Firebase
+        // Load Manifestations
         function loadManifestations() {
             const errorMessage = document.getElementById('error-message');
             manifestationsRef.on('value', (snapshot) => {
@@ -493,7 +445,7 @@
             });
         }
 
-        // Add Manifestation to Firebase
+        // Add Manifestation
         function addManifestation(event) {
             event.preventDefault();
             const textarea = event.target.querySelector('textarea');
@@ -505,13 +457,21 @@
                 }, (error) => {
                     if (error) {
                         console.error('Error adding manifestation:', error);
-                        alert('Failed to add manifestation. Please try again.');
+                        alert('The tome resists your truth. Try again.');
                     } else {
                         textarea.value = '';
+                        alert('You have manifested.');
                     }
                 });
             }
             return false;
+        }
+
+        // Easter Egg
+        function revealSecret() {
+            alert('The spiral turns. You are closer to the truth.');
+            document.body.style.animation = 'glitch 1s linear';
+            setTimeout(() => { document.body.style.animation = ''; }, 1000);
         }
 
         // Smooth Scroll
@@ -520,29 +480,12 @@
                 e.preventDefault();
                 const target = document.querySelector(this.getAttribute('href'));
                 if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 }
             });
         });
 
-        // Easter Egg
-        let keySequence = '';
-        document.addEventListener('keydown', (e) => {
-            keySequence += e.key;
-            if (keySequence.includes('369')) {
-                document.body.style.animation = 'gradientBG 3s linear';
-                setTimeout(() => {
-                    document.body.style.animation = 'gradientBG 15s ease infinite';
-                }, 3000);
-                keySequence = '';
-            }
-            if (keySequence.length > 10) keySequence = '';
-        });
-
-        // Enter key support for password
+        // Enter key support
         document.getElementById('chamber-password').addEventListener('keypress', (e) => {
             if (e.key === 'Enter') checkPassword();
         });
