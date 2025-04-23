@@ -6,16 +6,49 @@
     <meta name="description" content="$MNFST Lore – A cosmic tale woven through the spiral of 3-6-9. Read, bookmark, manifest.">
     <title>$MNFST Lore</title>
     <style>
+        * {
+            transition: all 0.3s ease;
+        }
         body { 
             margin: 0; 
             padding: 0; 
             color: #d4af37; 
             font-family: 'Georgia', serif; 
             text-align: center; 
-            background: #0F0F0F; 
+            background: linear-gradient(225deg, #0F0F0F, #1a1a1a, #2b2b2b);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            overflow-x: hidden;
+        }
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                linear-gradient(45deg, rgba(212, 175, 55, 0.05) 0%, transparent 100%),
+                repeating-linear-gradient(
+                    45deg,
+                    rgba(212, 175, 55, 0.05) 0px,
+                    rgba(212, 175, 55, 0.05) 1px,
+                    transparent 1px,
+                    transparent 10px
+                );
+            pointer-events: none;
+            z-index: 1;
         }
         .navbar { 
             background: rgba(42, 42, 42, 0.95); 
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(212, 175, 55, 0.18);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
             padding: 15px 20px; 
             position: sticky; 
             top: 0; 
@@ -30,9 +63,16 @@
             cursor: pointer;
             padding: 10px;
         }
+        .hamburger {
+            font-size: 28px;
+        }
         .nav-content {
             display: flex;
             justify-content: space-between;
+            align-items: center;
+        }
+        .nav-links, .nav-actions {
+            display: flex;
             align-items: center;
         }
         .navbar a { 
@@ -40,62 +80,203 @@
             text-decoration: none; 
             margin: 0 20px; 
             font-size: 18px; 
-            transition: color 0.3s; 
+            transition: all 0.3s ease; 
         }
         .navbar a:hover { 
             color: #e6c14b; 
+            transform: scale(1.05);
         }
         .nav-btn { 
-            background: #d4af37; 
-            color: #1a1a1a; 
-            padding: 10px 20px; 
-            border-radius: 20px; 
-            font-size: 18px; 
-            text-decoration: none; 
+            background: linear-gradient(45deg, #d4af37, #e6c14b);
+            border-radius: 30px;
+            border: none;
+            padding: 12px 35px;
+            color: #1a1a1a;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+            animation: pulse 2s infinite;
+        }
+        .nav-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4);
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+            100% { transform: scale(1); }
+        }
+        @keyframes pageFlip {
+            0% { transform: rotateY(0deg); opacity: 1; }
+            25% { transform: rotateY(45deg); opacity: 0.5; }
+            50% { transform: rotateY(90deg); opacity: 0; }
+            75% { transform: rotateY(135deg); opacity: 0.5; }
+            100% { transform: rotateY(180deg); opacity: 1; }
+        }
+        #book-container {
+            perspective: 1000px;
         }
         .book { 
             max-width: 800px; 
             margin: 40px auto; 
-            padding: 20px; 
+            padding: 30px; 
             background: rgba(42, 42, 42, 0.9); 
-            border: 2px solid #d4af37; 
+            border: 2px solid #d4af37;
+            border-radius: 10px;
+            box-shadow: 0 5px 25px rgba(212, 175, 55, 0.3);
+            position: relative;
+        }
+        .book::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 20px;
+            right: 20px;
+            height: 5px;
+            background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.5), transparent);
+            border-radius: 50%;
+        }
+        .book::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 20px;
+            right: 20px;
+            height: 5px;
+            background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.5), transparent);
+            border-radius: 50%;
+        }
+        .page { 
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
         .page h2 { 
-            font-size: 28px; 
+            font-size: 32px; 
             margin-bottom: 20px; 
-            text-shadow: 0 0 10px #d4af37; 
+            text-shadow: 0 0 10px rgba(212, 175, 55, 0.5); 
+            letter-spacing: 2px;
         }
         .page p { 
-            font-size: 16px; 
-            line-height: 1.6; 
+            font-size: 18px; 
+            line-height: 1.8; 
             text-align: left; 
+            margin-bottom: 20px;
+            text-shadow: 0 0 2px rgba(212, 175, 55, 0.2);
         }
         .controls { 
             margin: 20px auto; 
             max-width: 800px; 
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 10px 0;
         }
         .controls button { 
-            background: #d4af37; 
+            background: linear-gradient(45deg, #d4af37, #e6c14b);
             color: #1a1a1a; 
-            padding: 10px 20px; 
+            padding: 12px 25px; 
             border: none; 
-            border-radius: 20px; 
+            border-radius: 30px; 
             margin: 0 10px; 
             cursor: pointer; 
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+            transition: all 0.3s ease;
         }
         .controls button:hover { 
-            background: #e6c14b; 
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4);
         }
         .controls button:disabled { 
             background: #666; 
             cursor: not-allowed; 
+            opacity: 0.7;
+            transform: none;
+            box-shadow: none;
+        }
+        .chapter-select-container {
+            position: relative;
+            margin: 10px;
         }
         .controls select { 
-            background: #1a1a1a; 
+            background: rgba(26, 26, 26, 0.8);
             color: #d4af37; 
-            border: 1px solid #d4af37; 
-            padding: 10px; 
-            border-radius: 10px; 
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            padding: 12px 35px 12px 15px; 
+            border-radius: 30px;
+            appearance: none;
+            -webkit-appearance: none;
+            cursor: pointer;
+            font-size: 16px;
+            min-width: 200px;
+        }
+        .controls select:focus {
+            border-color: #d4af37;
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.2);
+            outline: none;
+        }
+        .select-arrow {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            pointer-events: none;
+            color: #d4af37;
+        }
+        .bookmark-container {
+            position: relative;
+            margin: 10px;
+        }
+        .bookmark-btn {
+            background: linear-gradient(45deg, #ae8d2a, #c19a28) !important;
+            display: flex;
+            align-items: center;
+        }
+        .bookmark-icon {
+            margin-right: 8px;
+        }
+        .page-number {
+            background: rgba(26, 26, 26, 0.8);
+            color: #d4af37;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 14px;
+            margin: 0 15px;
+        }
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 300px;
+        }
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid rgba(212, 175, 55, 0.3);
+            border-top: 5px solid #d4af37;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        #cosmicCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
         }
 
         @media (max-width: 768px) {
@@ -106,4 +287,386 @@
                 top: 15px;
             }
             .nav-content {
-                display:
+                display: none;
+                flex-direction: column;
+                width: 100%;
+                padding-top: 60px;
+            }
+            .nav-content.active {
+                display: flex;
+            }
+            .nav-links, .nav-actions {
+                flex-direction: column;
+                width: 100%;
+                text-align: center;
+            }
+            .navbar a {
+                margin: 10px 0;
+                padding: 10px;
+                width: 100%;
+                display: block;
+            }
+            .nav-btn {
+                margin: 10px auto;
+                width: fit-content;
+            }
+            .book {
+                margin: 20px 10px;
+                padding: 15px;
+            }
+            .page h2 {
+                font-size: 24px;
+            }
+            .page p {
+                font-size: 16px;
+                line-height: 1.6;
+            }
+            .controls {
+                flex-direction: column;
+            }
+            .controls button, .controls select {
+                margin: 10px 0;
+            }
+            .pagination {
+                order: 1;
+                width: 100%;
+                margin-top: 20px;
+            }
+            .chapter-select-container {
+                order: 0;
+                width: 100%;
+            }
+            .bookmark-container {
+                order: 2;
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="cosmicCanvas"></canvas>
+    <div class="overlay"></div>
+
+    <!-- Navbar -->
+    <div class="navbar">
+        <button class="navbar-toggle" aria-label="Toggle navigation" onclick="toggleNav()">
+            <span class="hamburger">≡</span>
+        </button>
+        <div class="nav-content" id="navContent">
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="index.html#about">About</a>
+                <a href="index.html#tokenomics">Tokenomics</a>
+                <a href="philosophy.html">Philosophy</a>
+                <a href="portal.html">Portal</a>
+                <a href="lore.html" class="active">Lore</a>
+            </div>
+            <div class="nav-actions">
+                <a href="https://x.com/MNFST__" target="_blank" rel="noopener">X</a>
+                <a href="https://t.me/MNFSTcoin" target="_blank" rel="noopener">Telegram</a>
+                <a href="https://dexscreener.com/solana/63iEYzCa8wCLpk1VgdAxnwU5qaqtU6Ju1o3kNDViq8Xu" class="nav-btn" target="_blank" rel="noopener">Join Us</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Book Title -->
+    <div class="section">
+        <h1>THE CHRONICLES OF MANIFEST</h1>
+        <p>A cosmic tale woven through the spiral of 3-6-9. Read, bookmark, manifest.</p>
+    </div>
+
+    <!-- Book Container -->
+    <div id="book-container">
+        <div class="book">
+            <div id="lore-content" class="loading">
+                <div class="loading-spinner"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Controls -->
+    <div class="controls">
+        <div class="chapter-select-container">
+            <select id="chapter-select" aria-label="Select Chapter">
+                <option value="0">Select Chapter</option>
+            </select>
+            <span class="select-arrow">▼</span>
+        </div>
+
+        <div class="pagination">
+            <button id="prev-page" disabled onclick="previousPage()">◄ Previous</button>
+            <div id="page-number" class="page-number">Page 1 of 1</div>
+            <button id="next-page" disabled onclick="nextPage()">Next ►</button>
+        </div>
+
+        <div class="bookmark-container">
+            <button id="bookmark-btn" class="bookmark-btn" onclick="toggleBookmark()">
+                <span class="bookmark-icon">🔖</span> Bookmark
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Constants and variables
+        const WORDS_PER_PAGE = 300;
+        let chapters = [];
+        let currentChapter = 0;
+        let currentPage = 0;
+        let totalPages = 0;
+        let pagesContent = [];
+        let bookmarked = false;
+
+        // On page load
+        document.addEventListener('DOMContentLoaded', function() {
+            loadChapters();
+            loadBookmark();
+            initCanvas();
+        });
+
+        // Load chapters from JSON file
+        async function loadChapters() {
+            try {
+                const response = await fetch('chapters.json');
+                if (!response.ok) {
+                    throw new Error('Failed to load chapters');
+                }
+                chapters = await response.json();
+                
+                // Populate chapter select
+                const chapterSelect = document.getElementById('chapter-select');
+                chapters.forEach((chapter, index) => {
+                    const option = document.createElement('option');
+                    option.value = index;
+                    option.textContent = chapter.title;
+                    chapterSelect.appendChild(option);
+                });
+                
+                // Load first chapter by default
+                if (chapters.length > 0) {
+                    loadChapter(0);
+                }
+                
+                // Add event listener for chapter selection
+                chapterSelect.addEventListener('change', function() {
+                    const selectedChapter = parseInt(this.value);
+                    if (selectedChapter >= 0) {
+                        loadChapter(selectedChapter);
+                    }
+                });
+            } catch (error) {
+                console.error('Error loading chapters:', error);
+                document.getElementById('lore-content').innerHTML = `
+                    <div class="page">
+                        <h2>Error Loading Lore</h2>
+                        <p>There was an error loading the lore chapters. Please try again later.</p>
+                    </div>
+                `;
+            }
+        }
+
+        // Load a specific chapter
+        function loadChapter(chapterIndex) {
+            if (chapterIndex < 0 || chapterIndex >= chapters.length) return;
+            
+            currentChapter = chapterIndex;
+            currentPage = 0;
+            
+            const chapterContent = chapters[chapterIndex].content;
+            
+            // Split content into pages
+            const words = chapterContent.split(/\s+/);
+            pagesContent = [];
+            
+            for (let i = 0; i < words.length; i += WORDS_PER_PAGE) {
+                pagesContent.push(words.slice(i, i + WORDS_PER_PAGE).join(' '));
+            }
+            
+            totalPages = pagesContent.length;
+            updatePageControls();
+            displayCurrentPage();
+            
+            // Update chapter select
+            document.getElementById('chapter-select').value = chapterIndex;
+            
+            // Update bookmark status
+            updateBookmarkButton();
+        }
+
+        // Display current page
+        function displayCurrentPage() {
+            const loreContent = document.getElementById('lore-content');
+            
+            if (currentPage >= 0 && currentPage < pagesContent.length) {
+                // Add animation class
+                loreContent.classList.add('page-changing');
+                
+                // Create page content after a small delay for animation
+                setTimeout(() => {
+                    loreContent.innerHTML = `
+                        <div class="page">
+                            <h2>${chapters[currentChapter].title}</h2>
+                            <p>${pagesContent[currentPage]}</p>
+                        </div>
+                    `;
+                    loreContent.classList.remove('page-changing');
+                }, 200);
+            }
+        }
+
+        // Navigate to next page
+        function nextPage() {
+            if (currentPage < totalPages - 1) {
+                currentPage++;
+                displayCurrentPage();
+                updatePageControls();
+                saveBookmark();
+            } else if (currentChapter < chapters.length - 1) {
+                // Load next chapter if at the end of current chapter
+                loadChapter(currentChapter + 1);
+            }
+        }
+
+        // Navigate to previous page
+        function previousPage() {
+            if (currentPage > 0) {
+                currentPage--;
+                displayCurrentPage();
+                updatePageControls();
+                saveBookmark();
+            } else if (currentChapter > 0) {
+                // Load previous chapter if at the start of current chapter
+                loadChapter(currentChapter - 1);
+                // Go to the last page of the previous chapter
+                currentPage = totalPages - 1;
+                displayCurrentPage();
+                updatePageControls();
+                saveBookmark();
+            }
+        }
+
+        // Update page controls (buttons and page number)
+        function updatePageControls() {
+            const prevBtn = document.getElementById('prev-page');
+            const nextBtn = document.getElementById('next-page');
+            const pageNumber = document.getElementById('page-number');
+            
+            prevBtn.disabled = (currentPage === 0 && currentChapter === 0);
+            nextBtn.disabled = (currentPage === totalPages - 1 && currentChapter === chapters.length - 1);
+            
+            pageNumber.textContent = `Page ${currentPage + 1} of ${totalPages}`;
+        }
+
+        // Toggle bookmark
+        function toggleBookmark() {
+            bookmarked = !bookmarked;
+            updateBookmarkButton();
+            
+            if (bookmarked) {
+                // Save bookmark
+                saveBookmark();
+            } else {
+                // Remove bookmark
+                localStorage.removeItem('mnfst_lore_bookmark');
+            }
+        }
+
+        // Update bookmark button appearance
+        function updateBookmarkButton() {
+            const bookmarkBtn = document.getElementById('bookmark-btn');
+            if (bookmarked) {
+                bookmarkBtn.innerHTML = '<span class="bookmark-icon">🔖</span> Bookmarked';
+                bookmarkBtn.style.background = 'linear-gradient(45deg, #c19a28, #d4af37)';
+            } else {
+                bookmarkBtn.innerHTML = '<span class="bookmark-icon">🔖</span> Bookmark';
+                bookmarkBtn.style.background = 'linear-gradient(45deg, #ae8d2a, #c19a28)';
+            }
+        }
+
+        // Save bookmark to localStorage
+        function saveBookmark() {
+            if (bookmarked) {
+                const bookmark = {
+                    chapter: currentChapter,
+                    page: currentPage
+                };
+                localStorage.setItem('mnfst_lore_bookmark', JSON.stringify(bookmark));
+            }
+        }
+
+        // Load bookmark from localStorage
+        function loadBookmark() {
+            const savedBookmark = localStorage.getItem('mnfst_lore_bookmark');
+            if (savedBookmark) {
+                const bookmark = JSON.parse(savedBookmark);
+                bookmarked = true;
+                
+                // Set timeout to allow chapters to load first
+                setTimeout(() => {
+                    if (chapters.length > 0) {
+                        loadChapter(bookmark.chapter);
+                        currentPage = bookmark.page;
+                        displayCurrentPage();
+                        updatePageControls();
+                    }
+                }, 500);
+            }
+        }
+
+        // Toggle navbar menu for mobile
+        function toggleNav() {
+            const navContent = document.getElementById('navContent');
+            navContent.classList.toggle('active');
+            const hamburger = document.querySelector('.hamburger');
+            hamburger.textContent = navContent.classList.contains('active') ? '×' : '≡';
+        }
+
+        // Initialize canvas animation
+        function initCanvas() {
+            const canvas = document.getElementById('cosmicCanvas');
+            const ctx = canvas.getContext('2d');
+
+            function resizeCanvas() {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            }
+
+            window.addEventListener('resize', resizeCanvas);
+            resizeCanvas();
+
+            const particles = [];
+            const particleCount = 100;
+
+            for (let i = 0; i < particleCount; i++) {
+                particles.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    size: Math.random() * 2 + 1,
+                    speedX: (Math.random() - 0.5) * 0.5,
+                    speedY: (Math.random() - 0.5) * 0.5
+                });
+            }
+
+            function drawParticles() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                ctx.fillStyle = '#d4af37';
+
+                particles.forEach(particle => {
+                    ctx.beginPath();
+                    ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
+                    ctx.fill();
+
+                    particle.x += particle.speedX;
+                    particle.y += particle.speedY;
+
+                    if (particle.x < 0 || particle.x > canvas.width) particle.speedX *= -1;
+                    if (particle.y < 0 || particle.y > canvas.height) particle.speedY *= -1;
+                });
+
+                requestAnimationFrame(drawParticles);
+            }
+
+            drawParticles();
+        }
+    </script>
+</body>
+</html>
