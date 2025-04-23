@@ -164,6 +164,7 @@
             text-align: left; 
             margin-bottom: 20px;
             text-shadow: 0 0 2px rgba(212, 175, 55, 0.2);
+            white-space: pre-line;
         }
         .controls { 
             margin: 20px auto; 
@@ -408,7 +409,7 @@
 
     <script>
         // Constants and variables
-        const WORDS_PER_PAGE = 300;
+        const CHARS_PER_PAGE = 1500; // Changed from words to characters for better formatting
         let chapters = [];
         let currentChapter = 0;
         let currentPage = 0;
@@ -464,6 +465,44 @@
             }
         }
 
+        // Format text with proper paragraphs
+        function formatText(text) {
+            // Replace \n with actual line breaks for paragraph formatting
+            return text.replace(/\\n/g, '\n');
+        }
+
+        // Split text into pages with proper paragraph formatting
+        function splitIntoPages(text) {
+            // Format the text first
+            const formattedText = formatText(text);
+            
+            // Split by paragraphs to preserve paragraph integrity
+            const paragraphs = formattedText.split('\n');
+            const pages = [];
+            let currentPage = '';
+            
+            for (let i = 0; i < paragraphs.length; i++) {
+                const paragraph = paragraphs[i];
+                
+                // If adding this paragraph would exceed the character limit
+                if ((currentPage + paragraph).length > CHARS_PER_PAGE && currentPage !== '') {
+                    // Add current page to pages array and start a new one
+                    pages.push(currentPage);
+                    currentPage = paragraph;
+                } else {
+                    // Add paragraph to current page with a line break if not the first paragraph
+                    currentPage += (currentPage === '' ? '' : '\n') + paragraph;
+                }
+            }
+            
+            // Add the last page if not empty
+            if (currentPage !== '') {
+                pages.push(currentPage);
+            }
+            
+            return pages;
+        }
+
         // Load a specific chapter
         function loadChapter(chapterIndex) {
             if (chapterIndex < 0 || chapterIndex >= chapters.length) return;
@@ -473,13 +512,8 @@
             
             const chapterContent = chapters[chapterIndex].content;
             
-            // Split content into pages
-            const words = chapterContent.split(/\s+/);
-            pagesContent = [];
-            
-            for (let i = 0; i < words.length; i += WORDS_PER_PAGE) {
-                pagesContent.push(words.slice(i, i + WORDS_PER_PAGE).join(' '));
-            }
+            // Split content into pages with proper formatting
+            pagesContent = splitIntoPages(chapterContent);
             
             totalPages = pagesContent.length;
             updatePageControls();
@@ -500,7 +534,6 @@
                 // Add animation class
                 loreContent.classList.add('page-changing');
                 
-                // Create page content after a small delay for animation
                 setTimeout(() => {
                     loreContent.innerHTML = `
                         <div class="page">
