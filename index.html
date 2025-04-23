@@ -7,7 +7,7 @@
     <title>$MNFST – Manifest Reality</title>
     <style>
         * {
-            transition: all 0.3s ease;
+            transition: transform 0.3s ease, opacity 0.3s ease, background 0.3s ease, color 0.3s ease;
         }
         body {
             margin: 0;
@@ -289,7 +289,7 @@
 
     <!-- Navbar -->
     <div class="navbar">
-        <button class="navbar-toggle" aria-label="Toggle navigation" onclick="toggleNav()">
+        <button class="navbar-toggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="navContent" onclick="toggleNav()">
             <span class="hamburger">≡</span>
         </button>
         <div class="nav-content" id="navContent">
@@ -338,15 +338,18 @@
     <div class="locked-block">
         <h2>369 MANIFESTATION CHAMBER</h2>
         <div id="password-section">
-            <input type="password" id="chamber-password" placeholder="Enter the code..." aria-label="Password">
+            <input type="password" id="chamber-password" placeholder="Enter the code..." aria-label="Password for manifestation chamber">
             <button onclick="checkPassword()">UNLOCK</button>
         </div>
         <div id="manifestation-wall" class="hidden">
             <form id="manifestation-form" onsubmit="return addManifestation(event)">
-                <textarea placeholder="Share your manifestation..." aria-label="Manifestation input"></textarea>
+                <textarea placeholder="Share your manifestation..." aria-label="Share your manifestation"></textarea>
                 <button type="submit">MANIFEST</button>
             </form>
             <div id="wall-display"></div>
+            <div id="error-message" class="hidden" style="color: #d4af37; margin-top: 10px;">
+                <p>Failed to load manifestations. <button onclick="loadManifestations()">Retry</button></p>
+            </div>
         </div>
     </div>
 
@@ -382,14 +385,29 @@
         // Toggle Navbar
         function toggleNav() {
             const navContent = document.getElementById('navContent');
-            navContent.classList.toggle('active');
             const hamburger = document.querySelector('.hamburger');
-            hamburger.textContent = navContent.classList.contains('active') ? '×' : '≡';
+            const toggleButton = document.querySelector('.navbar-toggle');
+            navContent.classList.toggle('active');
+            const isActive = navContent.classList.contains('active');
+            hamburger.textContent = isActive ? '×' : '≡';
+            toggleButton.setAttribute('aria-expanded', isActive);
         }
+
+        // Close mobile menu on outside click
+        document.addEventListener('click', function(event) {
+            const navContent = document.getElementById('navContent');
+            const toggleButton = document.querySelector('.navbar-toggle');
+            if (navContent.classList.contains('active') && 
+                !navContent.contains(event.target) && 
+                !toggleButton.contains(event.target)) {
+                toggleNav();
+            }
+        });
 
         // Cosmic Canvas Animation
         const canvas = document.getElementById('cosmicCanvas');
         const ctx = canvas.getContext('2d');
+        let animationFrameId;
 
         function resizeCanvas() {
             canvas.width = window.innerWidth;
@@ -400,7 +418,7 @@
         resizeCanvas();
 
         const particles = [];
-        const particleCount = 100;
+        const particleCount = 50; // Reduced for performance
 
         for (let i = 0; i < particleCount; i++) {
             particles.push({
@@ -425,13 +443,22 @@
                 particle.y += particle.speedY;
 
                 if (particle.x < 0 || particle.x > canvas.width) particle.speedX *= -1;
-                if (particle.y < 0 || particle.y > canvas.height) particle.speedY *= -1;
+                if (particle.y <  costes://github.com/xai-org/grok/blob/main/CONTRIBUTING.md particle.y > canvas.height) particle.speedY *= -1;
             });
 
-            requestAnimationFrame(drawParticles);
+            animationFrameId = requestAnimationFrame(drawParticles);
         }
 
         drawParticles();
+
+        // Pause animation when page is not visible
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) {
+                cancelAnimationFrame(animationFrameId);
+            } else {
+                drawParticles();
+            }
+        });
 
         // Chamber Functionality
         function checkPassword() {
@@ -447,9 +474,11 @@
 
         // Load Manifestations from Firebase
         function loadManifestations() {
+            const errorMessage = document.getElementById('error-message');
             manifestationsRef.on('value', (snapshot) => {
                 const wallDisplay = document.getElementById('wall-display');
                 wallDisplay.innerHTML = '';
+                errorMessage.classList.add('hidden');
                 const data = snapshot.val();
                 if (data) {
                     Object.values(data).forEach(manifestation => {
@@ -460,6 +489,7 @@
                 }
             }, (error) => {
                 console.error('Error loading manifestations:', error);
+                errorMessage.classList.remove('hidden');
             });
         }
 
@@ -475,6 +505,7 @@
                 }, (error) => {
                     if (error) {
                         console.error('Error adding manifestation:', error);
+                        alert('Failed to add manifestation. Please try again.');
                     } else {
                         textarea.value = '';
                     }
