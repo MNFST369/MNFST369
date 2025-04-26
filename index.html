@@ -15,14 +15,17 @@
         body {
             font-family: 'Special Elite', 'Varela', Courier, monospace;
             color: #d4af37;
-            background: 
-                linear-gradient(90deg, #222 0%, #333 50%, #222 100%) 0 / 100% 100%,
-                radial-gradient(circle at 100% 50%, transparent 20%, rgba(0,0,0,.3) 21%, rgba(0,0,0,.3) 34%, transparent 35%, transparent) 0 / 10px 10px,
-                radial-gradient(circle at 0% 50%, transparent 20%, rgba(0,0,0,.3) 21%, rgba(0,0,0,.3) 34%, transparent 35%, transparent) 0 / 10px 10px;
+            background: url('https://www.textures.com/system/gallery/photos/Paper/Plain/135574/PaperPlain0077_1_600.jpg') repeat;
+            background-size: 600px 600px;
             background-color: #111;
             text-align: center;
             overflow-x: hidden;
             position: relative;
+            animation: drift 60s linear infinite;
+        }
+        @keyframes drift {
+            0% { background-position: 0 0; }
+            100% { background-position: 600px 600px; }
         }
         .overlay {
             position: fixed;
@@ -109,11 +112,6 @@
             border-right: 1px solid darkorange;
             animation: ENERGY 3s ease-in-out infinite;
         }
-        /* Particle styles (example for first few; generate all 50 in practice) */
-        .magic:nth-child(1) { animation-delay: 0s; transform: rotate(0deg) translate(200px) scale(-1); }
-        .magic:nth-child(2) { animation-delay: -0.04s; transform: rotate(7.2deg) translate(200px) scale(-1.04); }
-        .magic:nth-child(3) { animation-delay: -0.08s; transform: rotate(14.4deg) translate(200px) scale(-1.08); }
-        /* ... continue up to .magic:nth-child(50) ... */
         @keyframes ENERGY {
             50% { transform: rotateY(360deg) translate(-200px); }
         }
@@ -150,7 +148,7 @@
             text-decoration: none;
             margin: 0 20px;
             font-size: 18px;
-            position: relative;
+            position | relative;
         }
         .nav-links a::before {
             content: attr(data-rune);
@@ -268,7 +266,7 @@
             animation: glitch 0.3s infinite;
         }
     </style>
-    <link href="[invalid url, do not cite] rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Varela&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="overlay"></div>
@@ -289,8 +287,8 @@
                 <a href="lore.html" data-rune="⚹">Lore</a>
             </div>
             <div class="nav-actions">
-                <a href="[invalid url, do not cite] target="_blank" rel="noopener">X</a>
-                <a href="[invalid url, do not cite] target="_blank" rel="noopener">Telegram</a>
+                <a href="https://x.com/MNFST__" target="_blank" rel="noopener">X</a>
+                <a href="https://t.me/MNFSTcoin" target="_blank" rel="noopener">Telegram</a>
             </div>
         </div>
     </div>
@@ -300,7 +298,7 @@
         <h1 class="glitch" data-text="$MNFST">$MNFST</h1>
         <p>A Solana meme coin that manifests its own holders. The spiral of 369 weaves destinies in the cosmic tome.</p>
         <p>103 Souls Manifested</p>
-        <a href="[invalid url, do not cite] class="btn glitch" data-text="Am I Chosen?">Am I Chosen?</a>
+        <a href="https://dexscreener.com/solana/63iEYzCa8wCLpk1VgdAxnwU5qaqtU6Ju1o3kNDViq8Xu" class="btn glitch" data-text="Am I Chosen?" target="_blank" rel="noopener">Am I Chosen?</a>
     </section>
 
     <!-- About Section -->
@@ -347,20 +345,38 @@
     <noscript>
         <div class="tome">
             <h2>The Tome is Sealed</h2>
-            <p>Enable JavaScript to unravel the mysteries of $MNFST. Seek guidance at <a href="[invalid url, do not cite] target="_blank" rel="noopener">Telegram</a>.</p>
+            <p>Enable JavaScript to unravel the mysteries of $MNFST. Seek guidance at <a href="https://t.me/MNFSTcoin" target="_blank" rel="noopener">Telegram</a>.</p>
         </div>
     </noscript>
 
     <!-- Firebase SDK -->
-    <script src="[invalid url, do not cite]
-    <script src="[invalid url, do not cite]
-    <!-- Solana Web3.js -->
-    <script src="[invalid url, do not cite]
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database.js"></script>
 
     <script>
-        // Generate Particle HTML
+        // Firebase Configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyAAzwB9DImZ2OaJ3o7b4YCKDk-xblBci8I",
+            authDomain: "mnfst369.firebaseapp.com",
+            databaseURL: "https://mnfst369-default-rtdb.firebaseio.com",
+            projectId: "mnfst369",
+            storageBucket: "mnfst369.firebasestorage.app",
+            messagingSenderId: "548497202287",
+            appId: "1:548497202287:web:b26c0ad42ece9d6a0fc19a"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.database();
+        const manifestationsRef = db.ref('manifestations');
+
+        // Generate Particle HTML and CSS
         document.addEventListener('DOMContentLoaded', () => {
             const particlesDiv = document.querySelector('.particles');
+            const styleSheet = document.createElement('style');
+            document.head.appendChild(styleSheet);
+            let cssRules = '';
+
             for (let m = 0; m < 4; m++) {
                 const masterDiv = document.createElement('div');
                 masterDiv.className = 'master';
@@ -368,9 +384,22 @@
                     const magicDiv = document.createElement('div');
                     magicDiv.className = 'magic';
                     masterDiv.appendChild(magicDiv);
+
+                    // Generate CSS for each .magic
+                    const angle = (i - 1) * 360 / 50;
+                    const scale = -1 - (i - 1) * 1 / 50;
+                    const delay = -(i - 1) * 1 / 25;
+                    cssRules += `
+                        .master:nth-child(${m + 1}) .magic:nth-child(${i}) {
+                            animation-delay: ${delay}s;
+                            transform: rotate(${angle}deg) translate(200px) scale(${scale});
+                        }
+                    `;
                 }
                 particlesDiv.appendChild(masterDiv);
             }
+
+            styleSheet.textContent = cssRules;
 
             // Inactivity Timer
             let inactivityTimer = setTimeout(() => {
@@ -379,6 +408,7 @@
 
             function resetTimer() {
                 clearTimeout(inactivityTimer);
+                particlesDiv.classList.remove('visible');
                 inactivityTimer = setTimeout(() => {
                     particlesDiv.classList.add('visible');
                 }, 780000);
