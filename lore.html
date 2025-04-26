@@ -7,23 +7,27 @@
     <title>$MNFST Lore</title>
     <style>
         * {
-            transition: all 0.3s ease;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            transition: transform 0.3s ease, opacity 0.3s ease;
         }
-        body { 
-            margin: 0; 
-            padding: 0; 
-            color: #d4af37; 
-            font-family: 'Georgia', serif; 
-            text-align: center; 
-            background: linear-gradient(225deg, #0F0F0F, #1a1a1a, #2b2b2b);
-            background-size: 400% 400%;
-            animation: gradientBG 15s ease infinite;
+        body {
+            font-family: 'Special Elite', 'Varela', Courier, monospace;
+            color: #d4af37;
+            background: #111;
+            text-align: center;
             overflow-x: hidden;
+            position: relative;
         }
-        @keyframes gradientBG {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+        canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.2;
         }
         .overlay {
             position: fixed;
@@ -31,28 +35,50 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: 
-                linear-gradient(45deg, rgba(212, 175, 55, 0.05) 0%, transparent 100%),
-                repeating-linear-gradient(
-                    45deg,
-                    rgba(212, 175, 55, 0.05) 0px,
-                    rgba(212, 175, 55, 0.05) 1px,
-                    transparent 1px,
-                    transparent 10px
-                );
+            background: linear-gradient(45deg, rgba(0, 255, 204, 0.05) 0%, transparent 100%);
             pointer-events: none;
             z-index: 1;
         }
-        .navbar { 
-            background: rgba(42, 42, 42, 0.95); 
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border: 1px solid rgba(212, 175, 55, 0.18);
-            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-            padding: 15px 20px; 
-            position: sticky; 
-            top: 0; 
-            z-index: 10; 
+        .glitch {
+            position: relative;
+            display: inline-block;
+        }
+        .glitch::before,
+        .glitch::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        .glitch::before {
+            color: #00FFCC;
+            animation: glitch-trippy 1s ease-in-out infinite;
+        }
+        .glitch::after {
+            color: #FF00FF;
+            animation: glitch-trippy 1.2s ease-in-out infinite reverse;
+        }
+        .glitch:hover::before, .glitch:hover::after,
+        .glitch-active::before, .glitch-active::after {
+            animation: glitch-trippy 0.5s ease-in-out infinite;
+        }
+        @keyframes glitch-trippy {
+            0% { transform: translate(0, 0) scale(1) skew(0deg); filter: hue-rotate(0deg); }
+            20% { transform: translate(5px, -5px) scale(1.1) skew(10deg); filter: hue-rotate(90deg); }
+            40% { transform: translate(-5px, 5px) scale(1.2) skew(-5deg); filter: hue-rotate(180deg); }
+            60% { transform: translate(3px, -3px) scale(1.15) skew(5deg); filter: hue-rotate(270deg); }
+            80% { transform: translate(-3px, 3px) scale(1.1) skew(-10deg); filter: hue-rotate(360deg); }
+            100% { transform: translate(0, 0) scale(1) skew(0deg); filter: hue-rotate(0deg); }
+        }
+        .navbar {
+            background: rgba(44, 44, 44, 0.9);
+            padding: 15px 20px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 2px solid #2C2C2C;
         }
         .navbar-toggle {
             display: none;
@@ -61,10 +87,9 @@
             color: #d4af37;
             font-size: 24px;
             cursor: pointer;
-            padding: 10px;
-        }
-        .hamburger {
-            font-size: 28px;
+            position: absolute;
+            right: 20px;
+            top: 15px;
         }
         .nav-content {
             display: flex;
@@ -75,100 +100,123 @@
             display: flex;
             align-items: center;
         }
-        .navbar a { 
-            color: #d4af37; 
-            text-decoration: none; 
-            margin: 0 20px; 
-            font-size: 18px; 
-            transition: all 0.3s ease; 
+        .nav-links a, .nav-actions a {
+            color: #d4af37;
+            text-decoration: none;
+            margin: 0 20px;
+            font-size: 18px;
+            position: relative;
         }
-        .navbar a:hover { 
-            color: #e6c14b; 
-            transform: scale(1.05);
+        .nav-links a::before {
+            content: attr(data-rune);
+            position: absolute;
+            top: 0;
+            left: 0;
+            opacity: 1;
+            transition: opacity 0.3s ease;
         }
-        .nav-btn { 
-            background: linear-gradient(45deg, #d4af37, #e6c14b);
-            border-radius: 30px;
-            border: none;
-            padding: 12px 35px;
-            color: #1a1a1a;
-            font-weight: bold;
-            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
-            animation: pulse 2s infinite;
+        .nav-links a:hover::before {
+            opacity: 0;
         }
-        .nav-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4);
+        .nav-links a:hover, .nav-actions a:hover {
+            color: #00FFCC;
+            animation: glitch-trippy 0.5s ease-in-out;
         }
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.02); }
-            100% { transform: scale(1); }
+        @media (max-width: 768px) {
+            .navbar-toggle {
+                display: block;
+            }
+            .nav-content {
+                display: none;
+                flex-direction: column;
+                width: 100%;
+                padding-top: 60px;
+            }
+            .nav-content.active {
+                display: flex;
+            }
+            .nav-links, .nav-actions {
+                flex-direction: column;
+                width: 100%;
+                text-align: center;
+            }
+            .nav-links a, .nav-actions a {
+                margin: 10px 0;
+                padding: 10px;
+                width: 100%;
+                display: block;
+            }
         }
-        @keyframes pageFlip {
-            0% { transform: rotateY(0deg); opacity: 1; }
-            25% { transform: rotateY(45deg); opacity: 0.5; }
-            50% { transform: rotateY(90deg); opacity: 0; }
-            75% { transform: rotateY(135deg); opacity: 0.5; }
-            100% { transform: rotateY(180deg); opacity: 1; }
+        .section {
+            padding: 40px 20px;
+            position: relative;
+            z-index: 1;
+        }
+        .section h1 {
+            font-size: 36px;
+            margin-bottom: 10px;
+            text-shadow: 0 0 5px #00FFCC;
+        }
+        .section p {
+            font-size: 18px;
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.6;
+            text-shadow: 0 0 3px #2C2C2C;
         }
         #book-container {
             perspective: 1000px;
+            max-width: 800px;
+            margin: 40px auto;
         }
-        .book { 
-            max-width: 800px; 
-            margin: 40px auto; 
-            padding: 30px; 
-            background: rgba(42, 42, 42, 0.9); 
+        .book {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 30px;
+            background: rgba(44, 44, 44, 0.9);
             border: 2px solid #d4af37;
             border-radius: 10px;
             box-shadow: 0 5px 25px rgba(212, 175, 55, 0.3);
             position: relative;
+            overflow: hidden;
         }
-        .book::before {
+        .book::before, .book::after {
             content: '';
             position: absolute;
-            top: 0;
             left: 20px;
             right: 20px;
             height: 5px;
             background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.5), transparent);
             border-radius: 50%;
         }
-        .book::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 20px;
-            right: 20px;
-            height: 5px;
-            background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.5), transparent);
-            border-radius: 50%;
-        }
-        .page { 
+        .book::before { top: 0; }
+        .book::after { bottom: 0; }
+        .page {
             animation: fadeIn 0.5s ease-in-out;
+            max-width: 100%;
+            overflow-wrap: break-word;
         }
         @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
-        .page h2 { 
-            font-size: 32px; 
-            margin-bottom: 20px; 
-            text-shadow: 0 0 10px rgba(212, 175, 55, 0.5); 
-            letter-spacing: 2px;
-        }
-        .page p { 
-            font-size: 18px; 
-            line-height: 1.8; 
-            text-align: left; 
+        .page h2 {
+            font-size: 28px;
             margin-bottom: 20px;
-            text-shadow: 0 0 2px rgba(212, 175, 55, 0.2);
-            white-space: pre-line;
+            text-shadow: 0 0 5px #FF00FF;
         }
-        .controls { 
-            margin: 20px auto; 
-            max-width: 800px; 
+        .page p {
+            font-size: 16px;
+            line-height: 1.8;
+            text-align: left;
+            margin-bottom: 20px;
+            white-space: pre-line;
+            max-width: 100%;
+            padding: 0 10px;
+        }
+        .controls {
+            margin: 20px auto;
+            max-width: 800px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -180,49 +228,42 @@
             align-items: center;
             margin: 10px 0;
         }
-        .controls button { 
-            background: linear-gradient(45deg, #d4af37, #e6c14b);
-            color: #1a1a1a; 
-            padding: 12px 25px; 
-            border: none; 
-            border-radius: 30px; 
-            margin: 0 10px; 
-            cursor: pointer; 
+        .controls button {
+            background: #2C2C2C;
+            color: #d4af37;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 10px;
+            margin: 0 10px;
+            cursor: pointer;
             font-weight: bold;
-            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
-            transition: all 0.3s ease;
         }
-        .controls button:hover { 
-            transform: translateY(-3px);
-            box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4);
+        .controls button:hover:not(:disabled) {
+            background: #00FFCC;
+            color: #2C2C2C;
+            animation: glitch-trippy 0.5s ease-in-out;
         }
-        .controls button:disabled { 
-            background: #666; 
-            cursor: not-allowed; 
-            opacity: 0.7;
-            transform: none;
-            box-shadow: none;
+        .controls button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
         }
         .chapter-select-container {
             position: relative;
             margin: 10px;
         }
-        .controls select { 
-            background: rgba(26, 26, 26, 0.8);
-            color: #d4af37; 
-            border: 1px solid rgba(212, 175, 55, 0.3);
-            padding: 12px 35px 12px 15px; 
-            border-radius: 30px;
-            appearance: none;
-            -webkit-appearance: none;
+        .controls select {
+            background: #333;
+            color: #d4af37;
+            border: none;
+            border-radius: 10px;
+            padding: 12px 35px 12px 15px;
+            font-family: 'Special Elite', 'Varela', Courier, monospace;
             cursor: pointer;
-            font-size: 16px;
             min-width: 200px;
         }
         .controls select:focus {
-            border-color: #d4af37;
-            box-shadow: 0 0 15px rgba(212, 175, 55, 0.2);
-            outline: none;
+            outline: 2px solid #00FFCC;
+            animation: glitch-trippy 0.5s ease-in-out;
         }
         .select-arrow {
             position: absolute;
@@ -237,7 +278,6 @@
             margin: 10px;
         }
         .bookmark-btn {
-            background: linear-gradient(45deg, #ae8d2a, #c19a28) !important;
             display: flex;
             align-items: center;
         }
@@ -245,10 +285,10 @@
             margin-right: 8px;
         }
         .page-number {
-            background: rgba(26, 26, 26, 0.8);
+            background: #333;
             color: #d4af37;
             padding: 5px 10px;
-            border-radius: 15px;
+            border-radius: 10px;
             font-size: 14px;
             margin: 0 15px;
         }
@@ -270,46 +310,12 @@
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
-        #cosmicCanvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 0;
-            pointer-events: none;
-        }
-
         @media (max-width: 768px) {
-            .navbar-toggle {
-                display: block;
-                position: absolute;
-                right: 20px;
-                top: 15px;
+            .section h1 {
+                font-size: 28px;
             }
-            .nav-content {
-                display: none;
-                flex-direction: column;
-                width: 100%;
-                padding-top: 60px;
-            }
-            .nav-content.active {
-                display: flex;
-            }
-            .nav-links, .nav-actions {
-                flex-direction: column;
-                width: 100%;
-                text-align: center;
-            }
-            .navbar a {
-                margin: 10px 0;
-                padding: 10px;
-                width: 100%;
-                display: block;
-            }
-            .nav-btn {
-                margin: 10px auto;
-                width: fit-content;
+            .section p {
+                font-size: 16px;
             }
             .book {
                 margin: 20px 10px;
@@ -319,14 +325,11 @@
                 font-size: 24px;
             }
             .page p {
-                font-size: 16px;
-                line-height: 1.6;
+                font-size: 14px;
+                padding: 0 5px;
             }
             .controls {
                 flex-direction: column;
-            }
-            .controls button, .controls select {
-                margin: 10px 0;
             }
             .pagination {
                 order: 1;
@@ -343,38 +346,38 @@
             }
         }
     </style>
+    <link href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Varela&display=swap" rel="stylesheet">
 </head>
 <body>
-    <canvas id="cosmicCanvas"></canvas>
+    <canvas id="mysticBackground"></canvas>
     <div class="overlay"></div>
 
     <!-- Navbar -->
     <div class="navbar">
-        <button class="navbar-toggle" aria-label="Toggle navigation" onclick="toggleNav()">
+        <button class="navbar-toggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="navContent" onclick="toggleNav()">
             <span class="hamburger">≡</span>
         </button>
         <div class="nav-content" id="navContent">
             <div class="nav-links">
-                <a href="index.html">Home</a>
-                <a href="index.html#about">About</a>
-                <a href="index.html#tokenomics">Tokenomics</a>
-                <a href="philosophy.html">Philosophy</a>
-                <a href="portal.html">Portal</a>
-                <a href="lore.html" class="active">Lore</a>
+                <a href="index.html" data-rune="⚸">Home</a>
+                <a href="index.html#about" data-rune="⚶">About</a>
+                <a href="index.html#tome" data-rune="⚷">Tome</a>
+                <a href="philosophy.html" data-rune="⚴">Philosophy</a>
+                <a href="portal.html" data-rune="⚵">Portal</a>
+                <a href="lore.html" data-rune="⚹">Lore</a>
             </div>
             <div class="nav-actions">
                 <a href="https://x.com/MNFST__" target="_blank" rel="noopener">X</a>
                 <a href="https://t.me/MNFSTcoin" target="_blank" rel="noopener">Telegram</a>
-                <a href="https://dexscreener.com/solana/63iEYzCa8wCLpk1VgdAxnwU5qaqtU6Ju1o3kNDViq8Xu" class="nav-btn" target="_blank" rel="noopener">Join Us</a>
             </div>
         </div>
     </div>
 
     <!-- Book Title -->
-    <div class="section">
-        <h1>THE CHRONICLES OF MANIFEST</h1>
+    <section class="section">
+        <h1 class="glitch" data-text="The Chronicles of Manifest">The Chronicles of Manifest</h1>
         <p>A cosmic tale woven through the spiral of 3-6-9. Read, bookmark, manifest.</p>
-    </div>
+    </section>
 
     <!-- Book Container -->
     <div id="book-container">
@@ -393,23 +396,74 @@
             </select>
             <span class="select-arrow">▼</span>
         </div>
-
         <div class="pagination">
             <button id="prev-page" disabled onclick="previousPage()">◄ Previous</button>
             <div id="page-number" class="page-number">Page 1 of 1</div>
             <button id="next-page" disabled onclick="nextPage()">Next ►</button>
         </div>
-
         <div class="bookmark-container">
-            <button id="bookmark-btn" class="bookmark-btn" onclick="toggleBookmark()">
+            <button id="bookmark-btn" class="bookmark-btn glitch" data-text="Bookmark" onclick="toggleBookmark()">
                 <span class="bookmark-icon">🔖</span> Bookmark
             </button>
         </div>
     </div>
 
     <script>
+        // Canvas for Subtle Mystical Background
+        const canvas = document.getElementById('mysticBackground');
+        const ctx = canvas.getContext('2d');
+        let time = 0;
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        function drawFlowerOfLife(x, y, radius, scale) {
+            ctx.beginPath();
+            ctx.arc(x, y, radius * scale, 0, Math.PI * 2);
+            ctx.stroke();
+            for (let i = 0; i < 6; i++) {
+                const angle = (i * Math.PI) / 3;
+                ctx.beginPath();
+                ctx.arc(x + radius * Math.cos(angle) * scale, y + radius * Math.sin(angle) * scale, radius * scale, 0, Math.PI * 2);
+                ctx.stroke();
+            }
+        }
+
+        function drawBackground() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            const pulse = (Math.sin(time * 0.05) + 1) / 2;
+
+            ctx.strokeStyle = `rgba(0, 255, 204, ${0.3 + pulse * 0.2})`;
+            ctx.fillStyle = `rgba(212, 175, 55, ${0.1 + pulse * 0.1})`;
+            ctx.lineWidth = 1;
+
+            const radius = 50;
+            const spacing = radius * 1.732;
+            for (let y = -radius; y < canvas.height + radius; y += spacing * 2) {
+                for (let x = -radius; x < canvas.width + radius; x += radius * 4) {
+                    const offsetX = (y / spacing % 2) * radius;
+                    drawFlowerOfLife(x + offsetX, y, radius, 1);
+                }
+            }
+
+            ctx.font = '16px Special Elite';
+            ctx.fillStyle = `rgba(0, 255, 204, ${0.3 + pulse * 0.2})`;
+            ctx.fillText('1.618', canvas.width - 80, canvas.height - 30);
+        }
+
+        function animate() {
+            time++;
+            drawBackground();
+            requestAnimationFrame(animate);
+        }
+        animate();
+
         // Constants and variables
-        const CHARS_PER_PAGE = 1500; // Changed from words to characters for better formatting
+        const CHARS_PER_PAGE = 1500;
         let chapters = [];
         let currentChapter = 0;
         let currentPage = 0;
@@ -421,7 +475,6 @@
         document.addEventListener('DOMContentLoaded', function() {
             loadChapters();
             loadBookmark();
-            initCanvas();
         });
 
         // Load chapters from JSON file
@@ -433,7 +486,6 @@
                 }
                 chapters = await response.json();
                 
-                // Populate chapter select
                 const chapterSelect = document.getElementById('chapter-select');
                 chapters.forEach((chapter, index) => {
                     const option = document.createElement('option');
@@ -442,12 +494,10 @@
                     chapterSelect.appendChild(option);
                 });
                 
-                // Load first chapter by default
                 if (chapters.length > 0) {
                     loadChapter(0);
                 }
                 
-                // Add event listener for chapter selection
                 chapterSelect.addEventListener('change', function() {
                     const selectedChapter = parseInt(this.value);
                     if (selectedChapter >= 0) {
@@ -458,8 +508,8 @@
                 console.error('Error loading chapters:', error);
                 document.getElementById('lore-content').innerHTML = `
                     <div class="page">
-                        <h2>Error Loading Lore</h2>
-                        <p>There was an error loading the lore chapters. Please try again later.</p>
+                        <h2 class="glitch" data-text="Error Loading Lore">Error Loading Lore</h2>
+                        <p>The tome resists. The lore remains veiled. Seek guidance on <a href="https://t.me/MNFSTcoin" target="_blank" rel="noopener">Telegram</a>.</p>
                     </div>
                 `;
             }
@@ -467,35 +517,26 @@
 
         // Format text with proper paragraphs
         function formatText(text) {
-            // Replace \n with actual line breaks for paragraph formatting
             return text.replace(/\\n/g, '\n');
         }
 
         // Split text into pages with proper paragraph formatting
         function splitIntoPages(text) {
-            // Format the text first
             const formattedText = formatText(text);
-            
-            // Split by paragraphs to preserve paragraph integrity
             const paragraphs = formattedText.split('\n');
             const pages = [];
             let currentPage = '';
             
             for (let i = 0; i < paragraphs.length; i++) {
                 const paragraph = paragraphs[i];
-                
-                // If adding this paragraph would exceed the character limit
                 if ((currentPage + paragraph).length > CHARS_PER_PAGE && currentPage !== '') {
-                    // Add current page to pages array and start a new one
                     pages.push(currentPage);
                     currentPage = paragraph;
                 } else {
-                    // Add paragraph to current page with a line break if not the first paragraph
                     currentPage += (currentPage === '' ? '' : '\n') + paragraph;
                 }
             }
             
-            // Add the last page if not empty
             if (currentPage !== '') {
                 pages.push(currentPage);
             }
@@ -511,18 +552,13 @@
             currentPage = 0;
             
             const chapterContent = chapters[chapterIndex].content;
-            
-            // Split content into pages with proper formatting
             pagesContent = splitIntoPages(chapterContent);
             
             totalPages = pagesContent.length;
             updatePageControls();
             displayCurrentPage();
             
-            // Update chapter select
             document.getElementById('chapter-select').value = chapterIndex;
-            
-            // Update bookmark status
             updateBookmarkButton();
         }
 
@@ -531,17 +567,15 @@
             const loreContent = document.getElementById('lore-content');
             
             if (currentPage >= 0 && currentPage < pagesContent.length) {
-                // Add animation class
                 loreContent.classList.add('page-changing');
-                
                 setTimeout(() => {
                     loreContent.innerHTML = `
                         <div class="page">
-                            <h2>${chapters[currentChapter].title}</h2>
+                            <h2 class="glitch" data-text="${chapters[currentChapter].title}">${chapters[currentChapter].title}</h2>
                             <p>${pagesContent[currentPage]}</p>
                         </div>
                     `;
-                    loreContent.classList.remove('page-changing');
+                    loreContent.classList.remove('page-changing', 'loading');
                 }, 200);
             }
         }
@@ -554,7 +588,6 @@
                 updatePageControls();
                 saveBookmark();
             } else if (currentChapter < chapters.length - 1) {
-                // Load next chapter if at the end of current chapter
                 loadChapter(currentChapter + 1);
             }
         }
@@ -567,9 +600,7 @@
                 updatePageControls();
                 saveBookmark();
             } else if (currentChapter > 0) {
-                // Load previous chapter if at the start of current chapter
                 loadChapter(currentChapter - 1);
-                // Go to the last page of the previous chapter
                 currentPage = totalPages - 1;
                 displayCurrentPage();
                 updatePageControls();
@@ -577,7 +608,7 @@
             }
         }
 
-        // Update page controls (buttons and page number)
+        // Update page controls
         function updatePageControls() {
             const prevBtn = document.getElementById('prev-page');
             const nextBtn = document.getElementById('next-page');
@@ -585,7 +616,6 @@
             
             prevBtn.disabled = (currentPage === 0 && currentChapter === 0);
             nextBtn.disabled = (currentPage === totalPages - 1 && currentChapter === chapters.length - 1);
-            
             pageNumber.textContent = `Page ${currentPage + 1} of ${totalPages}`;
         }
 
@@ -593,29 +623,26 @@
         function toggleBookmark() {
             bookmarked = !bookmarked;
             updateBookmarkButton();
-            
             if (bookmarked) {
-                // Save bookmark
                 saveBookmark();
             } else {
-                // Remove bookmark
                 localStorage.removeItem('mnfst_lore_bookmark');
             }
         }
 
-        // Update bookmark button appearance
+        // Update bookmark button
         function updateBookmarkButton() {
             const bookmarkBtn = document.getElementById('bookmark-btn');
             if (bookmarked) {
                 bookmarkBtn.innerHTML = '<span class="bookmark-icon">🔖</span> Bookmarked';
-                bookmarkBtn.style.background = 'linear-gradient(45deg, #c19a28, #d4af37)';
+                bookmarkBtn.setAttribute('data-text', 'Bookmarked');
             } else {
                 bookmarkBtn.innerHTML = '<span class="bookmark-icon">🔖</span> Bookmark';
-                bookmarkBtn.style.background = 'linear-gradient(45deg, #ae8d2a, #c19a28)';
+                bookmarkBtn.setAttribute('data-text', 'Bookmark');
             }
         }
 
-        // Save bookmark to localStorage
+        // Save bookmark
         function saveBookmark() {
             if (bookmarked) {
                 const bookmark = {
@@ -626,14 +653,12 @@
             }
         }
 
-        // Load bookmark from localStorage
+        // Load bookmark
         function loadBookmark() {
             const savedBookmark = localStorage.getItem('mnfst_lore_bookmark');
             if (savedBookmark) {
                 const bookmark = JSON.parse(savedBookmark);
                 bookmarked = true;
-                
-                // Set timeout to allow chapters to load first
                 setTimeout(() => {
                     if (chapters.length > 0) {
                         loadChapter(bookmark.chapter);
@@ -645,61 +670,37 @@
             }
         }
 
-        // Toggle navbar menu for mobile
+        // Toggle navbar
         function toggleNav() {
             const navContent = document.getElementById('navContent');
-            navContent.classList.toggle('active');
             const hamburger = document.querySelector('.hamburger');
-            hamburger.textContent = navContent.classList.contains('active') ? '×' : '≡';
+            const toggleButton = document.querySelector('.navbar-toggle');
+            navContent.classList.toggle('active');
+            const isActive = navContent.classList.contains('active');
+            hamburger.textContent = isActive ? '×' : '≡';
+            toggleButton.setAttribute('aria-expanded', isActive);
         }
 
-        // Initialize canvas animation
-        function initCanvas() {
-            const canvas = document.getElementById('cosmicCanvas');
-            const ctx = canvas.getContext('2d');
-
-            function resizeCanvas() {
-                canvas.width = window.innerWidth;
-                canvas.height = window.innerHeight;
+        // Close mobile menu on outside click
+        document.addEventListener('click', function(event) {
+            const navContent = document.getElementById('navContent');
+            const toggleButton = document.querySelector('.navbar-toggle');
+            if (navContent.classList.contains('active') && 
+                !navContent.contains(event.target) && 
+                !toggleButton.contains(event.target)) {
+                toggleNav();
             }
+        });
 
-            window.addEventListener('resize', resizeCanvas);
-            resizeCanvas();
-
-            const particles = [];
-            const particleCount = 100;
-
-            for (let i = 0; i < particleCount; i++) {
-                particles.push({
-                    x: Math.random() * canvas.width,
-                    y: Math.random() * canvas.height,
-                    size: Math.random() * 2 + 1,
-                    speedX: (Math.random() - 0.5) * 0.5,
-                    speedY: (Math.random() - 0.5) * 0.5
-                });
-            }
-
-            function drawParticles() {
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-                ctx.fillStyle = '#d4af37';
-
-                particles.forEach(particle => {
-                    ctx.beginPath();
-                    ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
-                    ctx.fill();
-
-                    particle.x += particle.speedX;
-                    particle.y += particle.speedY;
-
-                    if (particle.x < 0 || particle.x > canvas.width) particle.speedX *= -1;
-                    if (particle.y < 0 || particle.y > canvas.height) particle.speedY *= -1;
-                });
-
-                requestAnimationFrame(drawParticles);
-            }
-
-            drawParticles();
-        }
+        // Random Glitch Trigger
+        document.addEventListener('DOMContentLoaded', () => {
+            setInterval(() => {
+                const glitches = document.querySelectorAll('.glitch');
+                const randomGlitch = glitches[Math.floor(Math.random() * glitches.length)];
+                randomGlitch.classList.add('glitch-active');
+                setTimeout(() => randomGlitch.classList.remove('glitch-active'), 500);
+            }, 10000 + Math.random() * 10000);
+        });
     </script>
 </body>
 </html>
