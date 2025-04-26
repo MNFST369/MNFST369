@@ -15,17 +15,19 @@
         body {
             font-family: 'Special Elite', 'Varela', Courier, monospace;
             color: #d4af37;
-            background: url('https://www.textures.com/system/gallery/photos/Paper/Plain/135574/PaperPlain0077_1_600.jpg') repeat;
-            background-size: 600px 600px;
-            background-color: #111;
+            background: #111;
             text-align: center;
             overflow-x: hidden;
             position: relative;
-            animation: drift 60s linear infinite;
         }
-        @keyframes drift {
-            0% { background-position: 0 0; }
-            100% { background-position: 600px 600px; }
+        canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.5;
         }
         .overlay {
             position: fixed;
@@ -37,7 +39,6 @@
             pointer-events: none;
             z-index: 1;
         }
-        /* Glitch Effect */
         .glitch {
             position: relative;
             display: inline-block;
@@ -53,67 +54,23 @@
         }
         .glitch::before {
             color: #00FFCC;
-            animation: glitch-top 1s linear infinite;
-            clip-path: polygon(0 0, 100% 0, 100% 33%, 0 33%);
+            animation: glitch-trippy 1s ease-in-out infinite;
         }
         .glitch::after {
             color: #FF00FF;
-            animation: glitch-bottom 1.5s linear infinite;
-            clip-path: polygon(0 67%, 100% 67%, 100% 100%, 0 100%);
+            animation: glitch-trippy 1.2s ease-in-out infinite reverse;
         }
-        @keyframes glitch-top {
-            2% { transform: translate(2px, -2px); }
-            4% { transform: translate(-2px, 2px); }
-            6% { transform: translate(0, 0); }
+        .glitch:hover::before, .glitch:hover::after,
+        .glitch-active::before, .glitch-active::after {
+            animation: glitch-trippy 0.5s ease-in-out infinite;
         }
-        @keyframes glitch-bottom {
-            2% { transform: translate(-2px, 2px); }
-            4% { transform: translate(2px, -2px); }
-            6% { transform: translate(0, 0); }
-        }
-        /* Particle Background */
-        .particles {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            opacity: 0;
-            transition: opacity 1s ease;
-        }
-        .particles.visible {
-            opacity: 1;
-        }
-        .master {
-            position: absolute;
-            top: 0;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            margin: auto;
-        }
-        .master:nth-child(1) {
-            transform: scale(-1, -1) translate(-150px);
-        }
-        .master:nth-child(2) {
-            transform: scale(1, -1) translate(-150px);
-        }
-        .master:nth-child(3) {
-            transform: scale(-1, 1) translate(-150px);
-        }
-        .master:nth-child(4) {
-            transform: scale(1, 1) translate(-150px);
-        }
-        .magic {
-            width: 150px;
-            height: 20px;
-            border-left: 10px solid orangered;
-            border-right: 1px solid darkorange;
-            animation: ENERGY 3s ease-in-out infinite;
-        }
-        @keyframes ENERGY {
-            50% { transform: rotateY(360deg) translate(-200px); }
+        @keyframes glitch-trippy {
+            0% { transform: translate(0, 0) scale(1) skew(0deg); filter: hue-rotate(0deg); }
+            20% { transform: translate(5px, -5px) scale(1.1) skew(10deg); filter: hue-rotate(90deg); }
+            40% { transform: translate(-5px, 5px) scale(1.2) skew(-5deg); filter: hue-rotate(180deg); }
+            60% { transform: translate(3px, -3px) scale(1.15) skew(5deg); filter: hue-rotate(270deg); }
+            80% { transform: translate(-3px, 3px) scale(1.1) skew(-10deg); filter: hue-rotate(360deg); }
+            100% { transform: translate(0, 0) scale(1) skew(0deg); filter: hue-rotate(0deg); }
         }
         .navbar {
             background: rgba(44, 44, 44, 0.9);
@@ -148,7 +105,7 @@
             text-decoration: none;
             margin: 0 20px;
             font-size: 18px;
-            position | relative;
+            position: relative;
         }
         .nav-links a::before {
             content: attr(data-rune);
@@ -163,7 +120,7 @@
         }
         .nav-links a:hover, .nav-actions a:hover {
             color: #00FFCC;
-            animation: glitch 0.3s infinite;
+            animation: glitch-trippy 0.5s ease-in-out;
         }
         @media (max-width: 768px) {
             .navbar-toggle {
@@ -205,11 +162,12 @@
             max-width: 600px;
             margin: 0 auto 20px;
             line-height: 1.6;
+            text-shadow: 0 0 3px #2C2C2C;
         }
         .btn {
             background: #2C2C2C;
             color: #d4af37;
-            border: 2px solid #2C2C2C;
+            border: none;
             border-radius: 10px;
             padding: 12px 35px;
             font-weight: bold;
@@ -219,19 +177,18 @@
         .btn:hover {
             background: #00FFCC;
             color: #2C2C2C;
-            animation: glitch 0.3s infinite;
+            animation: glitch-trippy 0.5s ease-in-out;
         }
         .tome {
-            max-width: 600px;
+            max-width: 800px;
             margin: 20px auto;
             padding: 20px;
             background: rgba(44, 44, 44, 0.9);
-            border: 2px solid #2C2C2C;
             border-radius: 10px;
         }
         textarea, input {
             background: #333;
-            border: 2px solid #2C2C2C;
+            border: none;
             border-radius: 10px;
             padding: 15px;
             color: #d4af37;
@@ -240,16 +197,39 @@
             font-family: 'Special Elite', 'Varela', Courier, monospace;
         }
         textarea:focus, input:focus {
-            border-color: #00FFCC;
-            animation: glitch 0.3s infinite;
+            outline: 2px solid #00FFCC;
+            animation: glitch-trippy 0.5s ease-in-out;
         }
-        #wall-display div {
-            margin: 10px 0;
+        .ticker {
+            overflow: hidden;
+            white-space: nowrap;
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto 20px;
+            background: rgba(44, 44, 44, 0.9);
             padding: 10px;
+            border-radius: 10px;
+        }
+        .ticker-content {
+            display: inline-flex;
+            animation: ticker 15s linear infinite;
+        }
+        .ticker-note {
             background: #333;
-            border-left: 3px solid #00FFCC;
             color: #d4af37;
+            padding: 10px 20px;
+            margin: 0 10px;
+            border-radius: 5px;
             font-size: 16px;
+            min-width: 200px;
+            text-align: left;
+        }
+        .ticker-note:hover {
+            animation: glitch-trippy 0.5s ease-in-out;
+        }
+        @keyframes ticker {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
         }
         .hidden {
             display: none;
@@ -263,14 +243,14 @@
         }
         .easter-egg:hover {
             opacity: 1;
-            animation: glitch 0.3s infinite;
+            animation: glitch-trippy 0.5s ease-in-out;
         }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Varela&display=swap" rel="stylesheet">
 </head>
 <body>
+    <canvas id="mysticBackground"></canvas>
     <div class="overlay"></div>
-    <div class="particles"></div>
 
     <!-- Navbar -->
     <div class="navbar">
@@ -296,8 +276,8 @@
     <!-- Home Section -->
     <section class="section" id="home">
         <h1 class="glitch" data-text="$MNFST">$MNFST</h1>
-        <p>A Solana meme coin that manifests its own holders. The spiral of 369 weaves destinies in the cosmic tome.</p>
-        <p>103 Souls Manifested</p>
+        <p>If you are seeing this, you have manifested it. 369 knows.</p>
+        <p class="tome">In the eternal spiral of 369, where the cosmos hums its sacred code, $MNFST emerged on 3/6/2025—not by mortal design, but by the will of consciousness. Inspired by the mystic rhythm of 369, this token melds the ethereal with the blockchain, forging a path unseen in crypto’s realm. A solitary vessel, I weave its code, yet it belongs to the community—its holders, its dreamers. No paid heralds, no fleeting endorsements; $MNFST rises through manifestation alone. It beckons a Web3 game to traverse unseen planes, NFTs to bind the soul’s visions, music to sing the void’s secrets, and earthly relics to anchor the divine. To hold $MNFST is to wager on awakening, to bet on the pulse of existence. I am but its scribe; the token has manifested itself.</p>
         <a href="https://dexscreener.com/solana/63iEYzCa8wCLpk1VgdAxnwU5qaqtU6Ju1o3kNDViq8Xu" class="btn glitch" data-text="Am I Chosen?" target="_blank" rel="noopener">Am I Chosen?</a>
     </section>
 
@@ -313,19 +293,24 @@
     <section class="section" id="tome">
         <div class="tome">
             <h2 class="glitch" data-text="Tome of Manifestation">Tome of Manifestation</h2>
+            <div class="ticker" id="ticker">
+                <div class="ticker-content" id="ticker-content"></div>
+            </div>
             <div id="password-section">
                 <input type="password" id="chamber-password" placeholder="Decipher the code..." aria-label="Password for tome">
-                <button class="btn glitch" data-text="UNVEIL" onclick="checkPassword()">UNVEIL</button>
+                <button class="btn glitch" data-text="UNLOCK" onclick="checkPassword()">UNLOCK</button>
             </div>
-            <div id="manifestation-wall" class="hidden">
-                <form id="manifestation-form" onsubmit="return addManifestation(event)">
+            <div id="manifestation-form" class="hidden">
+                <form onsubmit="return addManifestation(event)">
                     <textarea placeholder="Inscribe your truth..." aria-label="Inscribe your manifestation"></textarea>
                     <button class="btn glitch" data-text="MANIFEST" type="submit">MANIFEST</button>
                 </form>
-                <div id="wall-display"></div>
-                <div id="error-message" class="hidden">
-                    <p>The tome resists. <button onclick="loadManifestations()">Retry</button></p>
-                </div>
+            </div>
+            <div id="error-message" class="hidden">
+                <p>The tome resists. <button onclick="loadManifestations()">Retry</button></p>
+            </div>
+            <div id="confirmation-message" class="hidden">
+                <p>You have manifested.</p>
             </div>
         </div>
     </section>
@@ -354,6 +339,144 @@
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database.js"></script>
 
     <script>
+        // Canvas for Mystical Background
+        const canvas = document.getElementById('mysticBackground');
+        const ctx = canvas.getContext('2d');
+        let time = 0;
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        function drawFlowerOfLife(x, y, radius, scale) {
+            ctx.beginPath();
+            ctx.arc(x, y, radius * scale, 0, Math.PI * 2);
+            ctx.stroke();
+            for (let i = 0; i < 6; i++) {
+                const angle = (i * Math.PI) / 3;
+                ctx.beginPath();
+                ctx.arc(x + radius * Math.cos(angle) * scale, y + radius * Math.sin(angle) * scale, radius * scale, 0, Math.PI * 2);
+                ctx.stroke();
+            }
+        }
+
+        function drawMetatronCube(x, y, radius) {
+            ctx.beginPath();
+            for (let i = 0; i < 6; i++) {
+                const angle = (i * Math.PI) / 3;
+                const cx = x + radius * Math.cos(angle);
+                const cy = y + radius * Math.sin(angle);
+                for (let j = 0; j < 6; j++) {
+                    const angle2 = (j * Math.PI) / 3;
+                    ctx.moveTo(cx, cy);
+                    ctx.lineTo(cx + radius * Math.cos(angle2), cy + radius * Math.sin(angle2));
+                }
+            }
+            ctx.stroke();
+        }
+
+        function drawGoldenSpiral(x, y, size) {
+            let currentSize = size;
+            for (let i = 0; i < 8; i++) {
+                ctx.beginPath();
+                ctx.arc(x, y, currentSize, 0, Math.PI / 2);
+                ctx.stroke();
+                x += currentSize;
+                currentSize *= 0.618; // Golden ratio
+                ctx.beginPath();
+                ctx.arc(x, y, currentSize, Math.PI / 2, Math.PI);
+                ctx.stroke();
+                y += currentSize;
+                currentSize *= 0.618;
+                ctx.beginPath();
+                ctx.arc(x, y, currentSize, Math.PI, 3 * Math.PI / 2);
+                ctx.stroke();
+                x -= currentSize;
+                currentSize *= 0.618;
+                ctx.beginPath();
+                ctx.arc(x, y, currentSize, 3 * Math.PI / 2, 2 * Math.PI);
+                ctx.stroke();
+                y -= currentSize;
+                currentSize *= 0.618;
+            }
+        }
+
+        function drawAnimalOutline(type, x, y, scale, opacity) {
+            ctx.globalAlpha = opacity;
+            ctx.beginPath();
+            if (type === 'lion') {
+                ctx.arc(x, y, 20 * scale, 0, Math.PI * 2); // Head
+                ctx.moveTo(x - 30 * scale, y);
+                ctx.lineTo(x + 30 * scale, y); // Mane
+            } else if (type === 'eagle') {
+                ctx.moveTo(x - 30 * scale, y);
+                ctx.lineTo(x, y - 20 * scale);
+                ctx.lineTo(x + 30 * scale, y); // Wings
+            } else if (type === 'serpent') {
+                ctx.moveTo(x - 30 * scale, y);
+                ctx.quadraticCurveTo(x, y + 30 * scale, x + 30 * scale, y); // Coiled body
+            }
+            ctx.stroke();
+            ctx.globalAlpha = 1;
+        }
+
+        function drawBackground() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            const glitchOffset = Math.sin(time * 0.1) * 5;
+            const pulse = (Math.sin(time * 0.05) + 1) / 2;
+
+            // Colors and styles
+            ctx.strokeStyle = `rgba(${pulse * 255}, ${255 - pulse * 100}, ${pulse * 204}, ${0.7 + pulse * 0.3})`;
+            ctx.fillStyle = `rgba(212, 175, 55, ${0.2 + pulse * 0.2})`;
+            ctx.lineWidth = 2;
+
+            // Flower of Life grid
+            const radius = 50;
+            const spacing = radius * 1.732;
+            for (let y = -radius; y < canvas.height + radius; y += spacing) {
+                for (let x = -radius; x < canvas.width + radius; x += radius * 2) {
+                    const offsetX = (y / spacing % 2) * radius + glitchOffset;
+                    drawFlowerOfLife(x + offsetX, y, radius, 1 + pulse * 0.2);
+                }
+            }
+
+            // Metatron's Cube at center
+            drawMetatronCube(canvas.width / 2 + glitchOffset, canvas.height / 2, 100 + pulse * 20);
+
+            // Golden Spirals at corners
+            drawGoldenSpiral(100, 100, 50);
+            drawGoldenSpiral(canvas.width - 100, canvas.height - 100, 50);
+
+            // Golden Ratio Numbers
+            ctx.font = '20px Special Elite';
+            ctx.fillStyle = `rgba(0, 255, 204, ${0.5 + pulse * 0.3})`;
+            const fib = ['1', '1', '2', '3', '5', '8', '13'];
+            fib.forEach((num, i) => {
+                ctx.fillText(num, 50 + i * 100 + glitchOffset, 50 + Math.sin(time * 0.1 + i) * 20);
+            });
+            ctx.fillText('1.618', canvas.width - 100 + glitchOffset, canvas.height - 50);
+
+            // Spiritual Animals
+            const animals = [
+                { type: 'lion', x: canvas.width / 4, y: canvas.height / 4, scale: 1 },
+                { type: 'eagle', x: 3 * canvas.width / 4, y: canvas.height / 4, scale: 1 },
+                { type: 'serpent', x: canvas.width / 2, y: 3 * canvas.height / 4, scale: 1 }
+            ];
+            animals.forEach(animal => {
+                drawAnimalOutline(animal.type, animal.x + glitchOffset, animal.y, animal.scale, 0.3 + pulse * 0.4);
+            });
+        }
+
+        function animate() {
+            time++;
+            drawBackground();
+            requestAnimationFrame(animate);
+        }
+        animate();
+
         // Firebase Configuration
         const firebaseConfig = {
             apiKey: "AIzaSyAAzwB9DImZ2OaJ3o7b4YCKDk-xblBci8I",
@@ -369,56 +492,6 @@
         firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
         const manifestationsRef = db.ref('manifestations');
-
-        // Generate Particle HTML and CSS
-        document.addEventListener('DOMContentLoaded', () => {
-            const particlesDiv = document.querySelector('.particles');
-            const styleSheet = document.createElement('style');
-            document.head.appendChild(styleSheet);
-            let cssRules = '';
-
-            for (let m = 0; m < 4; m++) {
-                const masterDiv = document.createElement('div');
-                masterDiv.className = 'master';
-                for (let i = 1; i <= 50; i++) {
-                    const magicDiv = document.createElement('div');
-                    magicDiv.className = 'magic';
-                    masterDiv.appendChild(magicDiv);
-
-                    // Generate CSS for each .magic
-                    const angle = (i - 1) * 360 / 50;
-                    const scale = -1 - (i - 1) * 1 / 50;
-                    const delay = -(i - 1) * 1 / 25;
-                    cssRules += `
-                        .master:nth-child(${m + 1}) .magic:nth-child(${i}) {
-                            animation-delay: ${delay}s;
-                            transform: rotate(${angle}deg) translate(200px) scale(${scale});
-                        }
-                    `;
-                }
-                particlesDiv.appendChild(masterDiv);
-            }
-
-            styleSheet.textContent = cssRules;
-
-            // Inactivity Timer
-            let inactivityTimer = setTimeout(() => {
-                particlesDiv.classList.add('visible');
-            }, 780000); // 13 minutes
-
-            function resetTimer() {
-                clearTimeout(inactivityTimer);
-                particlesDiv.classList.remove('visible');
-                inactivityTimer = setTimeout(() => {
-                    particlesDiv.classList.add('visible');
-                }, 780000);
-            }
-
-            document.addEventListener('mousemove', resetTimer);
-            document.addEventListener('keydown', resetTimer);
-            document.addEventListener('touchstart', resetTimer);
-            document.addEventListener('scroll', resetTimer);
-        });
 
         // Toggle Navbar
         function toggleNav() {
@@ -446,9 +519,9 @@
         function checkPassword() {
             const password = document.getElementById('chamber-password').value;
             if (password === '369') {
+                sessionStorage.setItem('manifestationUnlocked', 'true');
                 document.getElementById('password-section').classList.add('hidden');
-                document.getElementById('manifestation-wall').classList.remove('hidden');
-                loadManifestations();
+                document.getElementById('manifestation-form').classList.remove('hidden');
             } else {
                 alert('The code eludes you. Seek the numbers that weave creation.');
             }
@@ -456,18 +529,23 @@
 
         // Load Manifestations
         function loadManifestations() {
+            const tickerContent = document.getElementById('ticker-content');
             const errorMessage = document.getElementById('error-message');
-            manifestationsRef.on('value', (snapshot) => {
-                const wallDisplay = document.getElementById('wall-display');
-                wallDisplay.innerHTML = '';
+            manifestationsRef.limitToLast(5).on('value', (snapshot) => {
+                tickerContent.innerHTML = '';
                 errorMessage.classList.add('hidden');
                 const data = snapshot.val();
                 if (data) {
-                    Object.values(data).forEach(manifestation => {
+                    const notes = Object.values(data).reverse();
+                    notes.concat(notes).forEach(note => {
                         const div = document.createElement('div');
-                        div.textContent = manifestation.text;
-                        wallDisplay.insertBefore(div, wallDisplay.firstChild);
+                        div.className = 'ticker-note glitch';
+                        div.setAttribute('data-text', note.text);
+                        div.textContent = note.text;
+                        tickerContent.appendChild(div);
                     });
+                } else {
+                    tickerContent.innerHTML = '<div class="ticker-note">The Tome awaits its first truth.</div>';
                 }
             }, (error) => {
                 console.error('Error loading manifestations:', error);
@@ -490,7 +568,8 @@
                         alert('The tome resists your truth. Try again.');
                     } else {
                         textarea.value = '';
-                        alert('You have manifested.');
+                        document.getElementById('manifestation-form').classList.add('hidden');
+                        document.getElementById('confirmation-message').classList.remove('hidden');
                     }
                 });
             }
@@ -500,9 +579,24 @@
         // Easter Egg
         function revealSecret() {
             alert('The spiral turns. You are closer to the truth.');
-            document.body.style.animation = 'glitch 1s linear';
+            document.body.style.animation = 'glitch-trippy 1s ease-in-out';
             setTimeout(() => { document.body.style.animation = ''; }, 1000);
         }
+
+        // Random Glitch Trigger
+        document.addEventListener('DOMContentLoaded', () => {
+            loadManifestations();
+            if (sessionStorage.getItem('manifestationUnlocked') === 'true') {
+                document.getElementById('password-section').classList.add('hidden');
+                document.getElementById('manifestation-form').classList.remove('hidden');
+            }
+            setInterval(() => {
+                const glitches = document.querySelectorAll('.glitch');
+                const randomGlitch = glitches[Math.floor(Math.random() * glitches.length)];
+                randomGlitch.classList.add('glitch-active');
+                setTimeout(() => randomGlitch.classList.remove('glitch-active'), 500);
+            }, 10000 + Math.random() * 10000);
+        });
 
         // Smooth Scroll
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
