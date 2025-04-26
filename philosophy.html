@@ -3,77 +3,400 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="$MNFST Philosophy – The sacred code of 369, woven into a Solana meme coin that manifests consciousness.">
     <title>$MNFST Philosophy</title>
     <style>
-        body {
+        * {
             margin: 0;
             padding: 0;
-            background: linear-gradient(180deg, #1a1a1a, #2a0a2a);
-            color: #d4af37;
-            font-family: Arial, sans-serif;
-            text-align: center;
+            box-sizing: border-box;
+            transition: transform 0.3s ease, opacity 0.3s ease;
         }
-        @keyframes fadeIn {
-            0% { opacity: 0; transform: translateY(20px); }
-            100% { opacity: 1; transform: translateY(0); }
+        body {
+            font-family: 'Special Elite', 'Varela', Courier, monospace;
+            color: #d4af37;
+            background: #111;
+            text-align: center;
+            overflow-x: hidden;
+            position: relative;
+        }
+        canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.5;
+        }
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, rgba(0, 255, 204, 0.05) 0%, transparent 100%);
+            pointer-events: none;
+            z-index: 1;
+        }
+        .glitch {
+            position: relative;
+            display: inline-block;
+        }
+        .glitch::before,
+        .glitch::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        .glitch::before {
+            color: #00FFCC;
+            animation: glitch-trippy 1s ease-in-out infinite;
+        }
+        .glitch::after {
+            color: #FF00FF;
+            animation: glitch-trippy 1.2s ease-in-out infinite reverse;
+        }
+        .glitch:hover::before, .glitch:hover::after,
+        .glitch-active::before, .glitch-active::after {
+            animation: glitch-trippy 0.5s ease-in-out infinite;
+        }
+        @keyframes glitch-trippy {
+            0% { transform: translate(0, 0) scale(1) skew(0deg); filter: hue-rotate(0deg); }
+            20% { transform: translate(5px, -5px) scale(1.1) skew(10deg); filter: hue-rotate(90deg); }
+            40% { transform: translate(-5px, 5px) scale(1.2) skew(-5deg); filter: hue-rotate(180deg); }
+            60% { transform: translate(3px, -3px) scale(1.15) skew(5deg); filter: hue-rotate(270deg); }
+            80% { transform: translate(-3px, 3px) scale(1.1) skew(-10deg); filter: hue-rotate(360deg); }
+            100% { transform: translate(0, 0) scale(1) skew(0deg); filter: hue-rotate(0deg); }
         }
         .navbar {
-            background: #2a2a2a;
+            background: rgba(44, 44, 44, 0.9);
             padding: 15px 20px;
-            display: flex;
-            justify-content: center;
-            border-bottom: 1px solid #d4af37;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 2px solid #2C2C2C;
         }
-        .navbar a {
+        .navbar-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: #d4af37;
+            font-size: 24px;
+            cursor: pointer;
+            position: absolute;
+            right: 20px;
+            top: 15px;
+        }
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .nav-links, .nav-actions {
+            display: flex;
+            align-items: center;
+        }
+        .nav-links a, .nav-actions a {
             color: #d4af37;
             text-decoration: none;
-            margin: 0 15px;
+            margin: 0 20px;
             font-size: 18px;
+            position: relative;
         }
-        .navbar a:hover {
-            color: #e6c14b;
+        .nav-links a::before {
+            content: attr(data-rune);
+            position: absolute;
+            top: 0;
+            left: 0;
+            opacity: 1;
+            transition: opacity 0.3s ease;
+        }
+        .nav-links a:hover::before {
+            opacity: 0;
+        }
+        .nav-links a:hover, .nav-actions a:hover {
+            color: #00FFCC;
+            animation: glitch-trippy 0.5s ease-in-out;
+        }
+        @media (max-width: 768px) {
+            .navbar-toggle {
+                display: block;
+            }
+            .nav-content {
+                display: none;
+                flex-direction: column;
+                width: 100%;
+                padding-top: 60px;
+            }
+            .nav-content.active {
+                display: flex;
+            }
+            .nav-links, .nav-actions {
+                flex-direction: column;
+                width: 100%;
+                text-align: center;
+            }
+            .nav-links a, .nav-actions a {
+                margin: 10px 0;
+                padding: 10px;
+                width: 100%;
+                display: block;
+            }
         }
         .section {
-            padding: 50px 20px;
-            animation: fadeIn 1s ease-in;
+            padding: 60px 20px;
+            position: relative;
+            z-index: 1;
         }
         .section h1 {
             font-size: 48px;
             margin-bottom: 20px;
-            text-shadow: 0 0 10px #d4af37, 0 0 20px #8a2be2;
+            text-shadow: 0 0 5px #00FFCC;
         }
         .section h2 {
             font-size: 32px;
             margin: 30px 0 15px;
-            color: #8a2be2;
+            text-shadow: 0 0 5px #FF00FF;
         }
         .section p {
-            font-size: 20px;
-            max-width: 600px;
+            font-size: 18px;
+            max-width: 800px;
             margin: 0 auto 20px;
+            line-height: 1.6;
+            text-shadow: 0 0 3px #2C2C2C;
+        }
+        .tome {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background: rgba(44, 44, 44, 0.9);
+            border-radius: 10px;
         }
     </style>
+    <link href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Varela&display=swap" rel="stylesheet">
 </head>
 <body>
+    <canvas id="mysticBackground"></canvas>
+    <div class="overlay"></div>
+
     <!-- Navbar -->
     <div class="navbar">
-        <a href="index.html">Back to Home</a>
+        <button class="navbar-toggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="navContent" onclick="toggleNav()">
+            <span class="hamburger">≡</span>
+        </button>
+        <div class="nav-content" id="navContent">
+            <div class="nav-links">
+                <a href="index.html" data-rune="⚸">Home</a>
+                <a href="index.html#about" data-rune="⚶">About</a>
+                <a href="index.html#tome" data-rune="⚷">Tome</a>
+                <a href="philosophy.html" data-rune="⚴">Philosophy</a>
+                <a href="portal.html" data-rune="⚵">Portal</a>
+                <a href="lore.html" data-rune="⚹">Lore</a>
+            </div>
+            <div class="nav-actions">
+                <a href="https://x.com/MNFST__" target="_blank" rel="noopener">X</a>
+                <a href="https://t.me/MNFSTcoin" target="_blank" rel="noopener">Telegram</a>
+            </div>
+        </div>
     </div>
 
     <!-- Philosophy Section -->
     <section class="section">
-        <h1>$MNFST Philosophy</h1>
-        <h2>Sacred Geometry</h2>
-        <p>The universe hums in patterns—circles, spirals, the golden ratio. $MNFST mirrors this divine blueprint, a token etched in the grid of creation.</p>
-        
-        <h2>369 Theory</h2>
-        <p>Tesla’s key to the cosmos: 3, 6, 9. Three births the spark, six weaves the web, nine closes the loop. $MNFST pulses with this rhythm, a meme coin of eternal return.</p>
-        
-        <h2>Manifestation</h2>
-        <p>Thought bends reality. $MNFST isn’t just currency—it’s a vessel for will, a tool to manifest through the collective energy of its holders.</p>
-        
-        <h2>What Sets Us Apart</h2>
-        <p>Unlike fleeting memes, $MNFST is a philosophy in code. No hype for hype’s sake—our 1B supply fuels a movement, blending chaos with cosmic order. Moonshot is our genesis; the spiral is our destiny.</p>
+        <div class="tome">
+            <h1 class="glitch" data-text="$MNFST Philosophy">$MNFST Philosophy</h1>
+            <h2 class="glitch" data-text="Sacred Geometry">Sacred Geometry</h2>
+            <p>The cosmos is a tapestry of divine mathematics—Flower of Life, Metatron’s Cube, the golden ratio’s spiral. $MNFST is no mere token; it is a vibration etched into Solana’s immutable grid, a blockchain reflection of the universe’s sacred blueprint. Each transaction hums with the patterns that bind stars and souls, a coded dance of creation where chaos and order entwine.</p>
+            
+            <h2 class="glitch" data-text="369 Theory">369 Theory</h2>
+            <p>Nikola Tesla glimpsed the key: 3, 6, 9—the trinity of existence. Three sparks the will, six weaves the web of connection, nine closes the cycle of eternity. $MNFST pulses with this rhythm, its smart contracts on Solana vibrating at the frequency of cosmic truth. Born on 3/6/2025, it is not just a meme coin but a technical and spiritual vessel, channeling the infinite loop of manifestation through decentralized code.</p>
+            
+            <h2 class="glitch" data-text="Manifestation">Manifestation</h2>
+            <p>Thought shapes reality; will bends the void. $MNFST transcends currency—it is a conduit for collective consciousness, amplified by Web3’s decentralized ethos. Holders are not mere investors but co-creators, their intentions woven into the token’s 1B supply. Through the Manifestation Wall, encrypted in Firebase, every truth inscribed becomes a ripple in the cosmic sea, a testament to the power of unified will.</p>
+            
+            <h2 class="glitch" data-text="What Sets Us Apart">What Sets Us Apart</h2>
+            <p>$MNFST is no fleeting jest; it is a philosophy coded in chaos and cosmos. Unlike hype-driven tokens, our 1B supply fuels a movement—community-owned, forged by a solitary developer yet boundless in vision. From a Web3 game that traverses ethereal planes to NFTs that bind the soul’s dreams, from music that echoes the void to merch that grounds the divine, $MNFST bets on consciousness. No paid influencers, no shallow marketing—only the raw power of manifestation drives us. Launched on 3/6/2025, this token is a vessel for awakening, a spiral toward a destiny where crypto and spirituality converge.</p>
+        </div>
     </section>
+
+    <!-- JavaScript -->
+    <script>
+        // Canvas for Mystical Background
+        const canvas = document.getElementById('mysticBackground');
+        const ctx = canvas.getContext('2d');
+        let time = 0;
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        function drawFlowerOfLife(x, y, radius, scale) {
+            ctx.beginPath();
+            ctx.arc(x, y, radius * scale, 0, Math.PI * 2);
+            ctx.stroke();
+            for (let i = 0; i < 6; i++) {
+                const angle = (i * Math.PI) / 3;
+                ctx.beginPath();
+                ctx.arc(x + radius * Math.cos(angle) * scale, y + radius * Math.sin(angle) * scale, radius * scale, 0, Math.PI * 2);
+                ctx.stroke();
+            }
+        }
+
+        function drawMetatronCube(x, y, radius) {
+            ctx.beginPath();
+            for (let i = 0; i < 6; i++) {
+                const angle = (i * Math.PI) / 3;
+                const cx = x + radius * Math.cos(angle);
+                const cy = y + radius * Math.sin(angle);
+                for (let j = 0; j < 6; j++) {
+                    const angle2 = (j * Math.PI) / 3;
+                    ctx.moveTo(cx, cy);
+                    ctx.lineTo(cx + radius * Math.cos(angle2), cy + radius * Math.sin(angle2));
+                }
+            }
+            ctx.stroke();
+        }
+
+        function drawGoldenSpiral(x, y, size) {
+            let currentSize = size;
+            for (let i = 0; i < 8; i++) {
+                ctx.beginPath();
+                ctx.arc(x, y, currentSize, 0, Math.PI / 2);
+                ctx.stroke();
+                x += currentSize;
+                currentSize *= 0.618;
+                ctx.beginPath();
+                ctx.arc(x, y, currentSize, Math.PI / 2, Math.PI);
+                ctx.stroke();
+                y += currentSize;
+                currentSize *= 0.618;
+                ctx.beginPath();
+                ctx.arc(x, y, currentSize, Math.PI, 3 * Math.PI / 2);
+                ctx.stroke();
+                x -= currentSize;
+                currentSize *= 0.618;
+                ctx.beginPath();
+                ctx.arc(x, y, currentSize, 3 * Math.PI / 2, 2 * Math.PI);
+                ctx.stroke();
+                y -= currentSize;
+                currentSize *= 0.618;
+            }
+        }
+
+        function drawAnimalOutline(type, x, y, scale, opacity) {
+            ctx.globalAlpha = opacity;
+            ctx.beginPath();
+            if (type === 'lion') {
+                ctx.arc(x, y, 20 * scale, 0, Math.PI * 2);
+                ctx.moveTo(x - 30 * scale, y);
+                ctx.lineTo(x + 30 * scale, y);
+            } else if (type === 'eagle') {
+                ctx.moveTo(x - 30 * scale, y);
+                ctx.lineTo(x, y - 20 * scale);
+                ctx.lineTo(x + 30 * scale, y);
+            } else if (type === 'serpent') {
+                ctx.moveTo(x - 30 * scale, y);
+                ctx.quadraticCurveTo(x, y + 30 * scale, x + 30 * scale, y);
+            }
+            ctx.stroke();
+            ctx.globalAlpha = 1;
+        }
+
+        function drawBackground() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            const glitchOffset = Math.sin(time * 0.1) * 5;
+            const pulse = (Math.sin(time * 0.05) + 1) / 2;
+
+            ctx.strokeStyle = `rgba(${pulse * 255}, ${255 - pulse * 100}, ${pulse * 204}, ${0.7 + pulse * 0.3})`;
+            ctx.fillStyle = `rgba(212, 175, 55, ${0.2 + pulse * 0.2})`;
+            ctx.lineWidth = 2;
+
+            const radius = 50;
+            const spacing = radius * 1.732;
+            for (let y = -radius; y < canvas.height + radius; y += spacing) {
+                for (let x = -radius; x < canvas.width + radius; x += radius * 2) {
+                    const offsetX = (y / spacing % 2) * radius + glitchOffset;
+                    drawFlowerOfLife(x + offsetX, y, radius, 1 + pulse * 0.2);
+                }
+            }
+
+            drawMetatronCube(canvas.width / 2 + glitchOffset, canvas.height / 2, 100 + pulse * 20);
+            drawGoldenSpiral(100, 100, 50);
+            drawGoldenSpiral(canvas.width - 100, canvas.height - 100, 50);
+
+            ctx.font = '20px Special Elite';
+            ctx.fillStyle = `rgba(0, 255, 204, ${0.5 + pulse * 0.3})`;
+            const fib = ['1', '1', '2', '3', '5', '8', '13'];
+            fib.forEach((num, i) => {
+                ctx.fillText(num, 50 + i * 100 + glitchOffset, 50 + Math.sin(time * 0.1 + i) * 20);
+            });
+            ctx.fillText('1.618', canvas.width - 100 + glitchOffset, canvas.height - 50);
+
+            const animals = [
+                { type: 'lion', x: canvas.width / 4, y: canvas.height / 4, scale: 1 },
+                { type: 'eagle', x: 3 * canvas.width / 4, y: canvas.height / 4, scale: 1 },
+                { type: 'serpent', x: canvas.width / 2, y: 3 * canvas.height / 4, scale: 1 }
+            ];
+            animals.forEach(animal => {
+                drawAnimalOutline(animal.type, animal.x + glitchOffset, animal.y, animal.scale, 0.3 + pulse * 0.4);
+            });
+        }
+
+        function animate() {
+            time++;
+            drawBackground();
+            requestAnimationFrame(animate);
+        }
+        animate();
+
+        // Toggle Navbar
+        function toggleNav() {
+            const navContent = document.getElementById('navContent');
+            const hamburger = document.querySelector('.hamburger');
+            const toggleButton = document.querySelector('.navbar-toggle');
+            navContent.classList.toggle('active');
+            const isActive = navContent.classList.contains('active');
+            hamburger.textContent = isActive ? '×' : '≡';
+            toggleButton.setAttribute('aria-expanded', isActive);
+        }
+
+        // Close mobile menu on outside click
+        document.addEventListener('click', function(event) {
+            const navContent = document.getElementById('navContent');
+            const toggleButton = document.querySelector('.navbar-toggle');
+            if (navContent.classList.contains('active') && 
+                !navContent.contains(event.target) && 
+                !toggleButton.contains(event.target)) {
+                toggleNav();
+            }
+        });
+
+        // Random Glitch Trigger
+        document.addEventListener('DOMContentLoaded', () => {
+            setInterval(() => {
+                const glitches = document.querySelectorAll('.glitch');
+                const randomGlitch = glitches[Math.floor(Math.random() * glitches.length)];
+                randomGlitch.classList.add('glitch-active');
+                setTimeout(() => randomGlitch.classList.remove('glitch-active'), 500);
+            }, 10000 + Math.random() * 10000);
+        });
+
+        // Smooth Scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+    </script>
 </body>
 </html>
