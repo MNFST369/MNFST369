@@ -3,128 +3,498 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="The $MNFST Portal – Enter any number to receive the spiral's truth. 3-6-9 awaits.">
+    <meta name="description" content="$MNFST Portal – Enter any number or text to receive the spiral's truth. 3-6-9 awaits.">
     <title>$MNFST Portal</title>
     <style>
-        body { margin: 0; padding: 0; color: #d4af37; font-family: Arial, sans-serif; text-align: center; overflow-x: hidden; position: relative; }
-        body::before { content: ''; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, #0F0F0F, #1a1a1a, #2b2b2b, #d4af37); background-size: 300% 300%; animation: templeGlow 12s ease infinite; z-index: -1; opacity: 0.85; }
-        @keyframes templeGlow { 0% { background-position: 0% 0%; } 50% { background-position: 100% 100%; } 100% { background-position: 0% 0%; } }
-        body::after { content: ''; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M50 10 L70 30 L50 50 L30 30 Z M30 50 L50 70 L70 50 L50 30 Z" fill="none" stroke="#d4af37" stroke-width="0.5" opacity="0.3"/></svg>') repeat; animation: glyphFade 10s infinite; z-index: -1; }
-        @keyframes glyphFade { 0%, 100% { opacity: 0.3; } 50% { opacity: 0.5; } }
-        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.1); } 100% { transform: scale(1); } }
-        @keyframes float { 0% { transform: translateY(0); } 50% { transform: translateY(-20px); } 100% { transform: translateY(0); } }
-        @keyframes glow { 0% { text-shadow: 0 0 10px #d4af37, 0 0 20px #d4af37; } 50% { text-shadow: 0 0 20px #d4af37, 0 0 30px #d4af37; } 100% { text-shadow: 0 0 10px #d4af37, 0 0 20px #d4af37; } }
-        .navbar { background: rgba(42, 42, 42, 0.8); padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #d4af37; position: sticky; top: 0; z-index: 10; }
-        .navbar a { color: #d4af37; text-decoration: none; margin: 0 20px; font-size: 18px; transition: color 0.3s; }
-        .navbar a:hover { color: #e6c14b; }
-        .nav-btn { background: #d4af37; color: #1a1a1a; padding: 10px 20px; border-radius: 20px; font-size: 18px; text-decoration: none; animation: pulse 2s infinite; }
-        @media (max-width: 768px) { .navbar { flex-direction: column; padding: 10px; } .nav-links, .nav-actions { width: 100%; display: flex; flex-wrap: wrap; justify-content: center; margin: 10px 0; } .navbar a { margin: 10px 15px; font-size: 16px; } .nav-btn { margin: 10px 0; padding: 8px 16px; font-size: 16px; } }
-        .section { padding: 60px 20px; position: relative; z-index: 1; }
-        .section h1 { font-size: 48px; margin-bottom: 20px; animation: glow 3s infinite; }
-        .section p { font-size: 20px; max-width: 600px; margin: 0 auto 20px; animation: float 4s infinite; }
-        .portal-block { margin: 60px auto; padding: 25px; border: 2px solid #d4af37; max-width: 500px; background: rgba(42, 42, 42, 0.9); color: #d4af37; box-shadow: 0 0 15px #d4af37; }
-        .portal-block input, .portal-block button { margin: 10px; padding: 8px 20px; background: #d4af37; color: #1a1a1a; border: none; font-size: 16px; border-radius: 20px; transition: transform 0.3s; }
-        .portal-block button:hover { background: #e6c14b; transform: scale(1.05); cursor: pointer; }
-        #portalOutput { font-size: 24px; margin-top: 20px; animation: glow 2s infinite; }
-        .numbers-display { margin-top: 20px; display: flex; justify-content: space-around; flex-wrap: wrap; }
-        .number-set { margin: 10px; padding: 15px; border: 1px solid #d4af37; border-radius: 10px; background: rgba(26, 26, 26, 0.7); min-width: 120px; }
-        .number-set h3 { margin-top: 0; font-size: 18px; }
-        .number-set p { font-size: 20px; margin: 10px 0; animation: none; }
-        #cosmicCanvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+        body {
+            font-family: 'Special Elite', 'Varela', Courier, monospace;
+            color: #d4af37;
+            background: #111;
+            text-align: center;
+            overflow-x: hidden;
+            position: relative;
+        }
+        canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.3;
+        }
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, rgba(0, 255, 204, 0.05) 0%, transparent 100%);
+            pointer-events: none;
+            z-index: 1;
+        }
+        .glitch {
+            position: relative;
+            display: inline-block;
+        }
+        .glitch::before,
+        .glitch::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        .glitch::before {
+            color: #00FFCC;
+            animation: glitch-trippy 1s ease-in-out infinite;
+        }
+        .glitch::after {
+            color: #FF00FF;
+            animation: glitch-trippy 1.2s ease-in-out infinite reverse;
+        }
+        .glitch:hover::before, .glitch:hover::after,
+        .glitch-active::before, .glitch-active::after {
+            animation: glitch-trippy 0.5s ease-in-out infinite;
+        }
+        @keyframes glitch-trippy {
+            0% { transform: translate(0, 0) scale(1) skew(0deg); filter: hue-rotate(0deg); }
+            20% { transform: translate(5px, -5px) scale(1.1) skew(10deg); filter: hue-rotate(90deg); }
+            40% { transform: translate(-5px, 5px) scale(1.2) skew(-5deg); filter: hue-rotate(180deg); }
+            60% { transform: translate(3px, -3px) scale(1.15) skew(5deg); filter: hue-rotate(270deg); }
+            80% { transform: translate(-3px, 3px) scale(1.1) skew(-10deg); filter: hue-rotate(360deg); }
+            100% { transform: translate(0, 0) scale(1) skew(0deg); filter: hue-rotate(0deg); }
+        }
+        .navbar {
+            background: rgba(44, 44, 44, 0.9);
+            padding: 15px 20px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 2px solid #2C2C2C;
+        }
+        .navbar-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: #d4af37;
+            font-size: 24px;
+            cursor: pointer;
+            position: absolute;
+            right: 20px;
+            top: 15px;
+        }
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .nav-links, .nav-actions {
+            display: flex;
+            align-items: center;
+        }
+        .nav-links a, .nav-actions a {
+            color: #d4af37;
+            text-decoration: none;
+            margin: 0 20px;
+            font-size: 18px;
+            position: relative;
+        }
+        .nav-links a::before {
+            content: attr(data-rune);
+            position: absolute;
+            top: 0;
+            left: 0;
+            opacity: 1;
+            transition: opacity 0.3s ease;
+        }
+        .nav-links a:hover::before {
+            opacity: 0;
+        }
+        .nav-links a:hover, .nav-actions a:hover {
+            color: #00FFCC;
+            animation: glitch-trippy 0.5s ease-in-out;
+        }
+        .section {
+            padding: 60px 20px;
+            position: relative;
+            z-index: 1;
+        }
+        .section h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+            text-shadow: 0 0 5px #00FFCC;
+        }
+        .section p {
+            font-size: 18px;
+            max-width: 600px;
+            margin: 0 auto 20px;
+            line-height: 1.6;
+            text-shadow: 0 0 3px #2C2C2C;
+        }
+        .portal-block {
+            margin: 40px auto;
+            padding: 25px;
+            max-width: 500px;
+            background: rgba(44, 44, 44, 0.9);
+            border: 2px solid #d4af37;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
+        }
+        .portal-block input {
+            background: #333;
+            border: none;
+            border-radius: 10px;
+            padding: 12px;
+            color: #d4af37;
+            width: 100%;
+            margin-bottom: 10px;
+            font-family: 'Special Elite', 'Varela', Courier, monospace;
+        }
+        .portal-block input:focus {
+            outline: 2px solid #00FFCC;
+            animation: glitch-trippy 0.5s ease-in-out;
+        }
+        .portal-block button {
+            background: #2C2C2C;
+            color: #d4af37;
+            border: none;
+            border-radius: 10px;
+            padding: 12px 35px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .portal-block button:hover {
+            background: #00FFCC;
+            color: #2C2C2C;
+            animation: glitch-trippy 0.5s ease-in-out;
+        }
+        #portalOutput {
+            font-size: 20px;
+            margin-top: 20px;
+            text-shadow: 0 0 5px #FF00FF;
+        }
+        .numbers-display {
+            margin-top: 20px;
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+        }
+        .number-set {
+            margin: 10px;
+            padding: 15px;
+            background: rgba(44, 44, 44, 0.9);
+            border: 1px solid #d4af37;
+            border-radius: 10px;
+            min-width: 120px;
+        }
+        .number-set h3 {
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+        .number-set p {
+            font-size: 18px;
+            margin: 0;
+        }
+        @media (max-width: 768px) {
+            .navbar-toggle {
+                display: block;
+            }
+            .nav-content {
+                display: none;
+                flex-direction: column;
+                width: 100%;
+                padding-top: 60px;
+            }
+            .nav-content.active {
+                display: flex;
+            }
+            .nav-links, .nav-actions {
+                flex-direction: column;
+                width: 100%;
+                text-align: center;
+            }
+            .nav-links a, .nav-actions a {
+                margin: 10px 0;
+                padding: 10px;
+                width: 100%;
+                display: block;
+            }
+            .section h1 {
+                font-size: 36px;
+            }
+            .section p {
+                font-size: 16px;
+            }
+            .portal-block {
+                max-width: 90%;
+                padding: 15px;
+            }
+            .number-set {
+                min-width: 100px;
+                padding: 10px;
+            }
+        }
     </style>
+    <link href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Varela&display=swap" rel="stylesheet">
 </head>
 <body>
-    <canvas id="cosmicCanvas"></canvas>
+    <canvas id="mysticBackground"></canvas>
+    <div class="overlay"></div>
+
+    <!-- Navbar -->
     <div class="navbar">
-        <div class="nav-links">
-            <a href="index.html#home">Home</a>
-            <a href="index.html#about">About</a>
-            <a href="index.html#tokenomics">Tokenomics</a>
-            <a href="philosophy.html">Philosophy</a>
-            <a href="portal.html">Portal</a>
-            <a href="lore.html">Lore</a>
-        </div>
-        <div class="nav-actions">
-            <a href="https://x.com/MNFST__" target="_blank">Twitter</a>
-            <a href="https://t.me/MNFSTcoin" target="_blank">Telegram</a>
-            <a href="https://dexscreener.com/solana/63iEYzCa8wCLpk1VgdAxnwU5qaqtU6Ju1o3kNDViq8Xu" class="nav-btn">Join Us</a>
+        <button class="navbar-toggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="navContent" onclick="toggleNav()">
+            <span class="hamburger">≡</span>
+        </button>
+        <div class="nav-content" id="navContent">
+            <div class="nav-links">
+                <a href="index.html" data-rune="⚸">Home</a>
+                <a href="index.html#about" data-rune="⚶">About</a>
+                <a href="index.html#tome" data-rune="⚷">Tome</a>
+                <a href="philosophy.html" data-rune="⚴">Philosophy</a>
+                <a href="portal.html" data-rune="⚵">Portal</a>
+                <a href="lore.html" data-rune="⚹">Lore</a>
+            </div>
+            <div class="nav-actions">
+                <a href="https://x.com/MNFST__" target="_blank" rel="noopener">X</a>
+                <a href="https://t.me/MNFSTcoin" target="_blank" rel="noopener">Telegram</a>
+            </div>
         </div>
     </div>
+
+    <!-- Portal Section -->
     <section class="section">
-        <h1>The Portal</h1>
-        <p>Enter any number or text to unlock the sacred geometrical patterns of the universe.</p>
+        <h1 class="glitch" data-text="The Portal">The Portal</h1>
+        <p>Enter any number or text to unlock the sacred truths of the 3-6-9 spiral.</p>
         <div class="portal-block">
-            <input type="text" id="portalInput" placeholder="Enter a number or text...">
-            <button onclick="enterPortal()">Manifest</button>
+            <input type="text" id="portalInput" placeholder="Enter a number or text..." aria-label="Portal input for manifestation">
+            <button class="glitch" data-text="Manifest" onclick="enterPortal()">Manifest</button>
             <div id="portalOutput"></div>
             <div class="numbers-display" id="numbersDisplay">
                 <div class="number-set">
-                    <h3>Sacred Geometry</h3>
+                    <h3 class="glitch" data-text="Sacred Geometry">Sacred Geometry</h3>
                     <p id="sacredOutput">3 - 6 - 9</p>
                 </div>
                 <div class="number-set">
-                    <h3>Golden Ratio</h3>
+                    <h3 class="glitch" data-text="Golden Ratio">Golden Ratio</h3>
                     <p id="goldenOutput">1.618</p>
                 </div>
                 <div class="number-set">
-                    <h3>Cosmic Sequence</h3>
+                    <h3 class="glitch" data-text="Cosmic Sequence">Cosmic Sequence</h3>
                     <p id="cosmicOutput">1 - 1 - 2 - 3 - 5</p>
                 </div>
             </div>
         </div>
     </section>
+
     <script>
+        // Canvas for Mystical Background
+        const canvas = document.getElementById('mysticBackground');
+        const ctx = canvas.getContext('2d');
+        let time = 0;
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        function drawFlowerOfLife(x, y, radius, scale) {
+            ctx.beginPath();
+            ctx.arc(x, y, radius * scale, 0, Math.PI * 2);
+            ctx.stroke();
+            for (let i = 0; i < 6; i++) {
+                const angle = (i * Math.PI) / 3;
+                ctx.beginPath();
+                ctx.arc(x + radius * Math.cos(angle) * scale, y + radius * Math.sin(angle) * scale, radius * scale, 0, Math.PI * 2);
+                ctx.stroke();
+            }
+        }
+
+        function drawGoldenSpiral(x, y, size) {
+            let currentSize = size;
+            for (let i = 0; i < 4; i++) {
+                ctx.beginPath();
+                ctx.arc(x, y, currentSize, 0, Math.PI / 2);
+                ctx.stroke();
+                x += currentSize;
+                currentSize *= 0.618;
+                ctx.beginPath();
+                ctx.arc(x, y, currentSize, Math.PI / 2, Math.PI);
+                ctx.stroke();
+                y += currentSize;
+                currentSize *= 0.618;
+                ctx.beginPath();
+                ctx.arc(x, y, currentSize, Math.PI, 3 * Math.PI / 2);
+                ctx.stroke();
+                x -= currentSize;
+                currentSize *= 0.618;
+                ctx.beginPath();
+                ctx.arc(x, y, currentSize, 3 * Math.PI / 2, 2 * Math.PI);
+                ctx.stroke();
+                y -= currentSize;
+                currentSize *= 0.618;
+            }
+        }
+
+        function drawBackground() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            const pulse = (Math.sin(time * 0.05) + 1) / 2;
+
+            ctx.strokeStyle = `rgba(0, 255, 204, ${0.5 + pulse * 0.2})`;
+            ctx.fillStyle = `rgba(212, 175, 55, ${0.2 + pulse * 0.1})`;
+            ctx.lineWidth = 1;
+
+            const radius = 50;
+            const spacing = radius * 1.732;
+            for (let y = -radius; y < canvas.height + radius; y += spacing) {
+                for (let x = -radius; x < canvas.width + radius; x += radius * 2) {
+                    const offsetX = (y / spacing % 2) * radius;
+                    drawFlowerOfLife(x + offsetX, y, radius, 1);
+                }
+            }
+
+            drawGoldenSpiral(canvas.width / 2, canvas.height / 2, 30);
+            ctx.font = '16px Special Elite';
+            ctx.fillStyle = `rgba(0, 255, 204, ${0.5 + pulse * 0.2})`;
+            ctx.fillText('1.618', canvas.width - 80, canvas.height - 30);
+        }
+
+        function animateBackground() {
+            time++;
+            drawBackground();
+            requestAnimationFrame(animateBackground);
+        }
+        animateBackground();
+
+        // Particle System
+        let particles = [];
+
+        function spawnParticle(value, type = 'number') {
+            const x = canvas.width / 2;
+            const y = canvas.height / 2;
+            particles.push({
+                x, y,
+                type,
+                value,
+                life: 1,
+                angle: Math.random() * Math.PI * 2,
+                speed: 1 + Math.random() * 2,
+                size: 15 + Math.random() * 5
+            });
+        }
+
+        function drawSpiral(x, y, size, life) {
+            ctx.beginPath();
+            for (let i = 0; i < 12; i++) {
+                const angle = i * Math.PI / 6;
+                const radius = (i * 0.2) * size * life;
+                const px = x + Math.cos(angle) * radius;
+                const py = y + Math.sin(angle) * radius;
+                i === 0 ? ctx.moveTo(px, py) : ctx.lineTo(px, py);
+            }
+            ctx.strokeStyle = `rgba(212, 175, 55, ${life})`;
+            ctx.lineWidth = 1 * life;
+            ctx.stroke();
+        }
+
+        function drawPhi(x, y, size, life) {
+            ctx.font = `${size * life}px Special Elite`;
+            ctx.fillStyle = `rgba(212, 175, 55, ${life})`;
+            ctx.fillText('Φ', x, y);
+        }
+
+        function animateParticles() {
+            ctx.globalAlpha = 1;
+            particles.forEach((p, i) => {
+                p.life -= 0.015;
+                p.y += Math.sin(p.angle) * p.speed;
+                p.x += Math.cos(p.angle) * p.speed;
+
+                if (p.life > 0) {
+                    ctx.globalAlpha = p.life;
+                    if (p.type === 'number') {
+                        ctx.font = `${p.size * p.life}px Special Elite`;
+                        ctx.fillStyle = `rgba(212, 175, 55, ${p.life})`;
+                        ctx.fillText(typeof p.value === 'number' ? p.value.toFixed(2) : p.value, p.x, p.y);
+                    } else if (p.type === 'spiral') {
+                        drawSpiral(p.x, p.y, p.size / 3, p.life);
+                    } else if (p.type === 'phi') {
+                        drawPhi(p.x, p.y, p.size, p.life);
+                    }
+                    ctx.globalAlpha = 1;
+                } else {
+                    particles.splice(i, 1);
+                }
+            });
+            requestAnimationFrame(animateParticles);
+        }
+        animateParticles();
+
+        // Portal Logic
+        function calculateNumerology(text) {
+            const cleanText = text.toLowerCase().replace(/[^a-z]/g, '');
+            let value = 0;
+            for (let i = 0; i < cleanText.length; i++) {
+                const charCode = cleanText.charCodeAt(i) - 96;
+                if (charCode > 0 && charCode <= 26) {
+                    value += charCode;
+                }
+            }
+            while (value > 9 && value !== 11 && value !== 22 && value !== 33) {
+                value = value.toString().split('').reduce((sum, digit) => sum + parseInt(digit), 0);
+            }
+            return value || 1; // Fallback to 1 if no valid letters
+        }
+
         function enterPortal() {
             const input = document.getElementById('portalInput').value.trim();
             const output = document.getElementById('portalOutput');
             const sacredOutput = document.getElementById('sacredOutput');
             const goldenOutput = document.getElementById('goldenOutput');
             const cosmicOutput = document.getElementById('cosmicOutput');
-            
-            // Handle empty input
+
             if (input === '') {
-                output.textContent = 'The primordial sequence awaits';
+                output.textContent = 'The spiral awaits your truth.';
                 sacredOutput.textContent = '3 - 6 - 9';
                 goldenOutput.textContent = '1.618';
                 cosmicOutput.textContent = '1 - 1 - 2 - 3 - 5';
                 return;
             }
-            
-            // Variable to store the base number for calculations
+
             let inputNumber;
-            let inputText = input;
-            
-            // Check if input is a valid number or text
             const isNumber = !isNaN(parseFloat(input)) && isFinite(input);
-            
+
             if (isNumber) {
-                // It's a number
-                inputNumber = parseFloat(input);
-                output.textContent = `The spiral reveals your numeric truth: ${inputNumber}`;
+                inputNumber = Math.abs(parseFloat(input)) || 1; // Fallback to 1 if invalid
+                output.textContent = `The spiral binds your numeric truth: ${inputNumber.toFixed(2)}`;
             } else {
-                // It's text - calculate numerological value
-                // Basic numerology: A=1, B=2, ..., Z=26, then sum all letters
-                const numerologyValue = calculateNumerology(input);
-                inputNumber = numerologyValue;
-                output.textContent = `The spiral reveals your text's numerological value: ${numerologyValue}`;
+                inputNumber = calculateNumerology(input);
+                output.textContent = `The spiral unveils your text's essence: ${inputNumber}`;
             }
-            
-            // Calculate and display the sacred geometry numbers (based on Tesla's 3-6-9)
-            
-            // 1. Sacred Geometry set (Tesla's 3-6-9 principle - multiplication)
+
+            // Sacred Geometry (3-6-9)
             const sacred3 = (inputNumber * 3).toFixed(2);
             const sacred6 = (inputNumber * 6).toFixed(2);
             const sacred9 = (inputNumber * 9).toFixed(2);
             sacredOutput.textContent = `${sacred3} - ${sacred6} - ${sacred9}`;
-            
-            // 2. Golden Ratio set
+
+            // Golden Ratio
             const goldenRatio = 1.618033988749895;
             const goldenValue = (inputNumber * goldenRatio).toFixed(4);
             const goldenInverse = (inputNumber / goldenRatio).toFixed(4);
-            const goldenSquare = (inputNumber * goldenRatio * goldenRatio).toFixed(4);
-            goldenOutput.textContent = `${goldenValue} - ${goldenInverse} - ${goldenSquare}`;
-            
-            // 3. Cosmic Sequence (Fibonacci-like starting with the input number)
+            goldenOutput.textContent = `${goldenValue} - ${goldenInverse}`;
+
+            // Cosmic Sequence (Fibonacci-like)
             let a = inputNumber;
             let b = inputNumber;
             let fibSequence = [a, b];
@@ -134,194 +504,55 @@
                 a = b;
                 b = next;
             }
-            
             cosmicOutput.textContent = fibSequence.map(n => n.toFixed(2)).join(' - ');
-            
-            // Generate more particles with the entered number
-            for (let i = 0; i < 10; i++) {
-                spawnParticle(inputNumber);
-            }
-        }
-        
-        const canvas = document.getElementById('cosmicCanvas');
-        const ctx = canvas.getContext('2d');
-        
-        function resizeCanvas() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        }
-        
-        resizeCanvas();
-        window.addEventListener('resize', resizeCanvas);
-        
-        let trail = [];
-        document.addEventListener('mousemove', (e) => {
-            trail.push({ x: e.clientX, y: e.clientY, life: 1 });
-            if (trail.length > 20) trail.shift();
-        });
-        
-        let particles = [];
-        
-        // Function to calculate numerology value of text
-function calculateNumerology(text) {
-    // Remove spaces and non-alphabetic characters
-    const cleanText = text.toLowerCase().replace(/[^a-z]/g, '');
-    
-    // Calculate value (A=1, B=2, etc.)
-    let value = 0;
-    for (let i = 0; i < cleanText.length; i++) {
-        const charCode = cleanText.charCodeAt(i) - 96; // 'a' is 97 in ASCII
-        if (charCode > 0 && charCode <= 26) {
-            value += charCode;
-        }
-    }
-    
-    // Reduce to a single digit (optional)
-    while (value > 9 && value !== 11 && value !== 22 && value !== 33) {
-        value = value.toString().split('').reduce((sum, digit) => sum + parseInt(digit), 0);
-    }
-    
-    return value;
-}
 
-function spawnParticle(userNumber = null) {
-            const x = Math.random() * canvas.width;
-            const y = Math.random() * canvas.height;
-            
-            // Define types of particles with more variety
-            const types = ['number', 'shape', 'spiral', 'phi'];
-            const type = types[Math.floor(Math.random() * types.length)];
-            
-            // Value can be based on user input or defaults
-            let value;
-            if (userNumber !== null) {
-                // Use user number or its derivatives
-                const options = [
-                    userNumber,
-                    userNumber * 3,
-                    userNumber * 6,
-                    userNumber * 9,
-                    userNumber * 1.618,
-                    // Add numerology-specific options
-                    parseInt(userNumber.toString().length), // Word length as value
-                    userNumber % 9 || 9 // Numerology cycle (1-9)
-                ];
-                value = options[Math.floor(Math.random() * options.length)];
-            } else {
-                // Default sacred numbers
-                const options = [3, 6, 9, 1.618, 2.718, 3.14159, 7, 11, 22, 33];
-                value = options[Math.floor(Math.random() * options.length)];
+            // Spawn particles
+            spawnParticle(inputNumber, 'number');
+            spawnParticle('Φ', 'phi');
+            spawnParticle(null, 'spiral');
+        }
+
+        // Keyboard Support
+        document.getElementById('portalInput').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') enterPortal();
+        });
+
+        // Navbar Toggle
+        function toggleNav() {
+            const navContent = document.getElementById('navContent');
+            const hamburger = document.querySelector('.hamburger');
+            const toggleButton = document.querySelector('.navbar-toggle');
+            navContent.classList.toggle('active');
+            const isActive = navContent.classList.contains('active');
+            hamburger.textContent = isActive ? '×' : '≡';
+            toggleButton.setAttribute('aria-expanded', isActive);
+        }
+
+        // Close mobile menu on outside click
+        document.addEventListener('click', function(event) {
+            const navContent = document.getElementById('navContent');
+            const toggleButton = document.querySelector('.navbar-toggle');
+            if (navContent.classList.contains('active') && 
+                !navContent.contains(event.target) && 
+                !toggleButton.contains(event.target)) {
+                toggleNav();
             }
-            
-            particles.push({
-                x, 
-                y, 
-                type,
-                value,
-                life: 1,
-                angle: Math.random() * Math.PI * 2,
-                speed: 0.5 + Math.random() * 1.5,
-                size: 15 + Math.random() * 10
-            });
-        }
-        
-        function drawSpiral(x, y, size, life) {
-            ctx.beginPath();
-            const segments = 6;
-            const growth = 0.3;
-            
-            for (let i = 0; i < segments * 3; i++) {
-                const angle = i * Math.PI / 6;
-                const radius = (i * growth) * size * life;
-                const px = x + Math.cos(angle) * radius;
-                const py = y + Math.sin(angle) * radius;
-                
-                if (i === 0) {
-                    ctx.moveTo(px, py);
-                } else {
-                    ctx.lineTo(px, py);
-                }
-            }
-            
-            ctx.strokeStyle = `rgba(212, 175, 55, ${life})`;
-            ctx.lineWidth = 2 * life;
-            ctx.stroke();
-        }
-        
-        function drawPhi(x, y, size, life) {
-            // Draw the Greek letter Phi (Φ) for Golden Ratio
-            ctx.font = `${size * life}px Arial`;
-            ctx.fillStyle = `rgba(212, 175, 55, ${life})`;
-            ctx.fillText('Φ', x, y);
-        }
-        
-        function animate() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            
-            // Draw mouse trail
-            trail.forEach((point, i) => {
-                point.life -= 0.05;
-                if (point.life > 0) {
-                    ctx.beginPath();
-                    ctx.arc(point.x, point.y, 10 * point.life, 0, Math.PI * 2);
-                    ctx.fillStyle = `rgba(212, 175, 55, ${point.life})`;
-                    ctx.fill();
-                } else {
-                    trail.splice(i, 1);
-                }
-            });
-            
-            // Spawn particles occasionally
-            if (Math.random() < 0.1) spawnParticle();
-            
-            // Update and draw particles
-            particles.forEach((p, i) => {
-                p.life -= 0.01;
-                p.y += Math.sin(p.angle) * p.speed;
-                p.x += Math.cos(p.angle) * p.speed;
-                
-                if (p.life > 0) {
-                    ctx.globalAlpha = p.life;
-                    
-                    if (p.type === 'number') {
-                        ctx.font = `${p.size * p.life}px Arial`;
-                        ctx.fillStyle = `rgba(212, 175, 55, ${p.life})`;
-                        ctx.fillText(typeof p.value === 'number' ? p.value.toFixed(1) : p.value, p.x, p.y);
-                    } 
-                    else if (p.type === 'shape') {
-                        ctx.beginPath();
-                        const size = p.size * p.life;
-                        for (let j = 0; j < 6; j++) {
-                            const angle = (Math.PI / 3) * j + p.angle;
-                            const px = p.x + Math.cos(angle) * size;
-                            const py = p.y + Math.sin(angle) * size;
-                            j === 0 ? ctx.moveTo(px, py) : ctx.lineTo(px, py);
-                        }
-                        ctx.closePath();
-                        ctx.strokeStyle = `rgba(212, 175, 55, ${p.life})`;
-                        ctx.lineWidth = 1;
-                        ctx.stroke();
-                    }
-                    else if (p.type === 'spiral') {
-                        drawSpiral(p.x, p.y, p.size/3, p.life);
-                    }
-                    else if (p.type === 'phi') {
-                        drawPhi(p.x, p.y, p.size, p.life);
-                    }
-                    
-                    ctx.globalAlpha = 1;
-                } else {
-                    particles.splice(i, 1);
-                }
-            });
-            
-            requestAnimationFrame(animate);
-        }
-        
-        animate();
+        });
+
+        // Random Glitch Trigger
+        document.addEventListener('DOMContentLoaded', () => {
+            setInterval(() => {
+                const glitches = document.querySelectorAll('.glitch');
+                const randomGlitch = glitches[Math.floor(Math.random() * glitches.length)];
+                randomGlitch.classList.add('glitch-active');
+                setTimeout(() => randomGlitch.classList.remove('glitch-active'), 500);
+            }, 10000 + Math.random() * 10000);
+        });
     </script>
+    <noscript>
+        <div class="section">
+            <p>The spiral requires JavaScript to manifest. Enable it to enter the portal.</p>
+        </div>
+    </noscript>
 </body>
-<noscript>
-    <p style="color: #d4af37; padding: 20px;">The spiral requires JavaScript to manifest. Enable it to join the grid.</p>
-</noscript>
 </html>
