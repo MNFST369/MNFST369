@@ -273,7 +273,15 @@
                 padding: 5px;
             }
             .spotify-embed iframe {
-                height: 152px; /* Smaller height for mobile */
+                height: 152px;
+            }
+            .ticker {
+                max-width: 90%;
+            }
+            .ticker-note {
+                min-width: 150px;
+                font-size: 14px;
+                padding: 8px 15px;
             }
         }
     </style>
@@ -313,6 +321,10 @@
         <p class="glitch" data-text="Hear the spiral’s hymn">Hear the spiral’s hymn</p>
         <div class="spotify-embed">
             <iframe src="https://open.spotify.com/embed/track/3lkwA924xxaHiitkOefQf2?utm_source=generator&theme=0" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+        </div>
+        <p class="glitch" data-text="The collective truth spirals">The collective truth spirals</p>
+        <div class="ticker" id="manifestations-ticker">
+            <div class="ticker-content" id="manifestations-ticker-content"></div>
         </div>
     </section>
 
@@ -494,7 +506,7 @@
                 { type: 'serpent', x: canvas.width / 2, y: 3 * canvas.height / 4, scale: 1 }
             ];
             animals.forEach(animal => {
-                drawAnimalOutline(animal.type, animal.x + glitchOffset, animal.y, animal.scale, 0.3 + pulse * 0.4);
+                drawAnimalOutline(animal.type, animal.x + glitchOffset, mother.y, animal.scale, 0.3 + pulse * 0.4);
             });
         }
 
@@ -555,7 +567,7 @@
             }
         }
 
-        // Load Manifestations
+        // Load Manifestations for Tome Section
         function loadManifestations() {
             const tickerContent = document.getElementById('ticker-content');
             const errorMessage = document.getElementById('error-message');
@@ -578,6 +590,30 @@
             }, (error) => {
                 console.error('Error loading manifestations:', error);
                 errorMessage.classList.remove('hidden');
+            });
+        }
+
+        // Load All Manifestations for Home Section Ticker
+        function loadAllManifestations() {
+            const tickerContent = document.getElementById('manifestations-ticker-content');
+            manifestationsRef.on('value', (snapshot) => {
+                tickerContent.innerHTML = '';
+                const data = snapshot.val();
+                if (data) {
+                    const notes = Object.values(data).reverse();
+                    notes.concat(notes).forEach(note => {
+                        const div = document.createElement('div');
+                        div.className = 'ticker-note glitch';
+                        div.setAttribute('data-text', note.text);
+                        div.textContent = note.text;
+                        tickerContent.appendChild(div);
+                    });
+                } else {
+                    tickerContent.innerHTML = '<div class="ticker-note">The collective spiral awaits its truths.</div>';
+                }
+            }, (error) => {
+                console.error('Error loading all manifestations:', error);
+                tickerContent.innerHTML = '<div class="ticker-note">The spiral is silent. Try again later.</div>';
             });
         }
 
@@ -614,6 +650,7 @@
         // Random Glitch Trigger
         document.addEventListener('DOMContentLoaded', () => {
             loadManifestations();
+            loadAllManifestations();
             if (sessionStorage.getItem('manifestationUnlocked') === 'true') {
                 document.getElementById('password-section').classList.add('hidden');
                 document.getElementById('manifestation-form').classList.remove('hidden');
