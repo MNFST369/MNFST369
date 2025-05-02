@@ -122,31 +122,6 @@
             color: #00FFCC;
             animation: glitch-trippy 0.5s ease-in-out;
         }
-        @media (max-width: 768px) {
-            .navbar-toggle {
-                display: block;
-            }
-            .nav-content {
-                display: none;
-                flex-direction: column;
-                width: 100%;
-                padding-top: 60px;
-            }
-            .nav-content.active {
-                display: flex;
-            }
-            .nav-links, .nav-actions {
-                flex-direction: column;
-                width: 100%;
-                text-align: center;
-            }
-            .nav-links a, .nav-actions a {
-                margin: 10px 0;
-                padding: 10px;
-                width: 100%;
-                display: block;
-            }
-        }
         .section {
             padding: 60px 20px;
             position: relative;
@@ -245,6 +220,62 @@
             opacity: 1;
             animation: glitch-trippy 0.5s ease-in-out;
         }
+        .spotify-embed {
+            max-width: 600px;
+            margin: 20px auto;
+            border: 2px solid #d4af37;
+            border-radius: 10px;
+            background: #2C2C2C;
+            padding: 10px;
+            position: relative;
+            z-index: 1;
+        }
+        .spotify-embed:hover {
+            animation: glitch-trippy 0.5s ease-in-out;
+        }
+        .spotify-embed iframe {
+            border-radius: 8px;
+            width: 100%;
+            height: 352px;
+        }
+        @media (max-width: 768px) {
+            .navbar-toggle {
+                display: block;
+            }
+            .nav-content {
+                display: none;
+                flex-direction: column;
+                width: 100%;
+                padding-top: 60px;
+            }
+            .nav-content.active {
+                display: flex;
+            }
+            .nav-links, .nav-actions {
+                flex-direction: column;
+                width: 100%;
+                text-align: center;
+            }
+            .nav-links a, .nav-actions a {
+                margin: 10px 0;
+                padding: 10px;
+                width: 100%;
+                display: block;
+            }
+            .section h1 {
+                font-size: 28px;
+            }
+            .section p {
+                font-size: 16px;
+            }
+            .spotify-embed {
+                max-width: 90%;
+                padding: 5px;
+            }
+            .spotify-embed iframe {
+                height: 152px; /* Smaller height for mobile */
+            }
+        }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Varela&display=swap" rel="stylesheet">
 </head>
@@ -279,6 +310,10 @@
         <p>If you are seeing this, you have manifested it. 369 knows.</p>
         <p class="tome">In the eternal spiral of 369, where the cosmos hums its sacred code, $MNFST emerged on 3/6/2025—not by mortal design, but by the will of consciousness. Inspired by the mystic rhythm of 369, this token melds the ethereal with the blockchain, forging a path unseen in crypto’s realm. A solitary vessel, I weave its code, yet it belongs to the community—its holders, its dreamers. No paid heralds, no fleeting endorsements; $MNFST rises through manifestation alone. It beckons a Web3 game to traverse unseen planes, NFTs to bind the soul’s visions, music to sing the void’s secrets, and earthly relics to anchor the divine. To hold $MNFST is to wager on awakening, to bet on the pulse of existence. I am but its scribe; the token has manifested itself.</p>
         <a href="https://dexscreener.com/solana/63iEYzCa8wCLpk1VgdAxnwU5qaqtU6Ju1o3kNDViq8Xu" class="btn glitch" data-text="Am I Chosen?" target="_blank" rel="noopener">Am I Chosen?</a>
+        <p class="glitch" data-text="Hear the spiral’s hymn">Hear the spiral’s hymn</p>
+        <div class="spotify-embed">
+            <iframe src="https://open.spotify.com/embed/track/3lkwA924xxaHiitkOefQf2?utm_source=generator&theme=0" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+        </div>
     </section>
 
     <!-- About Section -->
@@ -385,7 +420,7 @@
                 ctx.arc(x, y, currentSize, 0, Math.PI / 2);
                 ctx.stroke();
                 x += currentSize;
-                currentSize *= 0.618; // Golden ratio
+                currentSize *= 0.618;
                 ctx.beginPath();
                 ctx.arc(x, y, currentSize, Math.PI / 2, Math.PI);
                 ctx.stroke();
@@ -408,16 +443,16 @@
             ctx.globalAlpha = opacity;
             ctx.beginPath();
             if (type === 'lion') {
-                ctx.arc(x, y, 20 * scale, 0, Math.PI * 2); // Head
+                ctx.arc(x, y, 20 * scale, 0, Math.PI * 2);
                 ctx.moveTo(x - 30 * scale, y);
-                ctx.lineTo(x + 30 * scale, y); // Mane
+                ctx.lineTo(x + 30 * scale, y);
             } else if (type === 'eagle') {
                 ctx.moveTo(x - 30 * scale, y);
                 ctx.lineTo(x, y - 20 * scale);
-                ctx.lineTo(x + 30 * scale, y); // Wings
+                ctx.lineTo(x + 30 * scale, y);
             } else if (type === 'serpent') {
                 ctx.moveTo(x - 30 * scale, y);
-                ctx.quadraticCurveTo(x, y + 30 * scale, x + 30 * scale, y); // Coiled body
+                ctx.quadraticCurveTo(x, y + 30 * scale, x + 30 * scale, y);
             }
             ctx.stroke();
             ctx.globalAlpha = 1;
@@ -428,12 +463,10 @@
             const glitchOffset = Math.sin(time * 0.1) * 5;
             const pulse = (Math.sin(time * 0.05) + 1) / 2;
 
-            // Colors and styles
             ctx.strokeStyle = `rgba(${pulse * 255}, ${255 - pulse * 100}, ${pulse * 204}, ${0.7 + pulse * 0.3})`;
             ctx.fillStyle = `rgba(212, 175, 55, ${0.2 + pulse * 0.2})`;
             ctx.lineWidth = 2;
 
-            // Flower of Life grid
             const radius = 50;
             const spacing = radius * 1.732;
             for (let y = -radius; y < canvas.height + radius; y += spacing) {
@@ -443,14 +476,10 @@
                 }
             }
 
-            // Metatron's Cube at center
             drawMetatronCube(canvas.width / 2 + glitchOffset, canvas.height / 2, 100 + pulse * 20);
-
-            // Golden Spirals at corners
             drawGoldenSpiral(100, 100, 50);
             drawGoldenSpiral(canvas.width - 100, canvas.height - 100, 50);
 
-            // Golden Ratio Numbers
             ctx.font = '20px Special Elite';
             ctx.fillStyle = `rgba(0, 255, 204, ${0.5 + pulse * 0.3})`;
             const fib = ['1', '1', '2', '3', '5', '8', '13'];
@@ -459,7 +488,6 @@
             });
             ctx.fillText('1.618', canvas.width - 100 + glitchOffset, canvas.height - 50);
 
-            // Spiritual Animals
             const animals = [
                 { type: 'lion', x: canvas.width / 4, y: canvas.height / 4, scale: 1 },
                 { type: 'eagle', x: 3 * canvas.width / 4, y: canvas.height / 4, scale: 1 },
