@@ -184,6 +184,8 @@
             background: rgba(44, 44, 44, 0.9);
             padding: 10px;
             border-radius: 10px;
+            min-height: 40px;
+            z-index: 1;
         }
         .ticker-content {
             display: inline-flex;
@@ -506,7 +508,7 @@
                 { type: 'serpent', x: canvas.width / 2, y: 3 * canvas.height / 4, scale: 1 }
             ];
             animals.forEach(animal => {
-                drawAnimalOutline(animal.type, animal.x + glitchOffset, mother.y, animal.scale, 0.3 + pulse * 0.4);
+                drawAnimalOutline(animal.type, animal.x + glitchOffset, animal.y, animal.scale, 0.3 + pulse * 0.4);
             });
         }
 
@@ -529,7 +531,12 @@
         };
 
         // Initialize Firebase
-        firebase.initializeApp(firebaseConfig);
+        try {
+            firebase.initializeApp(firebaseConfig);
+            console.log('Firebase initialized successfully');
+        } catch (error) {
+            console.error('Firebase initialization failed:', error);
+        }
         const db = firebase.database();
         const manifestationsRef = db.ref('manifestations');
 
@@ -575,20 +582,23 @@
                 tickerContent.innerHTML = '';
                 errorMessage.classList.add('hidden');
                 const data = snapshot.val();
+                console.log('Tome ticker data:', data);
                 if (data) {
                     const notes = Object.values(data).reverse();
                     notes.concat(notes).forEach(note => {
-                        const div = document.createElement('div');
-                        div.className = 'ticker-note glitch';
-                        div.setAttribute('data-text', note.text);
-                        div.textContent = note.text;
-                        tickerContent.appendChild(div);
+                        if (note.text) {
+                            const div = document.createElement('div');
+                            div.className = 'ticker-note glitch';
+                            div.setAttribute('data-text', note.text);
+                            div.textContent = note.text;
+                            tickerContent.appendChild(div);
+                        }
                     });
                 } else {
                     tickerContent.innerHTML = '<div class="ticker-note">The Tome awaits its first truth.</div>';
                 }
             }, (error) => {
-                console.error('Error loading manifestations:', error);
+                console.error('Error loading Tome manifestations:', error);
                 errorMessage.classList.remove('hidden');
             });
         }
@@ -596,24 +606,36 @@
         // Load All Manifestations for Home Section Ticker
         function loadAllManifestations() {
             const tickerContent = document.getElementById('manifestations-ticker-content');
+            if (!tickerContent) {
+                console.error('Home ticker element not found');
+                return;
+            }
             manifestationsRef.on('value', (snapshot) => {
                 tickerContent.innerHTML = '';
                 const data = snapshot.val();
+                console.log('Home ticker data:', data);
                 if (data) {
                     const notes = Object.values(data).reverse();
-                    notes.concat(notes).forEach(note => {
-                        const div = document.createElement('div');
-                        div.className = 'ticker-note glitch';
-                        div.setAttribute('data-text', note.text);
-                        div.textContent = note.text;
-                        tickerContent.appendChild(div);
-                    });
+                    console.log('Home ticker notes:', notes);
+                    if (notes.length > 0) {
+                        notes.concat(notes).forEach(note => {
+                            if (note.text) {
+                                const div = document.createElement('div');
+                                div.className = 'ticker-note glitch';
+                                div.setAttribute('data-text', note.text);
+                                div.textContent = note.text;
+                                tickerContent.appendChild(div);
+                            }
+                        });
+                    } else {
+                        tickerContent.innerHTML = '<div class="ticker-note">The collective spiral awaits its truths.</div>';
+                    }
                 } else {
                     tickerContent.innerHTML = '<div class="ticker-note">The collective spiral awaits its truths.</div>';
                 }
             }, (error) => {
-                console.error('Error loading all manifestations:', error);
-                tickerContent.innerHTML = '<div class="ticker-note">The spiral is silent. Try again later.</div>';
+                console.error('Error loading Home manifestations:', error);
+                tickerContent.innerHTML = '<div class="ticker-note">The spiral is silent. Check console for errors.</div>';
             });
         }
 
